@@ -12,12 +12,12 @@
         <activity
             android:name="pl.rzeszow.wsiz.carservice.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="pl.rzeszow.wsiz.carservice.Login"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="pl.rzeszow.wsiz.CLEARSCREEN" />
 
@@ -27,12 +27,16 @@
         <activity
             android:name="pl.rzeszow.wsiz.carservice.Splash"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="pl.rzeszow.wsiz.carservice.Register"
+            android:label="@string/title_activity_register" >
         </activity>
     </application>
 

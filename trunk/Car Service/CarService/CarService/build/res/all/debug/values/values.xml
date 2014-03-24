@@ -528,10 +528,12 @@
     <string name="hint_pass">Password</string>
     <string name="hint_usr_name">User name</string>
     <string name="login">Login</string>
+    <string name="name">Name</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="remember_pass">Remember password</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
     <string name="title_activity_splash">Splash</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:label="@string/title_activity_register" android:name="pl.rzeszow.wsiz.carservice.Register">
+        </activity>
     </application>
 
 </manifest>

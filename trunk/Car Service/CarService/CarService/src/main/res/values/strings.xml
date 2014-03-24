@@ -19,5 +19,7 @@
     <string name="hint_pass">Password</string>
     <string name="guest">Guest</string>
     <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_register">Register</string>
+    <string name="name">Name</string>
 
 </resources>
