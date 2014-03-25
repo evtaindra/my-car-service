@@ -4231,16 +4231,16 @@ useLogo|showHome|showTitle
                     msgid="2031811694353399454" >"Επιλέξτε κάποια εφαρμογή"
                 </string>
                 <string
+                    name="abc_searchview_description_clear"
+                    msgid="3691816814315814921" >"Διαγραφή ερωτήματος"
+                </string>
+                <string
                     name="abc_searchview_description_voice"
                     msgid="893419373245838918" >"Φωνητική αναζήτηση"
                 </string>
                 <string
                     name="abc_action_menu_overflow_description"
                     msgid="3588849162933574182" >"Περισσότερες επιλογές"
-                </string>
-                <string
-                    name="abc_searchview_description_clear"
-                    msgid="3691816814315814921" >"Διαγραφή ερωτήματος"
                 </string>
             </file>
             <file
@@ -5519,16 +5519,16 @@ true
                     msgid="4076576682505996667" >"Atlikta"
                 </string>
                 <string
+                    name="abc_action_bar_home_description"
+                    msgid="4600421777120114993" >"Eiti į pagrindinį puslapį"
+                </string>
+                <string
                     name="abc_searchview_description_search"
                     msgid="8264924765203268293" >"Paieška"
                 </string>
                 <string
                     name="abc_shareactionprovider_share_with_application"
                     msgid="7165123711973476752" >"Bendrinti naudojant „%s“"
-                </string>
-                <string
-                    name="abc_action_bar_home_description"
-                    msgid="4600421777120114993" >"Eiti į pagrindinį puslapį"
                 </string>
             </file>
             <file
@@ -7488,16 +7488,6 @@ false
                 qualifiers=""
                 type="layout" />
             <file
-                name="login"
-                path="E:\Project\Car Service\CarService\CarService\src\main\res\menu\login.xml"
-                qualifiers=""
-                type="menu" />
-            <file
-                name="main"
-                path="E:\Project\Car Service\CarService\CarService\src\main\res\menu\main.xml"
-                qualifiers=""
-                type="menu" />
-            <file
                 path="E:\Project\Car Service\CarService\CarService\src\main\res\values\dimens.xml"
                 qualifiers="" >
                 <dimen name="activity_horizontal_margin" >10dp
@@ -7518,17 +7508,17 @@ false
                 </string>
                 <string name="title_section2" >Section 2
                 </string>
-                <string name="hint_pass" >Password
-                </string>
                 <string name="remember_pass" >Remember password
+                </string>
+                <string name="title_activity_guest" >Guest
                 </string>
                 <string name="register" >Register
                 </string>
                 <string name="title_activity_splash" >Splash
                 </string>
-                <string name="title_activity_register" >Register
+                <string name="check" >Check your internet connection
                 </string>
-                <string name="hint_usr_name" >User name
+                <string name="title_activity_register" >Register
                 </string>
                 <string name="app_name" >Car Service
                 </string>
@@ -7579,18 +7569,13 @@ false
                 qualifiers=""
                 type="layout" />
             <file
-                name="splash"
-                path="E:\Project\Car Service\CarService\CarService\src\main\res\menu\splash.xml"
-                qualifiers=""
-                type="menu" />
-            <file
-                name="register"
-                path="E:\Project\Car Service\CarService\CarService\src\main\res\menu\register.xml"
-                qualifiers=""
-                type="menu" />
-            <file
                 name="register"
                 path="E:\Project\Car Service\CarService\CarService\src\main\res\layout\register.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="guest"
+                path="E:\Project\Car Service\CarService\CarService\src\main\res\layout\guest.xml"
                 qualifiers=""
                 type="layout" />
         </source>
