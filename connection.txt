@@ -1,0 +1,11 @@
+private Boolean isOnline()  {
+    ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo ni = cm.getActiveNetworkInfo();
+    if(ni != null && ni.isConnected())
+        return true;
+ 
+    return false;
+}
+
+
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
