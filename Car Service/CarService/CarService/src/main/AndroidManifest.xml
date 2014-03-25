@@ -3,6 +3,7 @@
     package="pl.rzeszow.wsiz.carservice" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +37,13 @@
         </activity>
         <activity
             android:name="pl.rzeszow.wsiz.carservice.Register"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="pl.rzeszow.wsiz.carservice.Guest"
+            android:label="@string/title_activity_guest"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -7,15 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 
-/**
- * @author prima
- *
- */
 public class Splash extends Activity {
     ProgressBar bar;
     public int progress = 0;
 
-    // это будет именем файла настроек
     public static final String login = "myLogin";
     public static final String login_username = "lUsername";
     public static final String login_password = "lPassword";
@@ -24,11 +19,9 @@ public class Splash extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        //getSharedPreferences
         mLogin = getSharedPreferences(login, Context.MODE_PRIVATE);
 
         bar = (ProgressBar) findViewById(R.id.progress);
@@ -53,7 +46,6 @@ public class Splash extends Activity {
                     }
                 }
                 catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 finally {
