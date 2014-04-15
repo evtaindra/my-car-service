@@ -72,13 +72,20 @@ if (!empty($_POST)) {
     //If we have made it here without dying, then we are in the clear to 
     //create a new user.  Let's setup our new query to create a user.  
     //Again, to protect against sql injects, user tokens such as :user and :pass
-    $query = "INSERT INTO users ( username, password, name ) VALUES ( :user, :pass, :name ) ";
+    $query = "INSERT INTO users ( username, password, name, surname, sex, birth, nr_tel, email, city, adress) VALUES ( :user, :pass, :name, :sur, :sex, :birth, :tel, :email, :city, :adress ) ";
     
     //Again, we need to update our tokens with the actual data:
     $query_params = array(
         ':user' => $_POST['username'],
         ':pass' => $_POST['password'],
-        ':name' => $_POST['name']
+        ':name' => $_POST['name'],
+        ':sur' => $_POST['surname'],
+        ':sex' => $_POST['sex'],
+        ':birth' => $_POST['birth'],
+        ':tel' => $_POST['tel'],
+        ':email' => $_POST['email'],
+        ':city' => $_POST['city'],
+        ':adress' => $_POST['adress']
     );
     
     //time to run our query, and create the user
@@ -122,6 +129,13 @@ if (!empty($_POST)) {
 	    <br /><br /> 
 	    Name:<br /> 
 	    <input type="text" name="name" value="" /> 
+	    <input type="text" name="surname" value="" /> 
+	    <input type="text" name="sex" value="" /> 
+	    <input type="text" name="birth" value="" /> 
+	    <input type="text" name="tel" value="" /> 
+	    <input type="text" name="email" value="" /> 
+	    <input type="text" name="city" value="" /> 
+	    <input type="text" name="adress" value="" /> 
 	    <input type="submit" value="Register New User" /> 
 	</form>
 	<?php
