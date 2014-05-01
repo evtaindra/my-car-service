@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.JSONInterpreter;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class Register extends Activity implements OnClickListener, ClientListener {
@@ -35,9 +36,8 @@ public class Register extends Activity implements OnClickListener, ClientListene
     private Button btnRegister;
 
     private ProgressDialog pDialog;
+    private String TAG = "Register";
 
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     private Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
 
@@ -153,21 +153,18 @@ public class Register extends Activity implements OnClickListener, ClientListene
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
 
-        int success;
-        String message = "";
-        try {
-            success = resualt.getInt(TAG_SUCCESS);
-            if (success == 1) {
-                Log.d("User Created!", resualt.toString());
+        Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
+
+        String message = ires.second;
+
+            if (ires.first == 1) {
+                Log.d(TAG, "User created");
                 finish();
-                message = resualt.getString(TAG_MESSAGE);
+
             } else {
-                Log.d("Login Failure!", resualt.getString(TAG_MESSAGE));
-                message = resualt.getString(TAG_MESSAGE);
+                Log.d(TAG, "Login Failure!");
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         if (message != null) {
             Toast.makeText(Register.this, message, Toast.LENGTH_LONG).show();
         }

@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,13 +19,13 @@ import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.JSONInterpreter;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class Login extends ActionBarActivity implements OnClickListener, ClientListener {
@@ -33,15 +34,13 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
     private Button mSubmit, mRegister, mGuest;
     private CheckBox lRemember;
 
+    private String TAG = "Login";
     public static final String LOGIN = "myLogin";
     public static final String LOGIN_USER = "lUsername";
     public static final String LOGIN_PASSWORD = "lPassword";
 
     private SharedPreferences mLogin;
     private ProgressDialog pDialog;
-
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,29 +118,20 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
     public void onDataReady(JSONObject resualt) {
 
         pDialog.dismiss();
-        int success;
-        try {
-            success = resualt.getInt(TAG_SUCCESS);
+        Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
 
-            if (success == 1) {
-                Log.d("Login Successful!", resualt.toString());
-
-                if (lRemember.isChecked()) {
-                    SharedPreferences.Editor editor = mLogin.edit();
-                    editor.putString(LOGIN_USER, String.valueOf(username.getText()));
-                    editor.putString(LOGIN_PASSWORD, String.valueOf(password.getText()));
-                    editor.commit();
-                }
-
-                //Toast.makeText(Login.this, resualt.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-
-                finish();
-                startActivity(new Intent(this , MainActivity.class));
-            }else{
-                Toast.makeText(Login.this, resualt.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
+        if (ires.first == 1) {
+            Log.d(TAG, "Login Successful!");
+            if (lRemember.isChecked()) {
+                SharedPreferences.Editor editor = mLogin.edit();
+                editor.putString(LOGIN_USER, String.valueOf(username.getText()));
+                editor.putString(LOGIN_PASSWORD, String.valueOf(password.getText()));
+                editor.commit();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            finish();
+            startActivity(new Intent(this , MainActivity.class));
+        }else{
+            Toast.makeText(Login.this, ires.second , Toast.LENGTH_LONG).show();
         }
     }
 
