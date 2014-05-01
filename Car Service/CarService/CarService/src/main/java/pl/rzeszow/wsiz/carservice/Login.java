@@ -1,14 +1,13 @@
 package pl.rzeszow.wsiz.carservice;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,24 +24,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Login extends Activity implements OnClickListener{
+import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
-    private EditText user, pass;
+public class Login extends ActionBarActivity implements OnClickListener, ClientListener {
+
+    private EditText username, password;
     private Button mSubmit, mRegister, mGuest;
     private CheckBox lRemember;
 
-    public static final String login = "myLogin";
-    public static final String login_username = "lUsername";
-    public static final String login_password = "lPassword";
+    public static final String LOGIN = "myLogin";
+    public static final String LOGIN_USER = "lUsername";
+    public static final String LOGIN_PASSWORD = "lPassword";
 
-    SharedPreferences mLogin;
-
+    private SharedPreferences mLogin;
     private ProgressDialog pDialog;
-
-
-    JSONParser jsonParser = new JSONParser();
-
-    private static final String LOGIN_URL = "http://carservice.esy.es/carserv/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -53,26 +49,26 @@ public class Login extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        user = (EditText)findViewById(R.id.username);
-        pass = (EditText)findViewById(R.id.password);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
 
-        mSubmit = (Button)findViewById(R.id.login);
-        mRegister = (Button)findViewById(R.id.register);
+        mSubmit = (Button) findViewById(R.id.login);
+        mRegister = (Button) findViewById(R.id.register);
         mGuest = (Button) findViewById(R.id.guest);
 
-        lRemember = (CheckBox)findViewById(R.id.remember);
+        lRemember = (CheckBox) findViewById(R.id.remember);
 
         mSubmit.setOnClickListener(this);
         mRegister.setOnClickListener(this);
         mGuest.setOnClickListener(this);
 
-        mLogin = getSharedPreferences(login, Context.MODE_PRIVATE);
+        mLogin = getSharedPreferences(LOGIN, Context.MODE_PRIVATE);
     }
 
-    private Boolean isOnline()  {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+    private Boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if(ni != null && ni.isConnected())
+        if (ni != null && ni.isConnected())
             return true;
 
         return false;
@@ -80,14 +76,21 @@ public class Login extends Activity implements OnClickListener{
 
     @Override
     public void onClick(View v) {
-
         Intent i;
         switch (v.getId()) {
             case R.id.login:
-                if(isOnline())
-                    new AttemptLogin().execute();
-                else
-                    Toast.makeText(Login.this, R.string.check, Toast.LENGTH_LONG).show();
+                if (isOnline()) {
+                    String user = String.valueOf(username.getText());
+                    String pass = String.valueOf(password.getText());
+
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("username", user));
+                    params.add(new BasicNameValuePair("password", pass));
+
+                    Singleton.getSingletonInstance().setClientListener(this);
+                    Singleton.getSingletonInstance().attemptLogin(params);
+                } else
+                    Toast.makeText(Login.this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
                 break;
             case R.id.register:
                 i = new Intent(this, Register.class);
@@ -103,69 +106,47 @@ public class Login extends Activity implements OnClickListener{
         }
     }
 
-    class AttemptLogin extends AsyncTask<String, String, String> {
+    @Override
+    public void onRequestSent() {
+        pDialog = new ProgressDialog(Login.this);
+        pDialog.setMessage("Attempting login...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
+    }
 
-        boolean failure = false;
+    @Override
+    public void onDataReady(JSONObject resualt) {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(Login.this);
-            pDialog.setMessage("Attempting login...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
+        pDialog.dismiss();
+        int success;
+        try {
+            success = resualt.getInt(TAG_SUCCESS);
 
-        @Override
-        protected String doInBackground(String... args) {
+            if (success == 1) {
+                Log.d("Login Successful!", resualt.toString());
 
-            int success;
-            String username = user.getText().toString();
-            String password = pass.getText().toString();
-            try {
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("username", username));
-                params.add(new BasicNameValuePair("password", password));
-
-                Log.d("request!", "starting");
-
-                JSONObject json = jsonParser.makeHttpRequest(
-                        LOGIN_URL, "POST", params);
-
-                Log.d("Login attempt", json.toString());
-
-                success = json.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    Log.d("Login Successful!", json.toString());
-
-                    if(lRemember.isChecked())
-                    {
-                        SharedPreferences.Editor editor = mLogin.edit();
-                        editor.putString(login_username, username);
-                        editor.putString(login_password, password);
-                        editor.commit();
-                    }
-                    Intent i = new Intent(Login.this, MainActivity.class);
-                    finish();
-                    startActivity(i);
-                    return json.getString(TAG_MESSAGE);
-                }else{
-                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
-                    return json.getString(TAG_MESSAGE);
+                if (lRemember.isChecked()) {
+                    SharedPreferences.Editor editor = mLogin.edit();
+                    editor.putString(LOGIN_USER, String.valueOf(username.getText()));
+                    editor.putString(LOGIN_PASSWORD, String.valueOf(password.getText()));
+                    editor.commit();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
 
-        protected void onPostExecute(String file_url) {
-            pDialog.dismiss();
-            if (file_url != null){
-                Toast.makeText(Login.this, file_url, Toast.LENGTH_LONG).show();
+                //Toast.makeText(Login.this, resualt.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
+
+                finish();
+                startActivity(new Intent(this , MainActivity.class));
+            }else{
+                Toast.makeText(Login.this, resualt.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onRequestCancelled() {
+        pDialog.dismiss();
     }
 }

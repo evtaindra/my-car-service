@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
-    android:background="@color/bg_color">
+    android:background="@color/background_color">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -17,7 +17,6 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_launcher"
             android:paddingTop="25dp"/>
-
         <!-- Logo Ends -->
 
 
@@ -32,11 +31,10 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <!-- Username -->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name" />
+                android:text="@string/username" />
 
             <EditText
                 android:id="@+id/username"
@@ -44,11 +42,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="5dp"
-
-                android:background="@drawable/edt_text_shape"
+                android:hint="@string/username"
+                android:inputType="textPersonName"
+                android:background="@drawable/edit_text_shape"
                 android:singleLine="true" />
 
-            <!-- Password -->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -59,13 +57,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edt_text_shape"
-
+                android:background="@drawable/edit_text_shape"
+                android:hint="@string/password"
+                android:inputType="textWebPassword"
                 android:password="true"
                 android:singleLine="true" />
 
-
-            <!-- Buttons -->
             <CheckBox
                 android:id="@+id/remember"
                 android:layout_width="fill_parent"
@@ -76,19 +73,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/login" />
+                android:text="@string/btn_login" />
             <Button
                 android:id="@+id/register"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/register" />
+                android:text="@string/btn_register" />
             <Button
                 android:id="@+id/guest"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/guest" />
+                android:text="@string/btn_guest" />
         </LinearLayout>
         <!-- Login Form Ends -->
 
