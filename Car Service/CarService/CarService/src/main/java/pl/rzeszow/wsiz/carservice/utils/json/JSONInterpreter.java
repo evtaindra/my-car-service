@@ -1,4 +1,4 @@
-package pl.rzeszow.wsiz.carservice.utils;
+package pl.rzeszow.wsiz.carservice.utils.json;
 
 import android.util.Pair;
 

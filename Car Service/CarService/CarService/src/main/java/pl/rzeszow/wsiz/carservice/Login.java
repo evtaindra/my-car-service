@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
-import pl.rzeszow.wsiz.carservice.utils.JSONInterpreter;
+import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class Login extends ActionBarActivity implements OnClickListener, ClientListener {

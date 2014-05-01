@@ -1,4 +1,4 @@
-package pl.rzeszow.wsiz.carservice.utils;
+package pl.rzeszow.wsiz.carservice.utils.async;
 
 import android.os.AsyncTask;
 
@@ -6,6 +6,9 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import java.util.List;
+
+import pl.rzeszow.wsiz.carservice.utils.json.JSONRequester;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 /**
  * Created by rsavk_000 on 4/13/2014.
@@ -39,7 +42,7 @@ public class AsyncPerformer extends AsyncTask<List<NameValuePair>, Void,JSONObje
 
     @Override
     protected JSONObject doInBackground(List<NameValuePair>... params) {
-        JSONObject json = JSONRequester.makeHttpRequest(url,method,params[0]);
+        JSONObject json = JSONRequester.makeHttpRequest(url, method, params[0]);
         return json;
     }
 

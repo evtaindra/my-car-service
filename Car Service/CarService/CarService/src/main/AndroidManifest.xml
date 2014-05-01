@@ -37,6 +37,9 @@
             android:name="pl.rzeszow.wsiz.carservice.Guest"
             android:label="@string/title_activity_guest"
             android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterNewService"
+            android:label="@string/title_activity_new_service"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
