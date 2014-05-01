@@ -128,8 +128,10 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
                 editor.putString(LOGIN_PASSWORD, String.valueOf(password.getText()));
                 editor.commit();
             }
+            Intent i = new Intent(this , MainActivity.class);
+            i.putExtra("userID", Integer.parseInt(ires.second));
             finish();
-            startActivity(new Intent(this , MainActivity.class));
+            startActivity(i);
         }else{
             Toast.makeText(Login.this, ires.second , Toast.LENGTH_LONG).show();
         }
