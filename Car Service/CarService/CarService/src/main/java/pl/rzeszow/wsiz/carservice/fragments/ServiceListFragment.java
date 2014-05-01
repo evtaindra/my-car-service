@@ -16,6 +16,7 @@ import pl.rzeszow.wsiz.carservice.R;
 public class ServiceListFragment extends Fragment {
 
     private String TAG = "ServiceListFragment";
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -25,6 +26,7 @@ public class ServiceListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+
     }
 
     @Override

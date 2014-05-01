@@ -24,18 +24,21 @@ public class FragmentSwapper {
         switch (sectionNumber) {
             case 0:
                 fragment= mFragmentManager.findFragmentByTag(getFragmentTag(0));
-                if (fragment == null)
+                if (fragment == null){
                     fragment = new ServiceListFragment();
+                }
                 break;
             case 1:
                 fragment= mFragmentManager.findFragmentByTag(getFragmentTag(1));
-                if (fragment == null)
+                if (fragment == null){
                     fragment = new PersonalDataFragment();
+                }
                 break;
             case 2:
                 fragment= mFragmentManager.findFragmentByTag(getFragmentTag(2));
-                if (fragment == null)
+                if (fragment == null) {
                     fragment = new ConversationListFragment();
+                }
                 break;
         }
         return fragment;
