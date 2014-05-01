@@ -2,10 +2,9 @@
 <resources>
 
     <!--Tabs -->
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_section1">Services</string>
+    <string name="title_section2">Personal Data</string>
+    <string name="title_section3">Conversations</string>
 
     <!-- Titles -->
     <string name="app_name">Car Service</string>
