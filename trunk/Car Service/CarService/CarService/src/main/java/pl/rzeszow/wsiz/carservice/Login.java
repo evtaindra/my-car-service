@@ -35,9 +35,6 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
     private CheckBox lRemember;
 
     private String TAG = "Login";
-    public static final String LOGIN = "myLogin";
-    public static final String LOGIN_USER = "lUsername";
-    public static final String LOGIN_PASSWORD = "lPassword";
 
     private SharedPreferences mLogin;
     private ProgressDialog pDialog;
@@ -61,7 +58,7 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
         mRegister.setOnClickListener(this);
         mGuest.setOnClickListener(this);
 
-        mLogin = getSharedPreferences(LOGIN, Context.MODE_PRIVATE);
+        mLogin = getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE);
     }
 
     private Boolean isOnline() {
@@ -124,12 +121,13 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
             Log.d(TAG, "Login Successful!");
             if (lRemember.isChecked()) {
                 SharedPreferences.Editor editor = mLogin.edit();
-                editor.putString(LOGIN_USER, String.valueOf(username.getText()));
-                editor.putString(LOGIN_PASSWORD, String.valueOf(password.getText()));
+                editor.putString(Constants.LOGIN_USER, String.valueOf(username.getText()));
+                editor.putString(Constants.LOGIN_PASSWORD, String.valueOf(password.getText()));
+                editor.putInt(Constants.LOGIN_ID, Integer.parseInt(ires.second));
                 editor.commit();
             }
             Intent i = new Intent(this , MainActivity.class);
-            i.putExtra("userID", Integer.parseInt(ires.second));
+            i.putExtra(Constants.USER_ID, Integer.parseInt(ires.second));
             finish();
             startActivity(i);
         }else{

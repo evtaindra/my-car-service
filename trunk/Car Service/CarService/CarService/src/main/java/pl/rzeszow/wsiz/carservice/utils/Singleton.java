@@ -20,9 +20,14 @@ public class Singleton implements TaskCallback {
     // Static member holds only one instance of the
     // SingletonExample class
     private static Singleton singletonInstance;
+    public int userID;
 
     // SingletonExample prevents any other class from instantiating
     private Singleton() {
+    }
+
+    public void setUserID(int id){
+        userID = id;
     }
 
     // Providing Global point of access

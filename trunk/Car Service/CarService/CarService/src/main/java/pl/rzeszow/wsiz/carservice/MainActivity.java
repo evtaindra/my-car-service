@@ -12,12 +12,15 @@ import android.support.v7.app.ActionBarActivity;
 import java.util.Locale;
 
 import pl.rzeszow.wsiz.carservice.fragments.FragmentSwapper;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
+
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        userID = getIntent().getExtras().getInt(Constants.USER_ID);
+        Singleton.getSingletonInstance().setUserID(userID);
     }
 
     @Override

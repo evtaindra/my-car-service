@@ -10,14 +10,10 @@ import android.widget.ProgressBar;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class Splash extends Activity {
-    ProgressBar bar;
+     private ProgressBar bar;
     public int progress = 0;
 
-    public static final String login = "myLogin";
-    public static final String login_username = "lUsername";
-    public static final String login_password = "lPassword";
-
-    SharedPreferences mLogin;
+    private SharedPreferences mLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +23,7 @@ public class Splash extends Activity {
         //creating new Instance of singleton;
         Singleton.getSingletonInstance();
 
-        mLogin = getSharedPreferences(login, Context.MODE_PRIVATE);
+        mLogin = getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE);
 
         bar = (ProgressBar) findViewById(R.id.progress);
 
@@ -42,8 +38,9 @@ public class Splash extends Activity {
                         progress = progress + 2;
                     }
                     ;
-                    if (mLogin.contains(login_username)&&mLogin.contains(login_password)) {
+                    if (mLogin.contains(Constants.LOGIN_USER)&&mLogin.contains(Constants.LOGIN_PASSWORD)) {
                         Intent intent = new Intent(Splash.this, MainActivity.class);
+                        intent.putExtra(Constants.USER_ID, mLogin.getInt(Constants.LOGIN_ID,0));
                         startActivity(intent);
                     }
                     else{
