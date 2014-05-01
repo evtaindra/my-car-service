@@ -2,87 +2,201 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true"
-    android:background="@color/bg_color">
+    android:background="@color/background_color"
+    android:fillViewport="true">
 
-    <RelativeLayout
+    <!-- Register Form -->
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
 
-
-
-        <!-- Register Form -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="@string/username" />
 
-            android:orientation="vertical"
-            android:paddingTop="45dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
 
-            <!-- Username -->
-            <TextView
-                android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/password"
+            android:inputType="textWebPassword"
+            android:password="true"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/first_name" />
+
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/first_name"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/last_name" />
+
+        <EditText
+            android:id="@+id/last_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/last_name"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gender" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_men"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name" />
+                android:checked="true"
+                android:text="@string/men_gender" />
 
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="fill_parent"
+            <RadioButton
+                android:id="@+id/rb_women"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="5dp"
+                android:text="@string/women_genre" />
+        </RadioGroup>
 
-                android:background="@drawable/edt_text_shape"
-                android:singleLine="true" />
 
-            <!-- Password -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/password" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/birthdate" />
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/edt_text_shape"
+        <EditText
+            android:id="@+id/birthdate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:focusableInTouchMode="false"
+            android:hint="@string/birthdate" />
+        <!--
+            android:inputType="date"
+            android:maxLength="8"
+            android:singleLine="true"
+        -->
 
-                android:password="true"
-                android:singleLine="true" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number" />
 
-            <!-- Name -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name" />
+        <EditText
+            android:id="@+id/phone_number"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/phone_number"
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:singleLine="true" />
 
-                android:layout_marginTop="5dp"
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/e_mail" />
 
-                android:background="@drawable/edt_text_shape"
-                android:singleLine="true" />
+        <EditText
+            android:id="@+id/e_mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/e_mail"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
 
-            <!-- Buttons -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/city" />
 
-            <Button
-                android:id="@+id/register"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/register" />
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/city"
+            android:inputType="text"
+            android:singleLine="true" />
 
-        </LinearLayout>
-        <!-- Login Form Ends -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/address" />
 
-    </RelativeLayout>
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_shape"
+            android:hint="@string/address"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_register" />
+
+    </LinearLayout>
+    <!-- Register Form Ends -->
+
 
 </ScrollView>

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
+
 public class Splash extends Activity {
     ProgressBar bar;
     public int progress = 0;
@@ -21,6 +23,9 @@ public class Splash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+        //creating new Instance of singleton;
+        Singleton.getSingletonInstance();
 
         mLogin = getSharedPreferences(login, Context.MODE_PRIVATE);
 

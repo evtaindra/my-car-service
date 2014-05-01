@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@color/background_color"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -12,9 +12,11 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_launcher" />
 
+    <!--style="@android:style/Widget.ProgressBar.Horizontal"-->
+
     <ProgressBar
         android:id="@+id/progress"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
