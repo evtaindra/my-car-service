@@ -8,6 +8,9 @@ import org.json.JSONObject;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.Constants;
+import pl.rzeszow.wsiz.carservice.utils.async.AsyncPerformer;
+import pl.rzeszow.wsiz.carservice.utils.async.RequestMethod;
+import pl.rzeszow.wsiz.carservice.utils.async.TaskCallback;
 
 /**
  * Created by rsavk_000 on 4/13/2014.
@@ -60,6 +63,13 @@ public class Singleton implements TaskCallback {
         if (!mTask.isRunning())
             mTask.execute(params);
 
+    }
+
+    public void createNewService(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SERICE_REGISTER_URL, RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
     }
 
     /**
