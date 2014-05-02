@@ -78,6 +78,10 @@ public class Singleton implements TaskCallback {
         if (!mTask.isRunning())
             mTask.execute(params);
     }
+
+    public void cancelCurrentTask(){
+        mTask.cancel(true);
+    }
     /**
      * ***************************
      * AsyncTask CallBack

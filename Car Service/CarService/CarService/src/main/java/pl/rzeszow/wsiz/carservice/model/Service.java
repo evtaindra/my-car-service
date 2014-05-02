@@ -25,6 +25,8 @@ public class Service {
         this.image = image;
         this.us_id = us_id;
     }
+    public Service(){
+    }
 
     public int getId() {
         return id;

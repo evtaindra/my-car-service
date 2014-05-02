@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -19,12 +18,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
+import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
@@ -84,19 +83,12 @@ public class RegisterNewService extends Activity implements View.OnClickListener
                 showError(sDescription, R.string.description);
             } else {
 
-                byte imageInByte[] = null;
-                if (image != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    imageInByte = stream.toByteArray();
-                }
-
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("sname", name));
                 params.add(new BasicNameValuePair("scity", city));
                 params.add(new BasicNameValuePair("saddress", address));
                 params.add(new BasicNameValuePair("sdescription", description));
-                params.add(new BasicNameValuePair("simage", image == null ? null : Base64.encodeToString(imageInByte, Base64.DEFAULT)));
+                params.add(new BasicNameValuePair("simage", BitmapEnDecode.BitmapToString(image)));
                 params.add(new BasicNameValuePair("suserid", String.valueOf(Singleton.getSingletonInstance().userID)));
 
                 //always don`t forget set client
