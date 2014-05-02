@@ -50,4 +50,7 @@
         <item>Cancel</item>
     </string-array>
 
+    <!-- service item -->
+    <string name="average_rating">Average rating:</string>
+
 </resources>
