@@ -37,7 +37,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
  * Created by rsavk_000 on 5/1/2014.
  */
 public class ServiceListFragment extends Fragment implements ClientListener,
-        SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener {
+        SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     private String TAG = "ServiceListFragment";
     private Context mContext;
@@ -122,17 +122,19 @@ public class ServiceListFragment extends Fragment implements ClientListener,
     @Override
     public void onRequestSent() {
 //      swipeRefreshLayout.setRefreshing(true);
-        pDialog = new ProgressDialog(mContext);
-        pDialog.setMessage("Loading list of services...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(true);
-        pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Singleton.getSingletonInstance().cancelCurrentTask();
-            }
-        });
-        pDialog.show();
+        if (serviceListAdapter.getCount() == 0) {
+            pDialog = new ProgressDialog(mContext);
+            pDialog.setMessage("Loading list of services...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    Singleton.getSingletonInstance().cancelCurrentTask();
+                }
+            });
+            pDialog.show();
+        }
     }
 
     @Override
@@ -143,17 +145,19 @@ public class ServiceListFragment extends Fragment implements ClientListener,
         services = JSONInterpreter.parseServiceList(resualt);
 
         if (services == null) {
-            Toast.makeText(mContext,"Problem with your connection",Toast.LENGTH_LONG).show();
-        } else if (services.isEmpty()){
-            Toast.makeText(mContext,"No services resisted in system",Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Problem with your connection", Toast.LENGTH_LONG).show();
+        } else if (services.isEmpty()) {
+            Toast.makeText(mContext, "No services resisted in system", Toast.LENGTH_LONG).show();
         } else {
+            serviceListAdapter.clearData();
             serviceListAdapter.addServices(services);
         }
     }
 
     @Override
     public void onRequestCancelled() {
-        pDialog.dismiss();
+        if (pDialog != null)
+            pDialog.dismiss();
         swipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -71,23 +71,17 @@
                     android:id="@+id/serviceCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/separator"
-                    android:layout_alignParentBottom="true"
-
-                    android:text="City"/>
-                <TextView
-                    android:id="@+id/separator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:layout_above="@+id/serviceAddress"
                     android:layout_centerHorizontal="true"
-                    android:text=","/>
+                    android:gravity="center"
+                    android:text="City"/>
                 <TextView
                     android:id="@+id/serviceAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/separator"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
                     android:text = "Address"/>
 
             </RelativeLayout>
