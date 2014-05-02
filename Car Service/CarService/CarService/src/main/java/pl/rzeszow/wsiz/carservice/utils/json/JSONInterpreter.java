@@ -44,7 +44,7 @@ public class JSONInterpreter {
 
                 for(int i = 0; i<jsonArray.length();i++){
                     JSONObject obj = jsonArray.getJSONObject(i);
-                    Service s = parseService(obj);
+                    Service s = parseServiceSimple(obj);
                     services.add(s);
                 }
             }
@@ -53,7 +53,7 @@ public class JSONInterpreter {
         }
         return services;
     }
-    public static Service parseService(JSONObject json)
+    private static Service parseServiceSimple (JSONObject json)
     {
         Service service = null;
         try {
@@ -72,4 +72,5 @@ public class JSONInterpreter {
         }
         return service;
     }
+
 }

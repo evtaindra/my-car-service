@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.RegisterNewService;
+import pl.rzeszow.wsiz.carservice.adapters.ServiceListAdapter;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
@@ -29,12 +33,17 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 /**
  * Created by rsavk_000 on 5/1/2014.
  */
-public class ServiceListFragment extends Fragment implements ClientListener {
+public class ServiceListFragment extends Fragment implements ClientListener, SwipeRefreshLayout.OnRefreshListener {
 
     private String TAG = "ServiceListFragment";
     private Context mContext;
     private ProgressDialog pDialog;
+
     private ArrayList<Service> services;
+    private ListView servicesListView;
+    private ServiceListAdapter serviceListAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -45,6 +54,9 @@ public class ServiceListFragment extends Fragment implements ClientListener {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         Log.d(TAG, "onCreate");
+
+        serviceListAdapter = new ServiceListAdapter(mContext);
+
         Singleton.getSingletonInstance().setClientListener(this);
         Singleton.getSingletonInstance().getAllServices(null);
     }
@@ -53,6 +65,14 @@ public class ServiceListFragment extends Fragment implements ClientListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_servicelist, container, false);
         Log.d(TAG, "onCreateView");
+
+        servicesListView = (ListView) rootView.findViewById(R.id.servicesList);
+        servicesListView.setAdapter(serviceListAdapter);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorScheme(R.color.color1, R.color.color2, R.color.color1, R.color.color2);
+
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -83,6 +103,7 @@ public class ServiceListFragment extends Fragment implements ClientListener {
 
     @Override
     public void onRequestSent() {
+//      swipeRefreshLayout.setRefreshing(true);
         pDialog = new ProgressDialog(mContext);
         pDialog.setMessage("Loading list of services...");
         pDialog.setIndeterminate(false);
@@ -99,19 +120,28 @@ public class ServiceListFragment extends Fragment implements ClientListener {
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
+
         services = JSONInterpreter.parseServiceList(resualt);
 
         if (services == null) {
-            Log.d(TAG, "Connection problem");
+            Toast.makeText(mContext,"Problem with your connection",Toast.LENGTH_LONG).show();
         } else if (services.isEmpty()){
-            Log.d(TAG, "No services in system");
+            Toast.makeText(mContext,"No services resisted in system",Toast.LENGTH_LONG).show();
         } else {
-            Log.d(TAG, "Add data to list adapter & list view");
+            serviceListAdapter.addServices(services);
         }
     }
 
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        Singleton.getSingletonInstance().setClientListener(this);
+        Singleton.getSingletonInstance().getAllServices(null);
     }
 }
