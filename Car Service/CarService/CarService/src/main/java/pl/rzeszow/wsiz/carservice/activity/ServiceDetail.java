@@ -1,7 +1,10 @@
-package pl.rzeszow.wsiz.carservice;
+package pl.rzeszow.wsiz.carservice.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import pl.rzeszow.wsiz.carservice.Constants;
+import pl.rzeszow.wsiz.carservice.R;
 
 /**
  * Created by rsavk_000 on 5/2/2014.

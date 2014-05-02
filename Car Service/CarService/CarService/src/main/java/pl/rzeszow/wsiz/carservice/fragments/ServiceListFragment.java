@@ -25,8 +25,8 @@ import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
-import pl.rzeszow.wsiz.carservice.RegisterNewService;
-import pl.rzeszow.wsiz.carservice.ServiceDetail;
+import pl.rzeszow.wsiz.carservice.activity.RegisterNewService;
+import pl.rzeszow.wsiz.carservice.activity.ServiceDetail;
 import pl.rzeszow.wsiz.carservice.adapters.ServiceListAdapter;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;

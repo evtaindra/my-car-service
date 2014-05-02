@@ -1,7 +1,9 @@
-package pl.rzeszow.wsiz.carservice;
+package pl.rzeszow.wsiz.carservice.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import pl.rzeszow.wsiz.carservice.R;
 
 public class Guest extends ActionBarActivity {
 

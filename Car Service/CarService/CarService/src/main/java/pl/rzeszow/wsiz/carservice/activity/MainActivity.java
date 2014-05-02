@@ -1,4 +1,4 @@
-package pl.rzeszow.wsiz.carservice;
+package pl.rzeszow.wsiz.carservice.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarActivity;
 
 import java.util.Locale;
 
+import pl.rzeszow.wsiz.carservice.Constants;
+import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.fragments.FragmentSwapper;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
