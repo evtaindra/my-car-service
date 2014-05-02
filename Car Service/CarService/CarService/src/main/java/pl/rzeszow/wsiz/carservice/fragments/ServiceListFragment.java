@@ -13,13 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONObject;
+
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.RegisterNewService;
+import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 /**
  * Created by rsavk_000 on 5/1/2014.
  */
-public class ServiceListFragment extends Fragment {
+public class ServiceListFragment extends Fragment implements ClientListener {
 
     private String TAG = "ServiceListFragment";
     private Context mContext;
@@ -33,7 +37,8 @@ public class ServiceListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         Log.d(TAG, "onCreate");
-
+        Singleton.getSingletonInstance().setClientListener(this);
+        Singleton.getSingletonInstance().getAllServices(null);
     }
 
     @Override
@@ -68,4 +73,18 @@ public class ServiceListFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void onRequestSent() {
+
+    }
+
+    @Override
+    public void onDataReady(JSONObject resualt) {
+
+    }
+
+    @Override
+    public void onRequestCancelled() {
+
+    }
 }

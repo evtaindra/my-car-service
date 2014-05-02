@@ -9,8 +9,9 @@ public class Constants {
 
     public static final String USER_ID = "userID";
 
-    private final static String SERVICE_URL = "http://carservice.esy.es/carserv/";
-    public final static String REGISTER_URL = SERVICE_URL+"register.php";
-    public final static String LOGIN_URL = SERVICE_URL+"login.php";
-    public final static String SERICE_REGISTER_URL = SERVICE_URL+"service_register.php";
+    private final static String PAGE_URL = "http://carservice.esy.es/carserv/";
+    public final static String REGISTER_URL = PAGE_URL +"register.php";
+    public final static String LOGIN_URL = PAGE_URL +"login.php";
+    public final static String SERVICE_REGISTER_URL = PAGE_URL +"service_register.php";
+    public final static String SERVICES_URL = PAGE_URL+"services.php";
 }

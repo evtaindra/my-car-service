@@ -2,31 +2,31 @@ package pl.rzeszow.wsiz.carservice;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
+import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
  * Created by rsavk_000 on 5/1/2014.
@@ -34,12 +34,15 @@ import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 public class RegisterNewService extends Activity implements View.OnClickListener, ClientListener {
 
     private AlertDialog imageDialog;
+    private ProgressDialog pDialog;
 
     private ImageView imageView;
     private Bitmap image;
 
     private EditText sName, sCity, sAddress, sDescription;
     private Button mRegister;
+    private PictureSelector pictureSelector;
+    private String TAG = "RegisterNewService";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         imageView = (ImageView) findViewById(R.id.image);
         imageView.setOnClickListener(this);
 
-        PictureSelector pictureSelector = new PictureSelector(this);
+        pictureSelector = new PictureSelector(this);
         imageDialog = pictureSelector.buildImageDialog();
 
         sName = (EditText) findViewById(R.id.name);
@@ -63,9 +66,9 @@ public class RegisterNewService extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.image){
+        if (id == R.id.image) {
             imageDialog.show();
-        }else if (id == R.id.sregister){
+        } else if (id == R.id.sregister) {
             String name = String.valueOf(sName.getText());
             String city = String.valueOf(sCity.getText());
             String address = String.valueOf(sAddress.getText());
@@ -82,18 +85,18 @@ public class RegisterNewService extends Activity implements View.OnClickListener
             } else {
 
                 byte imageInByte[] = null;
-                if(image != null) {
+                if (image != null) {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     imageInByte = stream.toByteArray();
                 }
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("sname", name ));
-                params.add(new BasicNameValuePair("scity", city ));
-                params.add(new BasicNameValuePair("saddress", address ));
-                params.add(new BasicNameValuePair("sdescription", description ));
-                params.add(new BasicNameValuePair("simage", imageInByte.toString() ));
+                params.add(new BasicNameValuePair("sname", name));
+                params.add(new BasicNameValuePair("scity", city));
+                params.add(new BasicNameValuePair("saddress", address));
+                params.add(new BasicNameValuePair("sdescription", description));
+                params.add(new BasicNameValuePair("simage", image == null ? null : Base64.encodeToString(imageInByte, Base64.DEFAULT)));
                 params.add(new BasicNameValuePair("suserid", String.valueOf(Singleton.getSingletonInstance().userID)));
 
                 //always don`t forget set client
@@ -101,55 +104,16 @@ public class RegisterNewService extends Activity implements View.OnClickListener
                 Singleton.getSingletonInstance().createNewService(params);
             }
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == PictureSelector.REQUEST_CAMERA) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
-                try {
-                    Bitmap bm;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
-
-                    bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
-                    image = bm;
-                    imageView.setImageBitmap(bm);
-
-                    f.delete();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (requestCode == PictureSelector.SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-                String tempPath = getPath(selectedImageUri, RegisterNewService.this);
-                Bitmap bm;
-                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(tempPath, bitmapOptions);
-
-                bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
-                image = bm;
-                imageView.setImageBitmap(bm);
-            }
+        Bitmap bm = pictureSelector.onActivityResult(requestCode, resultCode, data);
+        if (bm != null) {
+            image = bm;
+            imageView.setImageBitmap(bm);
         }
-    }
-    private String getPath(Uri uri, Activity activity) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = activity
-                .managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
     }
 
     private void showError(EditText editText, int id) {
@@ -160,16 +124,36 @@ public class RegisterNewService extends Activity implements View.OnClickListener
 
     @Override
     public void onRequestSent() {
-
+        pDialog = new ProgressDialog(RegisterNewService.this);
+        pDialog.setMessage("Creating Service...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
     }
 
     @Override
     public void onDataReady(JSONObject resualt) {
+        pDialog.dismiss();
 
+        Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
+
+        String message = ires.second;
+
+        if (ires.first == 1) {
+            Log.d(TAG, "Service created");
+            finish();
+
+        } else {
+            Log.d(TAG, "Failed to create a service!");
+        }
+
+        if (message != null) {
+            Toast.makeText(RegisterNewService.this, message, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onRequestCancelled() {
-
+        pDialog.dismiss();
     }
 }
