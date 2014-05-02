@@ -33,11 +33,11 @@ public class Splash extends Activity {
             public void run() {
                 try {
                     int logoTimer = 0;
-                    while (logoTimer < 5000) {
+                    while (logoTimer < 1000) {
                         sleep(100);
                         logoTimer = logoTimer + 100;
                         bar.setProgress(progress);
-                        progress = progress + 2;
+                        progress = progress + 10;
                     }
                     ;
                     if (mLogin.contains(Constants.LOGIN_USER)&&mLogin.contains(Constants.LOGIN_PASSWORD)) {
