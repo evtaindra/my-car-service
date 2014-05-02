@@ -1,4 +1,4 @@
-package pl.rzeszow.wsiz.carservice;
+package pl.rzeszow.wsiz.carservice.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.rzeszow.wsiz.carservice.Constants;
+import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;

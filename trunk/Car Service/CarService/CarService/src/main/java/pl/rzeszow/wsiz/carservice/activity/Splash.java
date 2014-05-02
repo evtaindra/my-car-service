@@ -1,4 +1,4 @@
-package pl.rzeszow.wsiz.carservice;
+package pl.rzeszow.wsiz.carservice.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 
+import pl.rzeszow.wsiz.carservice.Constants;
+import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
 public class Splash extends Activity {
