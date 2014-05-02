@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,8 +23,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.RegisterNewService;
+import pl.rzeszow.wsiz.carservice.ServiceDetail;
 import pl.rzeszow.wsiz.carservice.adapters.ServiceListAdapter;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
@@ -33,7 +36,8 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 /**
  * Created by rsavk_000 on 5/1/2014.
  */
-public class ServiceListFragment extends Fragment implements ClientListener, SwipeRefreshLayout.OnRefreshListener {
+public class ServiceListFragment extends Fragment implements ClientListener,
+        SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener {
 
     private String TAG = "ServiceListFragment";
     private Context mContext;
@@ -68,6 +72,7 @@ public class ServiceListFragment extends Fragment implements ClientListener, Swi
 
         servicesListView = (ListView) rootView.findViewById(R.id.servicesList);
         servicesListView.setAdapter(serviceListAdapter);
+        servicesListView.setOnItemClickListener(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -99,6 +104,19 @@ public class ServiceListFragment extends Fragment implements ClientListener, Swi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void onRefresh() {
+        Singleton.getSingletonInstance().setClientListener(this);
+        Singleton.getSingletonInstance().getAllServices(null);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(mContext, ServiceDetail.class);
+        i.putExtra(Constants.SERVICE_ID, id);
+        mContext.startActivity(i);
     }
 
     @Override
@@ -137,11 +155,5 @@ public class ServiceListFragment extends Fragment implements ClientListener, Swi
     public void onRequestCancelled() {
         pDialog.dismiss();
         swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onRefresh() {
-        Singleton.getSingletonInstance().setClientListener(this);
-        Singleton.getSingletonInstance().getAllServices(null);
     }
 }

@@ -8,6 +8,7 @@ public class Constants {
     public static final String LOGIN_ID = "lID";
 
     public static final String USER_ID = "userID";
+    public static final String SERVICE_ID = "serviceID";
 
     private final static String PAGE_URL = "http://carservice.esy.es/carserv/";
     public final static String REGISTER_URL = PAGE_URL +"register.php";
