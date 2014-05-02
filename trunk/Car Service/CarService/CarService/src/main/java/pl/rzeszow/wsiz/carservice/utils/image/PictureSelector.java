@@ -5,7 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import java.io.File;
@@ -20,8 +24,8 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class PictureSelector {
 
     private Context mContext;
-    public static int REQUEST_CAMERA = 0;
-    public static int SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 0;
+    private int SELECT_FILE = 1;
 
     public PictureSelector(Context context){
         mContext = context;
@@ -59,5 +63,50 @@ public class PictureSelector {
             }
         });
         return builder.create();
+    }
+
+    public Bitmap onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA) {
+                File f = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals("temp.jpg")) {
+                        f = temp;
+                        break;
+                    }
+                }
+                try {
+                    Bitmap bm;
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            bitmapOptions);
+
+                    bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
+                    f.delete();
+                    return bm;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == SELECT_FILE) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = mContext.getContentResolver().query(
+                        selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String filePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                Bitmap bm;
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bm = BitmapFactory.decodeFile(filePath, bitmapOptions);
+
+                bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
+                return bm;
+            }
+        }
+        return null;
     }
 }

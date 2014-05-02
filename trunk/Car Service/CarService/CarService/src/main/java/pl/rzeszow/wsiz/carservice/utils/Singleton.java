@@ -66,12 +66,18 @@ public class Singleton implements TaskCallback {
     }
 
     public void createNewService(List<NameValuePair> params){
-        mTask = new AsyncPerformer(this, Constants.SERICE_REGISTER_URL, RequestMethod.POST);
+        mTask = new AsyncPerformer(this, Constants.SERVICE_REGISTER_URL, RequestMethod.POST);
 
         if (!mTask.isRunning())
             mTask.execute(params);
     }
 
+    public void getAllServices(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SERVICES_URL , RequestMethod.GET_FROM_URL);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }
     /**
      * ***************************
      * AsyncTask CallBack
