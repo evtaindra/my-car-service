@@ -3,8 +3,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:carservice="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_new_service"
-        android:icon="@android:drawable/ic_menu_add"
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ic_logout"
         carservice:showAsAction="ifRoom"
-        android:title="New" />
+        android:orderInCategory="1"
+        android:title="Logout"/>
 </menu>
