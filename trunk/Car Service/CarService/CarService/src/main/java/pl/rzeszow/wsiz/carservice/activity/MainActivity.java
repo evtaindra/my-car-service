@@ -1,5 +1,7 @@
 package pl.rzeszow.wsiz.carservice.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +10,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.Locale;
 
@@ -48,7 +53,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             actionBar.addTab(
                     actionBar.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+                            .setTabListener(this)
+            );
         }
 
         userID = getIntent().getExtras().getInt(Constants.USER_ID);
@@ -77,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         private FragmentSwapper fragmentSwapper
-                = new FragmentSwapper(MainActivity.this,getSupportFragmentManager());
+                = new FragmentSwapper(MainActivity.this, getSupportFragmentManager());
 
         @Override
         public Fragment getItem(int position) {
@@ -103,5 +109,24 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
             return null;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.global, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_logout){
+            getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
+            finish();
+            startActivity(new Intent(MainActivity.this, Login.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

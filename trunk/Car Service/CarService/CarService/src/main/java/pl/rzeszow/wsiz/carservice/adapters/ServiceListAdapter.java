@@ -46,7 +46,7 @@ public class ServiceListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return this.serviceList.get(position).getId();
+        return getItem(position).getId();
     }
 
     @Override

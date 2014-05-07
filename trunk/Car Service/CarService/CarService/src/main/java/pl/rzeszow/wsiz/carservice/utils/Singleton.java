@@ -1,5 +1,8 @@
 package pl.rzeszow.wsiz.carservice.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
@@ -77,6 +80,15 @@ public class Singleton implements TaskCallback {
 
         if (!mTask.isRunning())
             mTask.execute(params);
+    }
+
+    public static Boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected())
+            return true;
+
+        return false;
     }
 
     public void cancelCurrentTask(){

@@ -61,8 +61,11 @@ public class ServiceListFragment extends Fragment implements ClientListener,
 
         serviceListAdapter = new ServiceListAdapter(mContext);
 
-        Singleton.getSingletonInstance().setClientListener(this);
-        Singleton.getSingletonInstance().getAllServices(null);
+        if (Singleton.isOnline(mContext)) {
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().getAllServices(null);
+        } else
+            Toast.makeText(mContext, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -89,7 +92,8 @@ public class ServiceListFragment extends Fragment implements ClientListener,
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_servicelist, menu);
+        if (Singleton.getSingletonInstance().userID != 0)
+            inflater.inflate(R.menu.menu_servicelist, menu);
     }
 
     @Override
@@ -108,8 +112,13 @@ public class ServiceListFragment extends Fragment implements ClientListener,
 
     @Override
     public void onRefresh() {
-        Singleton.getSingletonInstance().setClientListener(this);
-        Singleton.getSingletonInstance().getAllServices(null);
+        if (Singleton.isOnline(mContext)) {
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().getAllServices(null);
+        } else {
+            Toast.makeText(mContext, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -124,7 +133,7 @@ public class ServiceListFragment extends Fragment implements ClientListener,
 //      swipeRefreshLayout.setRefreshing(true);
         if (serviceListAdapter.getCount() == 0) {
             pDialog = new ProgressDialog(mContext);
-            pDialog.setMessage("Loading list of services...");
+            pDialog.setMessage(getString(R.string.loading_services));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -145,9 +154,9 @@ public class ServiceListFragment extends Fragment implements ClientListener,
         services = JSONInterpreter.parseServiceList(resualt);
 
         if (services == null) {
-            Toast.makeText(mContext, "Problem with your connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
         } else if (services.isEmpty()) {
-            Toast.makeText(mContext, "No services resisted in system", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, getString(R.string.alert_no_services), Toast.LENGTH_LONG).show();
         } else {
             serviceListAdapter.clearData();
             serviceListAdapter.addServices(services);
