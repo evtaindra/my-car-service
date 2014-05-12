@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:carservice="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_edit_data"
+        android:icon="@android:drawable/ic_menu_edit"
+        carservice:showAsAction="ifRoom"
+        android:title="Edit" />
+    <item
+        android:id="@+id/action_save_data"
+        android:icon="@android:drawable/ic_menu_save"
+        carservice:showAsAction="ifRoom"
+        android:title="Save"
+        android:visible="false"/>
+</menu>
