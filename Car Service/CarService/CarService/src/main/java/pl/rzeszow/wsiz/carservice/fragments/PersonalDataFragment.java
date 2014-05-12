@@ -35,6 +35,7 @@ import java.util.jar.Manifest;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
@@ -45,6 +46,8 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private String TAG = "PersonalDataFragment";
+
+    private ArrayList<User> user;
 
     private Context mContext;
 
@@ -94,7 +97,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         };
 
         username = (EditText)rootView.findViewById(R.id.username);
-        password = (EditText) rootView.findViewById(R.id.password);
+        //password = (EditText) rootView.findViewById(R.id.password);
         firstName = (EditText) rootView.findViewById(R.id.first_name);
         lastName = (EditText) rootView.findViewById(R.id.last_name);
         birthDate = (EditText) rootView.findViewById(R.id.birthdate);
@@ -217,7 +220,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     {
         editModeBool = true;
         username.setEnabled(true);
-        password.setEnabled(true);
+        //password.setEnabled(true);
         firstName.setEnabled(true);
         lastName.setEnabled(true);
         birthDate.setEnabled(true);
@@ -235,7 +238,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     {
         editModeBool = false;
         username.setEnabled(false);
-        password.setEnabled(false);
+        //password.setEnabled(false);
         firstName.setEnabled(false);
         lastName.setEnabled(false);
         birthDate.setEnabled(false);
@@ -249,7 +252,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         edit.setVisible(true);
 
         String user = String.valueOf(username.getText());
-        String pass = String.valueOf(password.getText());
+        //String pass = String.valueOf(password.getText());
         String fname = String.valueOf(firstName.getText());
         String lname = String.valueOf(lastName.getText());
         String birth = String.valueOf(birthDate.getText());
@@ -260,9 +263,9 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
         if (user.equalsIgnoreCase("")) {
             showError(username, R.string.username);
-        } else if (pass.equalsIgnoreCase("")) {
+        } /*else if (pass.equalsIgnoreCase("")) {
             showError(password, R.string.password);
-        } else if (fname.equalsIgnoreCase("")) {
+        }*/ else if (fname.equalsIgnoreCase("")) {
             showError(firstName, R.string.first_name);
         } else if (lname.equalsIgnoreCase("")) {
             showError(lastName, R.string.last_name);
@@ -283,7 +286,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("id", Constants.USER_ID));
                 params.add(new BasicNameValuePair("username", user));
-                params.add(new BasicNameValuePair("password", pass));
+                //params.add(new BasicNameValuePair("password", pass));
                 params.add(new BasicNameValuePair("name", fname));
                 params.add(new BasicNameValuePair("surname", lname));
                 params.add(new BasicNameValuePair("sex", Integer.toString(genre)));
