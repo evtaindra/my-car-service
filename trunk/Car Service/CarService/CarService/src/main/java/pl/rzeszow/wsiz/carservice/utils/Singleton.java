@@ -60,6 +60,14 @@ public class Singleton implements TaskCallback {
 
     }
 
+    public void updatePersonalData(List<NameValuePair> params) {
+        mTask = new AsyncPerformer(this, Constants.UPDATE_PERSONAL_DATA_URL, RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+
+    }
+
     public void attemptLogin(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.LOGIN_URL, RequestMethod.POST);
 
@@ -81,6 +89,13 @@ public class Singleton implements TaskCallback {
         if (!mTask.isRunning())
             mTask.execute(params);
     }
+
+    /*public void getPersonalData(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.PERSONAL_DATA_URL , RequestMethod.GET_FROM_URL);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }*/
 
     public static Boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
