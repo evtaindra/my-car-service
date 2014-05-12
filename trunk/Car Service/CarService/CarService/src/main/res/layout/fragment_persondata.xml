@@ -31,7 +31,7 @@
             android:singleLine="true"
             android:enabled="false"/>
 
-        <TextView
+        <!--<TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/password" />
@@ -47,7 +47,7 @@
             android:inputType="textWebPassword"
             android:password="true"
             android:singleLine="true"
-            android:enabled="false"/>
+            android:enabled="false"/>-->
 
         <TextView
             android:layout_width="fill_parent"
