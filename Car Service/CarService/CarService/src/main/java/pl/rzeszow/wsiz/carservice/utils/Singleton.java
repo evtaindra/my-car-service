@@ -36,6 +36,11 @@ public class Singleton implements TaskCallback {
         userID = id;
     }
 
+    public int getUserId()
+    {
+        return userID;
+    }
+
     // Providing Global point of access
     public static Singleton getSingletonInstance() {
         if (null == singletonInstance) {
