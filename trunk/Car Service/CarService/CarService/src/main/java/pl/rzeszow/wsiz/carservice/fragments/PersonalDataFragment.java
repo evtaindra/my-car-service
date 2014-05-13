@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -63,11 +64,10 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private boolean editModeBool = true;
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
     }
 
     @Override
@@ -82,6 +82,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_persondata, container, false);
         Log.d(TAG, "onCreateView");
+
 
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -120,6 +121,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         rbMan = (RadioButton) rootView.findViewById(R.id.rb_men);
         rbWomen = (RadioButton) rootView.findViewById(R.id.rb_women);
 
+
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -127,21 +129,25 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("editModeBool", editModeBool);
+        Log.i(TAG, "onSaveInstanceState");
+        //outState.putBoolean("editModeBool", editModeBool);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (Singleton.getSingletonInstance().userID != 0)
             inflater.inflate(R.menu.menu_personal, menu);
+
+        Log.d(TAG, "onCreateOptionsMenu" + Constants.editModeBool);
+
         save = menu.findItem(R.id.action_save_data);
         edit = menu.findItem(R.id.action_edit_data);
 
-        if (editModeBool) {
+        if (Constants.editModeBool) {
             edit.setVisible(true);
             save.setVisible(false);
         }
-        if(!editModeBool){
+        if(!Constants.editModeBool){
             edit.setVisible(false);
             save.setVisible(true);
         }
@@ -166,7 +172,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     @Override
     public void onRequestSent() {
-        pDialog = new ProgressDialog(mContext);
+        pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Updating personal data...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
@@ -176,20 +182,21 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
-        swipeRefreshLayout.setRefreshing(false);
+
         Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
 
         String message = ires.second;
 
         if (ires.first == 1) {
             Log.d(TAG, "Personal data updated");
+            //finish();
 
         } else {
             Log.d(TAG, "Login Failure!");
         }
 
         if (message != null) {
-            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -218,7 +225,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private void editMode(MenuItem item)
     {
-        editModeBool = true;
+        Constants.editModeBool = false;
         username.setEnabled(true);
         //password.setEnabled(true);
         firstName.setEnabled(true);
@@ -236,7 +243,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private void saveMode(MenuItem item)
     {
-        editModeBool = false;
+        Constants.editModeBool = true;
         username.setEnabled(false);
         //password.setEnabled(false);
         firstName.setEnabled(false);
@@ -284,7 +291,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
             int genre = rbMan.isChecked() ? 1 : 2;
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("id", Constants.USER_ID));
+                params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
                 params.add(new BasicNameValuePair("username", user));
                 //params.add(new BasicNameValuePair("password", pass));
                 params.add(new BasicNameValuePair("name", fname));
@@ -298,8 +305,8 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
 
             //always don`t forget set client
-            /*Singleton.getSingletonInstance().setClientListener(this);
-            Singleton.getSingletonInstance().updatePersonalData(params);*/
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().updatePersonalData(params);
 
         }
     }

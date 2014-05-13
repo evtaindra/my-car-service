@@ -16,4 +16,5 @@ public class Constants {
     public final static String SERVICE_REGISTER_URL = PAGE_URL +"service_register.php";
     public final static String SERVICES_URL = PAGE_URL+"services.php";
     public final static String UPDATE_PERSONAL_DATA_URL = PAGE_URL +"update.php";
+    public static boolean editModeBool = true;
 }
