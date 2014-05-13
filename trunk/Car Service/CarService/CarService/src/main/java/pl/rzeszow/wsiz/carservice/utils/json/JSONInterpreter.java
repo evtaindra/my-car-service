@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.model.Service;
+import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
@@ -53,6 +54,33 @@ public class JSONInterpreter {
         }
         return services;
     }
+
+    public static User parseUserSimple(JSONObject json)
+    {
+        User user = null;
+        try{
+            int success = json.getInt(TAG_SUCCESS);
+            if (success == 1) {
+                int id = json.getInt("us_id");
+                String username = json.getString("username");
+                String password = json.getString("password");
+                String name = json.getString("name");
+                String surname = json.getString("surname");
+                int sex = json.getInt("sex");
+                String birth = json.getString("birth");
+                String nr_tel = json.getString("nr_tel");
+                String email = json.getString("email");
+                String city = json.getString("city");
+                String adress = json.getString("adress");
+
+                user = new User(id, username, password, name, surname, sex, birth, nr_tel, email, city, adress);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     private static Service parseServiceSimple (JSONObject json)
     {
         Service service = null;

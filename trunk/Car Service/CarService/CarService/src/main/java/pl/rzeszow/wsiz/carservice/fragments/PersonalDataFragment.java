@@ -48,8 +48,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private String TAG = "PersonalDataFragment";
 
-    private ArrayList<User> user;
-
     private Context mContext;
 
     private EditText username, password, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
@@ -61,8 +59,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onAttach(Activity activity) {
