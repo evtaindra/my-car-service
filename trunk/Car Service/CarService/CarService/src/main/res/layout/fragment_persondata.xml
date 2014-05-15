@@ -31,24 +31,6 @@
             android:singleLine="true"
             android:enabled="false"/>
 
-        <!--<TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/password" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edit_text_shape"
-            android:hint="@string/password"
-            android:inputType="textWebPassword"
-            android:password="true"
-            android:singleLine="true"
-            android:enabled="false"/>-->
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
