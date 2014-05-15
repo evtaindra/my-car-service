@@ -31,6 +31,8 @@
     <string name="address">Address</string>
     <string name="error">Please enter</string>
 
+    <string name="btn_own_car">Your car</string>
+
     <!-- Login form -->
     <string name="remember_pass">Remember password</string>
     <string name="btn_login">Login</string>

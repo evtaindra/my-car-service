@@ -62,7 +62,6 @@ public class JSONInterpreter {
         try{
             int success = json.getInt(TAG_SUCCESS);
             if (success == 1) {
-                //int id = json.getInt("us_id");
                 String username = json.getString("username");
                 String password = json.getString("password");
                 String name = json.getString("name");
@@ -74,7 +73,7 @@ public class JSONInterpreter {
                 String city = json.getString("city");
                 String adress = json.getString("adress");
 
-                user = new User(Singleton.getSingletonInstance().getUserId(), username, password, name, surname, sex, birth, nr_tel, email, city, adress);
+                user = new User(username, password, name, surname, sex, birth, nr_tel, email, city, adress);
             }
         } catch (Exception e) {
             e.printStackTrace();
