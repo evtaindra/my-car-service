@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.model.User;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
@@ -61,7 +62,7 @@ public class JSONInterpreter {
         try{
             int success = json.getInt(TAG_SUCCESS);
             if (success == 1) {
-                int id = json.getInt("us_id");
+                //int id = json.getInt("us_id");
                 String username = json.getString("username");
                 String password = json.getString("password");
                 String name = json.getString("name");
@@ -73,9 +74,9 @@ public class JSONInterpreter {
                 String city = json.getString("city");
                 String adress = json.getString("adress");
 
-                user = new User(id, username, password, name, surname, sex, birth, nr_tel, email, city, adress);
+                user = new User(Singleton.getSingletonInstance().getUserId(), username, password, name, surname, sex, birth, nr_tel, email, city, adress);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
