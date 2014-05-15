@@ -3,12 +3,8 @@ package pl.rzeszow.wsiz.carservice.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.util.Pair;
@@ -32,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.jar.Manifest;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
@@ -48,14 +43,16 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private String TAG = "PersonalDataFragment";
 
-    private Context mContext;
+    private User us;
 
-    private EditText username, password, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
+    private EditText username, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
     private RadioButton rbMan, rbWomen;
 
     private MenuItem save, edit;
 
     private ProgressDialog pDialog;
+
+    private  String MESSAGE = "Loading personal data...";
 
     private Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
@@ -79,8 +76,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         View rootView = inflater.inflate(R.layout.fragment_persondata, container, false);
         Log.d(TAG, "onCreateView");
 
-
-
         date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -94,7 +89,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         };
 
         username = (EditText)rootView.findViewById(R.id.username);
-        //password = (EditText) rootView.findViewById(R.id.password);
         firstName = (EditText) rootView.findViewById(R.id.first_name);
         lastName = (EditText) rootView.findViewById(R.id.last_name);
         birthDate = (EditText) rootView.findViewById(R.id.birthdate);
@@ -117,7 +111,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         rbMan = (RadioButton) rootView.findViewById(R.id.rb_men);
         rbWomen = (RadioButton) rootView.findViewById(R.id.rb_women);
 
-
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -125,8 +118,23 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState");
-        //outState.putBoolean("editModeBool", editModeBool);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && Constants.editModeBool) {
+            Log.d(TAG, "setUserVisibleHint");
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
+
+            if (Singleton.isOnline(getActivity())) {
+                Singleton.getSingletonInstance().setClientListener(this);
+                Singleton.getSingletonInstance().getPersonalData(params);
+            } else {
+                Toast.makeText(getActivity(), R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -134,7 +142,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         if (Singleton.getSingletonInstance().userID != 0)
             inflater.inflate(R.menu.menu_personal, menu);
 
-        Log.d(TAG, "onCreateOptionsMenu" + Constants.editModeBool);
+        Log.d(TAG, "onCreateOptionsMenu");
 
         save = menu.findItem(R.id.action_save_data);
         edit = menu.findItem(R.id.action_edit_data);
@@ -169,7 +177,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Updating personal data...");
+        pDialog.setMessage(MESSAGE);
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
@@ -179,21 +187,27 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
 
-        Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
+        User user = JSONInterpreter.parseUserSimple(resualt);
+        if (user == null) {
+            Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
 
-        String message = ires.second;
+            String message = ires.second;
 
-        if (ires.first == 1) {
-            Log.d(TAG, "Personal data updated");
-            //finish();
+            if (ires.first == 1) {
+                Log.d(TAG, "Personal data updated");
 
+            } else {
+                Log.d(TAG, "Login Failure!");
+            }
+            if (message != null) {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            }
         } else {
-            Log.d(TAG, "Login Failure!");
+            MESSAGE = "Loading personal data...";
+            us = user;
+            setText();
         }
 
-        if (message != null) {
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -218,12 +232,27 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    private void setText()
+    {
+        username.setText(us.getUsername());
+        firstName.setText(us.getName());
+        lastName.setText(us.getSurname());
+        birthDate.setText(us.getBirth());
+        phoneNumber.setText(us.getNr_tel());
+        eMail.setText(us.getEmail());
+        mCity.setText(us.getCity());
+        mAddress.setText(us.getAdress());
+
+        if(us.getSex() == 1)
+            rbMan.setChecked(true);
+        else if(us.getSex() == 2)
+            rbWomen.setChecked(true);
+    }
 
     private void editMode(MenuItem item)
     {
         Constants.editModeBool = false;
         username.setEnabled(true);
-        //password.setEnabled(true);
         firstName.setEnabled(true);
         lastName.setEnabled(true);
         birthDate.setEnabled(true);
@@ -241,7 +270,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
     {
         Constants.editModeBool = true;
         username.setEnabled(false);
-        //password.setEnabled(false);
         firstName.setEnabled(false);
         lastName.setEnabled(false);
         birthDate.setEnabled(false);
@@ -254,8 +282,9 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         item.setVisible(false);
         edit.setVisible(true);
 
+        MESSAGE = "Updating personal data...";
+
         String user = String.valueOf(username.getText());
-        //String pass = String.valueOf(password.getText());
         String fname = String.valueOf(firstName.getText());
         String lname = String.valueOf(lastName.getText());
         String birth = String.valueOf(birthDate.getText());
@@ -266,9 +295,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
         if (user.equalsIgnoreCase("")) {
             showError(username, R.string.username);
-        } /*else if (pass.equalsIgnoreCase("")) {
-            showError(password, R.string.password);
-        }*/ else if (fname.equalsIgnoreCase("")) {
+        } else if (fname.equalsIgnoreCase("")) {
             showError(firstName, R.string.first_name);
         } else if (lname.equalsIgnoreCase("")) {
             showError(lastName, R.string.last_name);
@@ -289,7 +316,6 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
                 params.add(new BasicNameValuePair("username", user));
-                //params.add(new BasicNameValuePair("password", pass));
                 params.add(new BasicNameValuePair("name", fname));
                 params.add(new BasicNameValuePair("surname", lname));
                 params.add(new BasicNameValuePair("sex", Integer.toString(genre)));
@@ -299,11 +325,12 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
                 params.add(new BasicNameValuePair("city", city));
                 params.add(new BasicNameValuePair("adress", address));
 
-
-            //always don`t forget set client
-            Singleton.getSingletonInstance().setClientListener(this);
-            Singleton.getSingletonInstance().updatePersonalData(params);
-
+            if (Singleton.isOnline(getActivity())) {
+                Singleton.getSingletonInstance().setClientListener(this);
+                Singleton.getSingletonInstance().updatePersonalData(params);
+            } else {
+                Toast.makeText(getActivity(), R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
