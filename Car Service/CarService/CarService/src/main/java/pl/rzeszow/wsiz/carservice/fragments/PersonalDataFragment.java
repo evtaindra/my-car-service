@@ -127,7 +127,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             Log.d(TAG, "setUserVisibleHint");
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
-
+            MESSAGE = "Loading personal data...";
             if (Singleton.isOnline(getActivity())) {
                 Singleton.getSingletonInstance().setClientListener(this);
                 Singleton.getSingletonInstance().getPersonalData(params);

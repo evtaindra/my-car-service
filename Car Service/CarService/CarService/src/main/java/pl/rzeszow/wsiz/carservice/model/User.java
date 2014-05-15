@@ -4,7 +4,7 @@ package pl.rzeszow.wsiz.carservice.model;
  * Created by opryima on 2014-05-12.
  */
 public class User {
-    private int id;
+
     private String username;
     private String password;
     private String name;
@@ -16,9 +16,9 @@ public class User {
     private String city;
     private String adress;
 
-    public User(int id, String username, String password, String name, String surname, int sex, String birth, String nr_tel, String email, String city, String adress)
+    public User(String username, String password, String name, String surname, int sex, String birth, String nr_tel, String email, String city, String adress)
     {
-        this.id = id;
+
         this.username = username;
         this. password = password;
         this.name = name;
@@ -33,9 +33,6 @@ public class User {
     public User()
     {
 
-    }
-    public int getId() {
-        return id;
     }
 
     public String getUsername() {
