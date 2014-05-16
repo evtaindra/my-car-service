@@ -44,6 +44,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ServiceDetail"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CarsList"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
