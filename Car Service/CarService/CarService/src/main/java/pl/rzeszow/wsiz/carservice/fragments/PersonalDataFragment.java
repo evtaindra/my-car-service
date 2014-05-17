@@ -3,6 +3,7 @@ package pl.rzeszow.wsiz.carservice.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,7 +35,6 @@ import java.util.Locale;
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.activity.CarsList;
-import pl.rzeszow.wsiz.carservice.activity.ServiceDetail;
 import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
@@ -51,35 +51,34 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private EditText username, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
     private RadioButton rbMan, rbWomen;
-    private Button btnCars, btnServices;
+    private Button btnCars;
 
-    private MenuItem save, edit;
+    private boolean isEditMode;
+    private boolean isDataLoaded = false;
+
+    private MenuItem saveEdit;
+    private Context mContext;
 
     private ProgressDialog pDialog;
 
-    private  String MESSAGE = "Loading personal data...";
-
+    private String MESSAGE;
     private Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
+        mContext = activity;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_persondata, container, false);
-        Log.d(TAG, "onCreateView");
 
         date = new DatePickerDialog.OnDateSetListener() {
 
@@ -93,17 +92,18 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             }
         };
 
-        username = (EditText)rootView.findViewById(R.id.username);
+        username = (EditText) rootView.findViewById(R.id.username);
         firstName = (EditText) rootView.findViewById(R.id.first_name);
         lastName = (EditText) rootView.findViewById(R.id.last_name);
         birthDate = (EditText) rootView.findViewById(R.id.birthdate);
 
-        birthDate.setOnClickListener( new View.OnClickListener() {
+        birthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getActivity(), date, myCalendar
+                new DatePickerDialog(mContext, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                        myCalendar.get(Calendar.DAY_OF_MONTH)
+                ).show();
             }
         });
 
@@ -122,117 +122,18 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CarsList.class);
-                //i.putExtra(Constants.SERVICE_ID, id);
+                i.putExtra(Constants.USER_ID, Singleton.getSingletonInstance().userID);
                 getActivity().startActivity(i);
             }
         });
+
+        isEditMode = false;
 
         setHasOptionsMenu(true);
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && Constants.editModeBool) {
-            Log.d(TAG, "setUserVisibleHint");
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
-            MESSAGE = "Loading personal data...";
-            if (Singleton.isOnline(getActivity())) {
-                Singleton.getSingletonInstance().setClientListener(this);
-                Singleton.getSingletonInstance().getPersonalData(params);
-            } else {
-                Toast.makeText(getActivity(), R.string.alert_check_connection, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (Singleton.getSingletonInstance().userID != 0)
-            inflater.inflate(R.menu.menu_personal, menu);
-
-        Log.d(TAG, "onCreateOptionsMenu");
-
-        save = menu.findItem(R.id.action_save_data);
-        edit = menu.findItem(R.id.action_edit_data);
-
-        if (Constants.editModeBool) {
-            edit.setVisible(true);
-            save.setVisible(false);
-        }
-        if(!Constants.editModeBool){
-            edit.setVisible(false);
-            save.setVisible(true);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_edit_data) {
-            editMode(item);
-        }
-        if (id == R.id.action_save_data) {
-            saveMode(item);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onRequestSent() {
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage(MESSAGE);
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(true);
-        pDialog.show();
-    }
-
-    @Override
-    public void onDataReady(JSONObject resualt) {
-        pDialog.dismiss();
-
-        User user = JSONInterpreter.parseUserSimple(resualt);
-        if (user == null) {
-            Pair<Integer,String> ires = JSONInterpreter.parseMessage(resualt);
-
-            String message = ires.second;
-
-            if (ires.first == 1) {
-                Log.d(TAG, "Personal data updated");
-
-            } else {
-                Log.d(TAG, "Login Failure!");
-            }
-            if (message != null) {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-            }
-        } else {
-            MESSAGE = "Loading personal data...";
-            us = user;
-            setText();
-        }
-
-    }
-
-    @Override
-    public void onRequestCancelled() {
-        pDialog.dismiss();
-    }
-
     private void updateEditText() {
-
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         birthDate.setText(sdf.format(myCalendar.getTime()));
@@ -248,8 +149,109 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private void setText()
-    {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isDataLoaded) {
+            Log.d(TAG, "Load User Data First Time");
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
+            MESSAGE = getString(R.string.loading_personal_data);
+            if (Singleton.isOnline(mContext)) {
+                Singleton.getSingletonInstance().setClientListener(this);
+                Singleton.getSingletonInstance().getPersonalData(params);
+            } else {
+                Toast.makeText(mContext, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_personal, menu);
+        saveEdit = menu.findItem(R.id.action_save_edit);
+        setState(isEditMode);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_save_edit) {
+            isEditMode = !isEditMode;
+            setState(isEditMode);
+
+            if (!isEditMode)
+                updateUserData();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onRequestSent() {
+        pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage(MESSAGE);
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
+    }
+
+    @Override
+    public void onDataReady(JSONObject resualt) {
+        pDialog.dismiss();
+        User user = JSONInterpreter.parseUser(resualt);
+        if (user != null) {
+            //loading user data task ended
+            isDataLoaded = true;
+            us = user;
+            setUserData();
+        } else {
+            //updating user data task ended
+            Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
+            String message = ires.second;
+            if (ires.first == 1) {
+                Log.d(TAG, "Personal data updated");
+            } else {
+                Log.d(TAG, "Update Failure!");
+            }
+            if (message != null) {
+                Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestCancelled() {
+        pDialog.dismiss();
+    }
+
+    private void setState(boolean state) {
+        username.setEnabled(state);
+        firstName.setEnabled(state);
+        lastName.setEnabled(state);
+        birthDate.setEnabled(state);
+        phoneNumber.setEnabled(state);
+        eMail.setEnabled(state);
+        mCity.setEnabled(state);
+        mAddress.setEnabled(state);
+        rbMan.setEnabled(state);
+        rbWomen.setEnabled(state);
+
+        isEditMode = state;
+        if (isEditMode) {
+            saveEdit.setIcon(android.R.drawable.ic_menu_save);
+        } else {
+            saveEdit.setIcon(android.R.drawable.ic_menu_edit);
+        }
+    }
+
+    private void setUserData() {
         username.setText(us.getUsername());
         firstName.setText(us.getName());
         lastName.setText(us.getSurname());
@@ -259,46 +261,14 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         mCity.setText(us.getCity());
         mAddress.setText(us.getAdress());
 
-        if(us.getSex() == 1)
+        if (us.getSex() == 1)
             rbMan.setChecked(true);
-        else if(us.getSex() == 2)
+        else if (us.getSex() == 2)
             rbWomen.setChecked(true);
     }
 
-    private void editMode(MenuItem item)
-    {
-        Constants.editModeBool = false;
-        username.setEnabled(true);
-        firstName.setEnabled(true);
-        lastName.setEnabled(true);
-        birthDate.setEnabled(true);
-        phoneNumber.setEnabled(true);
-        eMail.setEnabled(true);
-        mCity.setEnabled(true);
-        mAddress.setEnabled(true);
-        rbMan.setEnabled(true);
-        rbWomen.setEnabled(true);
-        item.setVisible(false);
-        save.setVisible(true);
-    }
-
-    private void saveMode(MenuItem item)
-    {
-        Constants.editModeBool = true;
-        username.setEnabled(false);
-        firstName.setEnabled(false);
-        lastName.setEnabled(false);
-        birthDate.setEnabled(false);
-        phoneNumber.setEnabled(false);
-        eMail.setEnabled(false);
-        mCity.setEnabled(false);
-        mAddress.setEnabled(false);
-        rbMan.setEnabled(false);
-        rbWomen.setEnabled(false);
-        item.setVisible(false);
-        edit.setVisible(true);
-
-        MESSAGE = "Updating personal data...";
+    private void updateUserData() {
+        MESSAGE = getString(R.string.update_personal_data);
 
         String user = String.valueOf(username.getText());
         String fname = String.valueOf(firstName.getText());
@@ -327,27 +297,25 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         } else if (address.equalsIgnoreCase("")) {
             showError(mAddress, R.string.address);
         } else {
-
             int genre = rbMan.isChecked() ? 1 : 2;
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
-                params.add(new BasicNameValuePair("username", user));
-                params.add(new BasicNameValuePair("name", fname));
-                params.add(new BasicNameValuePair("surname", lname));
-                params.add(new BasicNameValuePair("sex", Integer.toString(genre)));
-                params.add(new BasicNameValuePair("birth", birth));
-                params.add(new BasicNameValuePair("phone", phone));
-                params.add(new BasicNameValuePair("email", mail));
-                params.add(new BasicNameValuePair("city", city));
-                params.add(new BasicNameValuePair("adress", address));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
+            params.add(new BasicNameValuePair("username", user));
+            params.add(new BasicNameValuePair("name", fname));
+            params.add(new BasicNameValuePair("surname", lname));
+            params.add(new BasicNameValuePair("sex", Integer.toString(genre)));
+            params.add(new BasicNameValuePair("birth", birth));
+            params.add(new BasicNameValuePair("phone", phone));
+            params.add(new BasicNameValuePair("email", mail));
+            params.add(new BasicNameValuePair("city", city));
+            params.add(new BasicNameValuePair("adress", address));
 
-            if (Singleton.isOnline(getActivity())) {
+            if (Singleton.isOnline(mContext)) {
                 Singleton.getSingletonInstance().setClientListener(this);
                 Singleton.getSingletonInstance().updatePersonalData(params);
             } else {
-                Toast.makeText(getActivity(), R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
             }
         }
     }
-
 }
