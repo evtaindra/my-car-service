@@ -1,27 +1,62 @@
 package pl.rzeszow.wsiz.carservice.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.model.Service;
+import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
+import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
  * Created by rsavk_000 on 5/2/2014.
  */
-public class ServiceDetail extends Activity {
+public class ServiceDetail extends Activity implements ClientListener {
     private long serviceID;
+
+    private ImageView serviceImage;
+    private TextView serviceName, serviceDescription, serviceCity, serviceAddress, servicePhone, serviceEmail;
+    private RatingBar serviceRating;
+
+    private ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_detail);
 
-        if(getIntent() != null)
-            serviceID  =  getIntent().getExtras().getLong(Constants.SERVICE_ID);
+        if (getIntent() != null)
+            serviceID = getIntent().getExtras().getLong(Constants.SERVICE_ID);
 
+        serviceImage = (ImageView) findViewById(R.id.serviceImage);
+        serviceName = (TextView) findViewById(R.id.serviceName);
+        serviceDescription = (TextView) findViewById(R.id.serviceDescription);
+        serviceCity = (TextView) findViewById(R.id.serviceCity);
+        serviceAddress = (TextView) findViewById(R.id.serviceAddress);
+        servicePhone = (TextView) findViewById(R.id.servicePhone);
+        serviceEmail = (TextView) findViewById(R.id.serviceEmail);
+        serviceRating = (RatingBar) findViewById(R.id.serviceRating);
+
+        Singleton.getSingletonInstance().setClientListener(this);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("sr_id", Long.toString(serviceID)));
+        Singleton.getSingletonInstance().getServiceDetails(params);
     }
 
     @Override
@@ -34,11 +69,31 @@ public class ServiceDetail extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_contact){
-            //TODO send message
-            //by dialog ? or by activity?
+        if (id == R.id.action_contact) {
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestSent() {
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage(getString(R.string.loading_service_details));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
+    }
+
+    @Override
+    public void onDataReady(JSONObject resualt) {
+        pDialog.dismiss();
+        Service service = JSONInterpreter.parseService(resualt,true);
+
+    }
+
+    @Override
+    public void onRequestCancelled() {
+        pDialog.dismiss();
     }
 }

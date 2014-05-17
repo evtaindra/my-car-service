@@ -22,43 +22,40 @@ public class JSONInterpreter {
     private static final String TAG_MESSAGE = "message";
     private static final String TAG_SERVICE_ARRAY = "services";
 
-    public static Pair<Integer, String> parseMessage(JSONObject json)
-    {
-        Pair<Integer,String> res = null;
-        try{
-            res = new Pair<Integer, String>(json.getInt(TAG_SUCCESS),json.getString(TAG_MESSAGE));
-        } catch (JSONException e){
+    public static Pair<Integer, String> parseMessage(JSONObject json) {
+        Pair<Integer, String> res = null;
+        try {
+            res = new Pair<Integer, String>(json.getInt(TAG_SUCCESS), json.getString(TAG_MESSAGE));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return res;
     }
 
-    public static ArrayList<Service> parseServiceList(JSONObject json)
-    {
+    public static ArrayList<Service> parseServiceList(JSONObject json) {
         ArrayList<Service> services = null;
-        try{
+        try {
             int success = json.getInt(TAG_SUCCESS);
-            if (success == 1){
+            if (success == 1) {
                 services = new ArrayList<Service>();
 
                 JSONArray jsonArray = json.getJSONArray(TAG_SERVICE_ARRAY);
 
-                for(int i = 0; i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
-                    Service s = parseServiceSimple(obj);
+                    Service s = parseService(obj, false);
                     services.add(s);
                 }
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return services;
     }
 
-    public static User parseUser (JSONObject json)
-    {
+    public static User parseUser(JSONObject json) {
         User user = null;
-        try{
+        try {
             int success = json.getInt(TAG_SUCCESS);
             if (success == 1) {
                 String username = json.getString("username");
@@ -80,8 +77,7 @@ public class JSONInterpreter {
         return user;
     }
 
-    private static Service parseServiceSimple (JSONObject json)
-    {
+    public static Service parseService(JSONObject json, boolean isDetailed) {
         Service service = null;
         try {
             int id = json.getInt("sid");
@@ -89,11 +85,12 @@ public class JSONInterpreter {
             String city = json.getString("scity");
             String address = json.getString("saddress");
             int rating = json.getInt("srating");
-            String description = json.getString("sdescription");
             Bitmap image = BitmapEnDecode.StringToBitmap(json.getString("simage"));
             int us_id = json.getInt("sus_id");
+            if (isDetailed) {
 
-            service = new Service(id,name,city,address,rating,description,image,us_id);
+            } else
+                service = new Service(id, name, city, address, rating, image, us_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

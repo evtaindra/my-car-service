@@ -14,17 +14,27 @@ public class Service {
     private String description;
     private Bitmap image;
     private int us_id;
+    private String phone;
+    private String email;
 
-    public Service(int id, String name, String city, String address, int rating, String description, Bitmap image, int us_id) {
+    public Service(int id, String name, String city, String address, int rating, Bitmap image, int us_id) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.address = address;
         this.rating = rating;
-        this.description = description;
         this.image = image;
         this.us_id = us_id;
     }
+
+    public Service(int id, String name, String city, String address, int rating, String description, Bitmap image, int us_id,
+                   String phone, String email) {
+        this(id,name,city,address,rating,image,us_id);
+        this.description = description;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public Service(){
     }
 

@@ -31,16 +31,6 @@ public class Singleton implements TaskCallback {
     // SingletonExample prevents any other class from instantiating
     private Singleton() {
     }
-
-    public void setUserID(int id){
-        userID = id;
-    }
-
-    public int getUserId()
-    {
-        return userID;
-    }
-
     // Providing Global point of access
     public static Singleton getSingletonInstance() {
         if (null == singletonInstance) {
@@ -97,6 +87,13 @@ public class Singleton implements TaskCallback {
 
     public void getPersonalData(List<NameValuePair> params){
         mTask = new AsyncPerformer(this, Constants.SELECT_PERSONAL_DATA_URL , RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }
+
+    public void getServiceDetails(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SELECT_SERVICE, RequestMethod.POST);
 
         if (!mTask.isRunning())
             mTask.execute(params);
