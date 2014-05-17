@@ -99,6 +99,13 @@ public class Singleton implements TaskCallback {
             mTask.execute(params);
     }
 
+    public void rateService(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.RATE_SERVICE, RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }
+
     public static Boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();

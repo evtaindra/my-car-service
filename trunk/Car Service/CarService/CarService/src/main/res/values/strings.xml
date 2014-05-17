@@ -64,5 +64,8 @@
     <string name="phone">Phone:</string>
     <string name="email">E-mail:</string>
     <string name="loading_service_details">Loading service details…</string>
+    <string name="failed_to_rate_service">Failed to rate!</string>
+    <string name="rate_not_allowed">You can not rate your service</string>
+    <string name="rate_success">Service was successfully rated!</string>
 
 </resources>

@@ -1,0 +1,15 @@
+DROP TRIGGER IF EXISTS upServices1;
+
+CREATE TRIGGER upServices1
+AFTER UPDATE ON `marks`
+    FOR EACH ROW
+    UPDATE `services` SET `mark` = IFNULL((SELECT avg(`mark`) FROM `marks` WHERE `sr_id` = New.`sr_id`),0) WHERE `sr_id` = New.`sr_id`;
+
+//*******************************************
+
+DROP TRIGGER IF EXISTS upServices2;
+
+CREATE TRIGGER upServices2
+AFTER INSERT ON `marks`
+    FOR EACH ROW
+    UPDATE `services` SET `mark` = IFNULL((SELECT avg(`mark`) FROM `marks` WHERE `sr_id` = New.`sr_id`),0) WHERE `sr_id` = New.`sr_id`;
