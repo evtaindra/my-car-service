@@ -47,7 +47,7 @@ if (!empty($_POST)) {
 } else {
 ?>
 
-<form action="select_users.php" method="post"> 
+<form action="select_user.php" method="post"> 
 		<input type="text" name="us_id" value=""; size="30"  /> 
 		<br /><br /> 
 		<input type="submit" name = "select" value="Select" /> 

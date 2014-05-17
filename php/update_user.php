@@ -35,7 +35,7 @@
 
 } else {
 ?>
-<form action="update.php" method="post"> 
+<form action="update_user.php" method="post"> 
 	ID:<br /> 
 	<input type="text" name="us_id" value=""; size="30"  /> 
 	<br /><br /> 

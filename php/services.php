@@ -29,7 +29,6 @@ if ($rows) {
         $post["scity"]  = $row["city"];
         $post["saddress"]  = $row["adress"];
         $post["srating"]  = $row["mark"];
-        $post["sdescription"]  = $row["opis"];
         $post["simage"]  = $row["image"];
         $post["sus_id"]  = $row["us_id"];
         

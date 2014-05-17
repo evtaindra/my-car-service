@@ -31,7 +31,7 @@
 
 } else {
 ?>
-<form action="service_update_update.php" method="post"> 
+<form action="service_update.php" method="post"> 
 		ID:<br /> 
 	    <input type="number_format" name="sr_id" size="30"  value="" /> 
 	    <br /><br />
