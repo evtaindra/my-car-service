@@ -1,0 +1,18 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS insertOrUpdateUserMark $$
+
+CREATE PROCEDURE insertOrUpdateUserMark 
+(IN US_ID INT UNSIGNED,
+ IN SR_ID INT UNSIGNED,
+ IN MARK FLOAT) 
+BEGIN
+
+INSERT INTO `marks` (`us_id`,`sr_id`,`mark`)
+VALUES (US_ID,SR_ID,MARK)
+ON DUPLICATE KEY 
+UPDATE `mark` = MARK;
+  
+END $$
+
+DELIMITER ;

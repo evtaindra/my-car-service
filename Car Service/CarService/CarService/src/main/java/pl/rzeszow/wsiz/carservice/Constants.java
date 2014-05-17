@@ -20,5 +20,6 @@ public class Constants {
     public final static String SELECT_PERSONAL_DATA_URL = PAGE_URL +"select_user.php";
     public final static String UPDATE_PERSONAL_DATA_URL = PAGE_URL +"update_user.php";
 
-    public final static String SELECT_SERVICE = PAGE_URL+"select_service";
+    public final static String SELECT_SERVICE = PAGE_URL+"select_service.php";
+    public final static String RATE_SERVICE = PAGE_URL+"rate_service.php";
 }

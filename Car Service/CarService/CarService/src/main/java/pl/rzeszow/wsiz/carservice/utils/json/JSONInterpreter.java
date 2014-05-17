@@ -84,11 +84,14 @@ public class JSONInterpreter {
             String name = json.getString("sname");
             String city = json.getString("scity");
             String address = json.getString("saddress");
-            int rating = json.getInt("srating");
+            double rating = json.getDouble("srating");
             Bitmap image = BitmapEnDecode.StringToBitmap(json.getString("simage"));
             int us_id = json.getInt("sus_id");
             if (isDetailed) {
-
+                String description = json.getString("sdescription");
+                String phone = json.getString("snr_tel");
+                String email = json.getString("semail");
+                service = new Service(id, name, city, address, rating, image, us_id, description, phone, email);
             } else
                 service = new Service(id, name, city, address, rating, image, us_id);
         } catch (JSONException e) {
