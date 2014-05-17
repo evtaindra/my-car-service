@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.model.User;
-import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
@@ -56,7 +55,7 @@ public class JSONInterpreter {
         return services;
     }
 
-    public static User parseUserSimple(JSONObject json)
+    public static User parseUser (JSONObject json)
     {
         User user = null;
         try{
