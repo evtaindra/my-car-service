@@ -217,6 +217,18 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             String message = ires.second;
             if (ires.first == 1) {
                 Log.d(TAG, "Personal data updated");
+                us = new User(
+                            String.valueOf(username.getText()),
+                            null,
+                            String.valueOf(firstName.getText()),
+                            String.valueOf(lastName.getText()),
+                            rbMan.isChecked() ? 1 : 2,
+                            String.valueOf(birthDate.getText()),
+                            String.valueOf(phoneNumber.getText()),
+                            String.valueOf(eMail.getText()),
+                            String.valueOf(mCity.getText()),
+                            String.valueOf(mAddress.getText())
+                        );
             } else {
                 Log.d(TAG, "Update Failure!");
             }
