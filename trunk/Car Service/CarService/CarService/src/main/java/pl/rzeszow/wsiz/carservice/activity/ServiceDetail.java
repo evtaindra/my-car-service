@@ -22,6 +22,7 @@ import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.fragments.ServiceListFragment;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
@@ -127,6 +128,7 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
                 Log.d(TAG, "Rate Successful!");
                 mService.setRating(Float.parseFloat(ires.second));
                 serviceRating.setRating(Float.parseFloat(ires.second));
+                ServiceListFragment.serviceListAdapter.updateItemRating(mService.getId(),Double.parseDouble(ires.second));
                 Toast.makeText(this, getString(R.string.rate_success), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getString(R.string.failed_to_rate_service), Toast.LENGTH_LONG).show();

@@ -49,6 +49,20 @@ public class ServiceListAdapter extends BaseAdapter {
         return getItem(position).getId();
     }
 
+    public Service getItemById(long id){
+        for (int i = 0; i < serviceList.size(); i++) {
+            if( id == serviceList.get(i).getId()) {
+                return serviceList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void updateItemRating(long id, double rating){
+        getItemById(id).setRating(rating);
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
