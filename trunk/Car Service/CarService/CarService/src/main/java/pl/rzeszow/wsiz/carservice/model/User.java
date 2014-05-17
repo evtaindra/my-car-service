@@ -18,9 +18,8 @@ public class User {
 
     public User(String username, String password, String name, String surname, int sex, String birth, String nr_tel, String email, String city, String adress)
     {
-
         this.username = username;
-        this. password = password;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -30,10 +29,7 @@ public class User {
         this.city = city;
         this.adress = adress;
     }
-    public User()
-    {
-
-    }
+    public User(){ }
 
     public String getUsername() {
         return username;

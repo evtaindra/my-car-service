@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         userID = getIntent().getExtras().getInt(Constants.USER_ID);
-        Singleton.getSingletonInstance().setUserID(userID);
+        Singleton.getSingletonInstance().userID = userID;
     }
 
     @Override

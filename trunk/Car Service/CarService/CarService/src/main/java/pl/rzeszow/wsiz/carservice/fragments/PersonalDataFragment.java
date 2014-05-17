@@ -155,7 +155,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         if (isVisibleToUser && !isDataLoaded) {
             Log.d(TAG, "Load User Data First Time");
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
+            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().userID)));
             MESSAGE = getString(R.string.loading_personal_data);
             if (Singleton.isOnline(mContext)) {
                 Singleton.getSingletonInstance().setClientListener(this);
@@ -311,7 +311,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         } else {
             int genre = rbMan.isChecked() ? 1 : 2;
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().getUserId())));
+            params.add(new BasicNameValuePair("us_id", Integer.toString(Singleton.getSingletonInstance().userID)));
             params.add(new BasicNameValuePair("username", user));
             params.add(new BasicNameValuePair("name", fname));
             params.add(new BasicNameValuePair("surname", lname));

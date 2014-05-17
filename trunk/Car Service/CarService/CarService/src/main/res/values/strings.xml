@@ -59,6 +59,10 @@
     <!-- service item -->
     <string name="average_rating">Average rating:</string>
     <string name="loading_personal_data">Loading personal data…</string>
-    <string name="update_personal_data">Updating personal data...</string>
+    <string name="update_personal_data">Updating personal data…</string>
+    <string name="contact">Contact:</string>
+    <string name="phone">Phone:</string>
+    <string name="email">E-mail:</string>
+    <string name="loading_service_details">Loading service details…</string>
 
 </resources>

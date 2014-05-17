@@ -16,12 +16,13 @@ if (!empty($_POST)) {
     //displaying an error message within the form instead.  
     //We could also do front-end form validation from within our Android App,
     //but it is good to have a have the back-end code do a double check.
-    if (empty($_POST['username']) || empty($_POST['password'])) {
+    if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['name']) || empty($_POST['surname']) ||
+	empty($_POST['sex']) || empty($_POST['birth']) || empty($_POST['phone']) || empty($_POST['email']) || empty($_POST['city']) || empty($_POST['adress'])  ) {
         
         
         // Create some data that will be the JSON response 
         $response["success"] = 0;
-        $response["message"] = "Please Enter Both a Username and Password.";
+        $response["message"] = "Please enter all required fields.";
         
         //die will kill the page and not execute any code below, it will also
         //display the parameter... in this case the JSON data our Android
@@ -72,7 +73,8 @@ if (!empty($_POST)) {
     //If we have made it here without dying, then we are in the clear to 
     //create a new user.  Let's setup our new query to create a user.  
     //Again, to protect against sql injects, user tokens such as :user and :pass
-    $query = "INSERT INTO users ( username, password, name, surname, sex, birth, nr_tel, email, city, adress) VALUES ( :user, :pass, :name, :sur, :sex, :birth, :tel, :email, :city, :adress ) ";
+    $query = "INSERT INTO users ( username, password, name, surname, sex, birth, nr_tel, email, city, adress) 
+	VALUES ( :user, :pass, :name, :sur, :sex, :birth, :phone, :email, :city, :adress ) ";
     
     //Again, we need to update our tokens with the actual data:
     $query_params = array(
@@ -82,7 +84,7 @@ if (!empty($_POST)) {
         ':sur' => $_POST['surname'],
         ':sex' => $_POST['sex'],
         ':birth' => $_POST['birth'],
-        ':tel' => $_POST['tel'],
+        ':phone' => $_POST['phone'],
         ':email' => $_POST['email'],
         ':city' => $_POST['city'],
         ':adress' => $_POST['adress']
@@ -122,20 +124,40 @@ if (!empty($_POST)) {
 	<h1>Register</h1> 
 	<form action="register.php" method="post"> 
 	    Username:<br /> 
-	    <input type="text" name="username" value="" /> 
+	    <input type="text" name="username" size="30" maxlength = "60" value="" /> 
 	    <br /><br /> 
 	    Password:<br /> 
-	    <input type="password" name="password" value="" /> 
+	    <input type="password" name="password" size="30" maxlength = "60" value="" /> 
 	    <br /><br /> 
 	    Name:<br /> 
-	    <input type="text" name="name" value="" /> 
-	    <input type="text" name="surname" value="" /> 
-	    <input type="text" name="sex" value="" /> 
-	    <input type="text" name="birth" value="" /> 
-	    <input type="text" name="tel" value="" /> 
-	    <input type="text" name="email" value="" /> 
-	    <input type="text" name="city" value="" /> 
-	    <input type="text" name="adress" value="" /> 
+	    <input type="text" name="name" size="30" maxlength = "60" value="" /> 
+		<br /><br /> 
+	    Surname:<br /> 
+	    <input type="text" name="surname" size="30" maxlength = "60" value="" /> 
+		<br /><br /> 
+	    Gender:<br /> 
+	    <input type="radio" name="sex"
+		<?php if (isset($sex) && $sex=="2") echo "checked";?>
+		value="2">Female
+		<input type="radio" name="sex"
+		<?php if (isset($sex) && $sex=="1") echo "checked";?>
+		value="1">Male
+		<br /><br /> 
+	    Birth:<br /> 
+	    <input type="date" name="birth" value="" /> 
+		<br /><br /> 
+	    Phone number:<br /> 
+	    <input type="tel" name="phone" size="30" maxlength = "11" value="" /> 
+		<br /><br /> 
+	    Email:<br /> 
+	    <input type="email" name="email"  size="30" maxlength = "50" value="" /> 
+		<br /><br /> 
+	    City:<br /> 
+	    <input type="text" name="city" size="30" maxlength = "50" value="" /> 
+		<br /><br /> 
+	    Address:<br /> 
+	    <input type="text" name="adress" size="30" maxlength = "100" value="" /> 
+		<br /><br /> 
 	    <input type="submit" value="Register New User" /> 
 	</form>
 	<?php
