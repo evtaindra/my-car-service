@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" android:padding="10dp">
-    <!-- you can use any color you want-->
-    <solid android:color="@android:color/white"/>
-    <corners
-        android:radius="10dp"
-        />
-</shape><!-- From: file:/E:/Project/Car%20Service/CarService/CarService/src/main/res/drawable/edt_text_shape.xml -->
