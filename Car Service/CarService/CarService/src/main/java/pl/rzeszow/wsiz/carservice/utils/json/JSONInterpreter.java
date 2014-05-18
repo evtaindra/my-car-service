@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pl.rzeszow.wsiz.carservice.model.Car;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
@@ -21,6 +22,7 @@ public class JSONInterpreter {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     private static final String TAG_SERVICE_ARRAY = "services";
+    private static final String TAG_CAR_ARRAY = "cars";
 
     public static Pair<Integer, String> parseMessage(JSONObject json) {
         Pair<Integer, String> res = null;
@@ -31,6 +33,29 @@ public class JSONInterpreter {
         }
         return res;
     }
+
+    public static ArrayList<Car> parseCarList(JSONObject json){
+        ArrayList<Car> cars = null;
+        try {
+            int success = json.getInt(TAG_SUCCESS);
+            if (success == 1) {
+                cars = new ArrayList<Car>();
+
+                JSONArray jsonArray = json.getJSONArray(TAG_CAR_ARRAY);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    Car c = parseCar(obj, false);
+                    cars.add(c);
+                }
+            }
+        }
+            catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        return cars;
+        }
+
 
     public static ArrayList<Service> parseServiceList(JSONObject json) {
         ArrayList<Service> services = null;
@@ -51,6 +76,31 @@ public class JSONInterpreter {
             e.printStackTrace();
         }
         return services;
+    }
+
+    public static Car parseCar(JSONObject json, boolean isDetailed){
+        Car car = null;
+        try{
+            int id = json.getInt("nr_id");
+            String marka= json.getString("marka");
+            String model = json.getString("model");
+            String rej = json.getString("nr_rej");
+            int rok = json.getInt("rok");
+            if(isDetailed){
+                double silnik = json.getDouble("silnik");
+                int przebieg = json.getInt("przebieg");
+                String kolor = json.getString("kolor");
+                String paliwo = json.getString("paliwo");
+                int uid = json.getInt("us_id");
+
+                car = new Car(id, uid, marka, model, rej, silnik, przebieg, kolor, paliwo, rok);
+            } else{
+                car = new Car(id, marka, model, rej, rok);
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return car;
     }
 
     public static User parseUser(JSONObject json) {

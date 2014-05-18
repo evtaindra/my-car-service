@@ -64,20 +64,12 @@ public class CarListAdapter extends BaseAdapter {
             TextView carName = (TextView) view.findViewById(R.id.marka);
             TextView carModel = (TextView) view.findViewById(R.id.model);
             TextView carRej = (TextView) view.findViewById(R.id.nrRej);
-            TextView carSilnik = (TextView) view.findViewById(R.id.silnik);
-            TextView carPrzebieg = (TextView) view.findViewById(R.id.przebieg);
-            TextView carKolor = (TextView) view.findViewById(R.id.kolor);
-            TextView carPaliwo = (TextView) view.findViewById(R.id.paliwo);
             TextView carRok = (TextView) view.findViewById(R.id.rok);
 
-            /*carName.setText(item.getMarka());
+            carName.setText(item.getMarka());
             carModel.setText(item.getModel());
             carRej.setText(item.getNr_rej());
-            carSilnik.setText(Float.toString(item.getSilnik()));
-            carPrzebieg.setText(Integer.toString(item.getPrzebieg()));
-            carKolor.setText(item.getKolor());
-            carPaliwo.setText(item.getPaliwo());
-            carRok.setText(Integer.toString(item.getRok()));*/
+            carRok.setText(Integer.toString(item.getRok()));
         }
         return view;
     }
