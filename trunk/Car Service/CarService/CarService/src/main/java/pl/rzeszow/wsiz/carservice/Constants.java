@@ -9,6 +9,7 @@ public class Constants {
 
     public static final String USER_ID = "userID";
     public static final String SERVICE_ID = "serviceID";
+    public static final String CAR_ID = "carID";
 
     private final static String PAGE_URL = "http://carservice.esy.es/carserv/";
     public final static String REGISTER_URL = PAGE_URL +"register.php";
@@ -19,6 +20,8 @@ public class Constants {
 
     public final static String SELECT_PERSONAL_DATA_URL = PAGE_URL +"select_user.php";
     public final static String UPDATE_PERSONAL_DATA_URL = PAGE_URL +"update_user.php";
+
+    public final static String SELECT_USERS_CAR_URL = PAGE_URL +"select_usercars.php";
 
     public final static String SELECT_SERVICE = PAGE_URL+"select_service.php";
     public final static String RATE_SERVICE = PAGE_URL+"rate_service.php";

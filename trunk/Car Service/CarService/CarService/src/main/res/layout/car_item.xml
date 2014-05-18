@@ -31,30 +31,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:text="Car rej"/>
-        <TextView
-            android:id="@+id/silnik"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Car silnik"/>
-        <TextView
-            android:id="@+id/przebieg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Car przebieg"/>
-        <TextView
-            android:id="@+id/kolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Car kolor"/>
-        <TextView
-            android:id="@+id/paliwo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:text="Car paliwo"/>
+
         <TextView
             android:id="@+id/rok"
             android:layout_width="wrap_content"

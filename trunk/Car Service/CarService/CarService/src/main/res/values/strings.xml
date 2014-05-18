@@ -67,5 +67,6 @@
     <string name="failed_to_rate_service">Failed to rate!</string>
     <string name="rate_not_allowed">You can not rate your service</string>
     <string name="rate_success">Service was successfully rated!</string>
+    <string name="loading_cars">Loading list of cars...</string>
 
 </resources>

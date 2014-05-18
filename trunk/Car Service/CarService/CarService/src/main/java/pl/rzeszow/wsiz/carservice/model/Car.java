@@ -10,13 +10,13 @@ public class Car {
     private String marka;
     private String model;
     private String nr_rej;
-    private float silnik;
+    private double silnik;
     private int przebieg;
     private String kolor;
     private String paliwo;
     private int rok;
 
-    public Car(int nr_id, int us_id, String marka, String model, String nr_rej, float silnik, int przebieg, String kolor, String paliwo, int rok)
+    public Car(int nr_id, int us_id, String marka, String model, String nr_rej, double silnik, int przebieg, String kolor, String paliwo, int rok)
     {
         this.nr_id = nr_id;
         this.us_id = us_id;
@@ -27,6 +27,14 @@ public class Car {
         this.przebieg = przebieg;
         this.kolor = kolor;
         this.paliwo = paliwo;
+        this.rok = rok;
+    }
+
+    public Car(int nr_id, String marka, String model, String nr_rej, int rok){
+        this.nr_id = nr_id;
+        this.marka = marka;
+        this.model = model;
+        this.nr_rej = nr_rej;
         this.rok = rok;
     }
 
@@ -50,7 +58,7 @@ public class Car {
         return nr_rej;
     }
 
-    public float getSilnik() {
+    public double getSilnik() {
         return silnik;
     }
 

@@ -63,6 +63,13 @@ public class Singleton implements TaskCallback {
 
     }
 
+    public void getUserCars(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SELECT_USERS_CAR_URL, RequestMethod.POST);
+
+        if(!mTask.isRunning())
+            mTask.execute(params);
+    }
+
     public void attemptLogin(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.LOGIN_URL, RequestMethod.POST);
 
