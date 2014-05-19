@@ -22,7 +22,7 @@ if (!empty($_POST)) {
 	if ($rows) {
 		$response["success"] = 1;
 		foreach ($rows as $row) {
-		
+		$response["nr_id"] = $row["nr_id"];
 		$response["model"]   = $row["model"];
 		$response["marka"]   = $row["marka"];
 		$response["nr_rej"]   = $row["nr_rej"];
@@ -31,6 +31,7 @@ if (!empty($_POST)) {
 		$response["kolor"]   = $row["kolor"];
 		$response["paliwo"]   = $row["paliwo"];
 		$response["rok"]   = $row["rok"];
+		$response["us_id"] = $row["us_id"];
 	}
 		echo json_encode($response);
     
