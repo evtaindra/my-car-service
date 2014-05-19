@@ -87,8 +87,10 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_details, menu);
+        if (Singleton.getSingletonInstance().userID != 0) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_details, menu);
+        }
         return true;
     }
 
@@ -128,7 +130,7 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
                 Log.d(TAG, "Rate Successful!");
                 mService.setRating(Float.parseFloat(ires.second));
                 serviceRating.setRating(Float.parseFloat(ires.second));
-                ServiceListFragment.serviceListAdapter.updateItemRating(mService.getId(),Double.parseDouble(ires.second));
+                ServiceListFragment.updateServiceRating(mService.getId(), Double.parseDouble(ires.second));
                 Toast.makeText(this, getString(R.string.rate_success), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getString(R.string.failed_to_rate_service), Toast.LENGTH_LONG).show();
@@ -153,7 +155,8 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
         servicePhone.setText(mService.getPhone());
         serviceEmail.setText(mService.getEmail());
 
-        if (Singleton.getSingletonInstance().userID == mService.getUs_id()) {
+        if (Singleton.getSingletonInstance().userID == mService.getUs_id() ||
+                Singleton.getSingletonInstance().userID == 0) {
             serviceRating.setEnabled(false);
         }
     }

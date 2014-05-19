@@ -45,7 +45,7 @@ public class ServiceListFragment extends Fragment implements ClientListener,
 
     private ArrayList<Service> services;
     private ListView servicesListView;
-    public static ServiceListAdapter serviceListAdapter;
+    private static ServiceListAdapter serviceListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -168,5 +168,9 @@ public class ServiceListFragment extends Fragment implements ClientListener,
         if (pDialog != null)
             pDialog.dismiss();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public static void updateServiceRating(int id, double rating){
+        serviceListAdapter.updateItemRating(id,rating);
     }
 }
