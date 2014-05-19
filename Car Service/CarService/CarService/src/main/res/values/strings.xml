@@ -69,4 +69,15 @@
     <string name="rate_success">Service was successfully rated!</string>
     <string name="loading_cars">Loading list of cars...</string>
 
+    <!-- add car -->
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="reg_number">Registration number</string>
+    <string name="engine">Engine</string>
+    <string name="mileage">Mileage</string>
+    <string name="color">Color</string>
+    <string name="fuel">Fuel</string>
+    <string name="year">Year</string>
+    <string name="btn_add_car">Add car</string>
+
 </resources>

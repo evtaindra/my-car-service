@@ -1,6 +1,7 @@
 package pl.rzeszow.wsiz.carservice.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -59,14 +61,7 @@ public class CarsList extends ActionBarActivity implements ClientListener,
         if (getIntent() != null)
             userID = getIntent().getExtras().getInt(Constants.USER_ID);
 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
-
-        if (Singleton.isOnline(this)) {
-           Singleton.getSingletonInstance().setClientListener(this);
-            Singleton.getSingletonInstance().getUserCars(params);
-        } else
-            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+        getUsersCars();
 
         carListView = (ListView) findViewById(R.id.carList);
         carListView.setAdapter(carListAdapter);
@@ -78,34 +73,37 @@ public class CarsList extends ActionBarActivity implements ClientListener,
 
     }
 
+    private void getUsersCars(){
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
+
+        if (Singleton.isOnline(this)) {
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().getUserCars(params);
+        } else
+            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.global, menu);*/
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_servicelist, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        /*if(id == R.id.action_logout){
-            getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
-            finish();
-            startActivity(new Intent(Guest.this, Login.class));
-            return true;
-        }*/
+        if(id == R.id.action_add_new_service){
+            this.startActivity(new Intent(this, AddNewCar.class));
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onRefresh() {
-        /*if (Singleton.isOnline(this)) {
-            Singleton.getSingletonInstance().setClientListener(this);
-            Singleton.getSingletonInstance().getAllServices(null);
-        } else {
-            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
-            swipeRefreshLayout.setRefreshing(false);
-        }*/
+        getUsersCars();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -152,8 +150,8 @@ public class CarsList extends ActionBarActivity implements ClientListener,
 
     @Override
     public void onRequestCancelled() {
-        /*if (pDialog != null)
+        if (pDialog != null)
             pDialog.dismiss();
-        swipeRefreshLayout.setRefreshing(false);*/
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
