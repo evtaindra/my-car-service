@@ -1,13 +1,14 @@
 package pl.rzeszow.wsiz.carservice.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -17,29 +18,40 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.model.Car;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
-import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
  * Created by opryima on 2014-05-19.
  */
-public class AddNewCar extends Activity implements ClientListener {
+public class CarDetails extends ActionBarActivity implements ClientListener {
+
+    Car ccar;
 
     private ProgressDialog pDialog;
 
-    private String TAG = "AddNewCar";
+    private String TAG = "EditCar";
 
     EditText make, model, regNumb, engine, mileage, fuel, color, year;
-    Button addCar;
+    Button save;
+
+    private long carID;
+
+    private String MESSAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_car_details);
 
-        setContentView(R.layout.add_car);
+        if (getIntent() != null)
+            carID = getIntent().getExtras().getLong(Constants.CAR_ID);
+
+        MESSAGE = getString(R.string.loading_car_info);
 
         make = (EditText)findViewById(R.id.make);
         model = (EditText)findViewById(R.id.model);
@@ -50,11 +62,22 @@ public class AddNewCar extends Activity implements ClientListener {
         color = (EditText)findViewById(R.id.color);
         year = (EditText)findViewById(R.id.year);
 
-        addCar = (Button)findViewById(R.id.addCar);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("nr_id", Long.toString(carID)));
 
-        addCar.setOnClickListener(new View.OnClickListener() {
+        if (Singleton.isOnline(this)) {
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().getCarInfo(params);
+        } else {
+            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+        }
+
+        save = (Button)findViewById(R.id.save_edit);
+
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MESSAGE = getString(R.string.update_car_info);
                 String cmake = String.valueOf(make.getText());
                 String cmodel = String.valueOf(model.getText());
                 String cmile = String.valueOf(mileage.getText());
@@ -83,7 +106,7 @@ public class AddNewCar extends Activity implements ClientListener {
                 }else {
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("us_id", String.valueOf(Singleton.getSingletonInstance().userID)));
+                    params.add(new BasicNameValuePair("nr_id", String.valueOf(carID)));
                     params.add(new BasicNameValuePair("model", cmodel));
                     params.add(new BasicNameValuePair("marka", cmake));
                     params.add(new BasicNameValuePair("nr_rej", creg));
@@ -94,10 +117,13 @@ public class AddNewCar extends Activity implements ClientListener {
                     params.add(new BasicNameValuePair("year", cyear));
 
                     //always don`t forget set client
-                    Singleton.getSingletonInstance().setClientListener(AddNewCar.this);
-                    Singleton.getSingletonInstance().addNewCar(params);
+                    if (Singleton.isOnline(CarDetails.this)) {
+                    Singleton.getSingletonInstance().setClientListener(CarDetails.this);
+                    Singleton.getSingletonInstance().updateCar(params);
+                    } else {
+                        Toast.makeText(CarDetails.this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+                    }
                 }
-
             }
         });
     }
@@ -110,8 +136,8 @@ public class AddNewCar extends Activity implements ClientListener {
 
     @Override
     public void onRequestSent() {
-        pDialog = new ProgressDialog(AddNewCar.this);
-        pDialog.setMessage("Adding car...");
+        pDialog = new ProgressDialog(CarDetails.this);
+        pDialog.setMessage(MESSAGE);
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
@@ -121,25 +147,47 @@ public class AddNewCar extends Activity implements ClientListener {
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
 
-        Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
+        Car car = JSONInterpreter.parseCar(resualt, true);
 
-        String message = ires.second;
+        if(car != null){
+            ccar = car;
 
-        if (ires.first == 1) {
-            Log.d(TAG, "Car added");
-            finish();
+            setCarInfo();
+        }else{
+            Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
 
-        } else {
-            Log.d(TAG, "Failed to add a car!");
+            String message = ires.second;
+
+            if (ires.first == 1) {
+                Log.d(TAG, "Car updated");
+                finish();
+
+            } else {
+                Log.d(TAG, "Failed to update a car!");
+            }
+
+            if (message != null) {
+                Toast.makeText(CarDetails.this, message, Toast.LENGTH_LONG).show();
+            }
         }
 
-        if (message != null) {
-            Toast.makeText(AddNewCar.this, message, Toast.LENGTH_LONG).show();
-        }
+
     }
 
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
+
+    private void setCarInfo(){
+        make.setText(ccar.getMarka());
+        model.setText(ccar.getModel());
+        regNumb.setText(ccar.getNr_rej());
+        engine.setText(Double.toString(ccar.getSilnik()));
+        mileage.setText(Integer.toString(ccar.getPrzebieg()));
+        fuel.setText(ccar.getPaliwo());
+        color.setText(ccar.getKolor());
+        year.setText(Integer.toString(ccar.getRok()));
+    }
+
 }

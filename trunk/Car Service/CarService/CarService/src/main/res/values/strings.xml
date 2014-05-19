@@ -42,6 +42,7 @@
     <string name="alert_check_connection">Check your internet connection</string>
     <string name="alert_connection_problem">Problem with your connection</string>
     <string name="alert_no_services">No services resisted in system</string>
+    <string name="alert_no_cars">You don\'t have added cars. But you can add one</string>
     <string name="loading_services">Loading list of services…</string>
 
     <!-- Service register -->
@@ -79,5 +80,8 @@
     <string name="fuel">Fuel</string>
     <string name="year">Year</string>
     <string name="btn_add_car">Add car</string>
+    <string name="btn_save">Save</string>
+    <string name="update_car_info">Updating car info...</string>
+    <string name="loading_car_info">Loading car info…</string>
 
 </resources>

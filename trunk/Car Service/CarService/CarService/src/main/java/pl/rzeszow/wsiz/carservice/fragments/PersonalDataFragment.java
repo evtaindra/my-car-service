@@ -207,9 +207,9 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         pDialog.dismiss();
         User user = JSONInterpreter.parseUser(resualt);
         if (user != null) {
-            //loading user data task ended
-            isDataLoaded = true;
-            us = user;
+                //loading user data task ended
+                isDataLoaded = true;
+                us = user;
             setUserData();
         } else {
             //updating user data task ended

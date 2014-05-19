@@ -61,8 +61,6 @@ public class CarsList extends ActionBarActivity implements ClientListener,
         if (getIntent() != null)
             userID = getIntent().getExtras().getInt(Constants.USER_ID);
 
-        getUsersCars();
-
         carListView = (ListView) findViewById(R.id.carList);
         carListView.setAdapter(carListAdapter);
         carListView.setOnItemClickListener(this);
@@ -98,6 +96,12 @@ public class CarsList extends ActionBarActivity implements ClientListener,
             this.startActivity(new Intent(this, AddNewCar.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUsersCars();
     }
 
     @Override
@@ -141,7 +145,7 @@ public class CarsList extends ActionBarActivity implements ClientListener,
         if (cars == null) {
             Toast.makeText(this, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
         } else if (cars.isEmpty()) {
-            Toast.makeText(this, getString(R.string.alert_no_services), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.alert_no_cars), Toast.LENGTH_LONG).show();
         } else {
             carListAdapter.clearData();
             carListAdapter.addCars(cars);
