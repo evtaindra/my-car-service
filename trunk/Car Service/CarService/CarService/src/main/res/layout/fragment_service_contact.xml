@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="@string/your_message_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/message_content"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
+        android:background="@drawable/edit_text_shape"
+        android:minHeight="150dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="@string/attachment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_add_attachment"
+            android:contentDescription="@string/content_description_add"
+            android:src="@drawable/ic_attach"
+            android:background="@android:color/transparent"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/attachment_name"
+            android:layout_gravity="center"
+            android:layout_weight="0.8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btn_remove_attachment"
+            android:contentDescription="@string/content_description_remove"
+            android:src="@drawable/cross"
+            android:background="@android:color/transparent"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_send_message"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/btn_send"/>
+
+</LinearLayout>

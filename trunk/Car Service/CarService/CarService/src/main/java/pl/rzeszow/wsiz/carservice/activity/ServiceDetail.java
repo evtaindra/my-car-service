@@ -1,8 +1,11 @@
 package pl.rzeszow.wsiz.carservice.activity;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
@@ -22,16 +25,21 @@ import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.fragments.ServiceContactDialog;
 import pl.rzeszow.wsiz.carservice.fragments.ServiceListFragment;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
+import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
  * Created by rsavk_000 on 5/2/2014.
  */
-public class ServiceDetail extends Activity implements ClientListener, RatingBar.OnRatingBarChangeListener {
+public class ServiceDetail extends FragmentActivity implements
+        ClientListener,
+        RatingBar.OnRatingBarChangeListener,
+        ServiceContactDialog.DialogCallBack {
 
     private final String TAG = "ServiceDetail";
 
@@ -44,6 +52,11 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
     private boolean isRatingLoaded;
 
     private ProgressDialog pDialog;
+
+    ServiceContactDialog contactDialog;
+
+    private AlertDialog pickDialog;
+    private PictureSelector pictureSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,9 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("sr_id", Long.toString(serviceID)));
         Singleton.getSingletonInstance().getServiceDetails(params);
+
+        pictureSelector = new PictureSelector(this);
+        pickDialog = pictureSelector.buildImageDialog();
     }
 
     @Override
@@ -98,10 +114,17 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_contact) {
-            if (Singleton.getSingletonInstance().userID == mService.getUs_id())
+            if (Singleton.getSingletonInstance().userID == mService.getUs_id()) {
+                Toast.makeText(this,getString(R.string.contact_not_allowed),Toast.LENGTH_SHORT).show();
                 return false;
-            else {
-                //send message dialog
+            } else {
+                Bundle arg = new Bundle();
+                arg.putInt("sender", Singleton.getSingletonInstance().userID);
+                arg.putInt("recipient", mService.getId());
+                contactDialog = new ServiceContactDialog();
+                contactDialog.setArguments(arg);
+                //TODO test on 2.3
+                contactDialog.show(getFragmentManager(), null);
                 return true;
             }
         }
@@ -159,5 +182,19 @@ public class ServiceDetail extends Activity implements ClientListener, RatingBar
                 Singleton.getSingletonInstance().userID == 0) {
             serviceRating.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Pair<Bitmap,String > res = pictureSelector.onActivityResult(requestCode, resultCode, data);
+        if (res != null) {
+            contactDialog.attachmentSelected(res);
+        }
+    }
+
+    @Override
+    public void pickAttachment() {
+        pickDialog.show();
     }
 }

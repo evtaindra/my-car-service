@@ -102,7 +102,7 @@ public class RegisterNewService extends Activity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bm = pictureSelector.onActivityResult(requestCode, resultCode, data);
+        Bitmap bm = pictureSelector.onActivityResult(requestCode, resultCode, data).first;
         if (bm != null) {
             image = bm;
             imageView.setImageBitmap(bm);
