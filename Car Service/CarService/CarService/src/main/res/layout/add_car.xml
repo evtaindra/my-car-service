@@ -71,7 +71,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_text_shape"
             android:hint="@string/engine"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:singleLine="true" />
 
         <TextView
