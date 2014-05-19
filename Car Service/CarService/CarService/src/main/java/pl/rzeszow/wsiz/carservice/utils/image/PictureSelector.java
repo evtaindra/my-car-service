@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Pair;
 
 import java.io.File;
 
@@ -65,7 +66,7 @@ public class PictureSelector {
         return builder.create();
     }
 
-    public Bitmap onActivityResult(int requestCode, int resultCode, Intent data){
+    public Pair<Bitmap,String> onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 File f = new File(Environment.getExternalStorageDirectory().toString());
@@ -83,7 +84,7 @@ public class PictureSelector {
 
                     bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
                     f.delete();
-                    return bm;
+                    return new Pair<Bitmap, String>(bm, "photo");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -95,16 +96,21 @@ public class PictureSelector {
                         selectedImage, filePathColumn, null, null, null);
                 cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String filePath = cursor.getString(columnIndex);
+                int pathColumnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String filePath = cursor.getString(pathColumnIndex);
                 cursor.close();
+
+                Uri filePathUri;
+                filePathUri = Uri.parse(filePath);
+                String fileName = filePathUri.getLastPathSegment();
 
                 Bitmap bm;
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                 bm = BitmapFactory.decodeFile(filePath, bitmapOptions);
 
                 bm = Bitmap.createScaledBitmap(bm, 250, 250, true);
-                return bm;
+
+                return new Pair<Bitmap, String>(bm,fileName);
             }
         }
         return null;

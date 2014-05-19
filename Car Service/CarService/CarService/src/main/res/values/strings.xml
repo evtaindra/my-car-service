@@ -68,7 +68,7 @@
     <string name="failed_to_rate_service">Failed to rate!</string>
     <string name="rate_not_allowed">You can not rate your service</string>
     <string name="rate_success">Service was successfully rated!</string>
-    <string name="loading_cars">Loading list of cars...</string>
+    <string name="loading_cars">Loading list of cars…</string>
 
     <!-- add car -->
     <string name="make">Make</string>
@@ -81,7 +81,14 @@
     <string name="year">Year</string>
     <string name="btn_add_car">Add car</string>
     <string name="btn_save">Save</string>
-    <string name="update_car_info">Updating car info...</string>
+    <string name="update_car_info">Updating car info…</string>
     <string name="loading_car_info">Loading car info…</string>
+    <string name="contact_to_service_title">Contact to this service</string>
+    <string name="your_message_title">Your message:</string>
+    <string name="attachment_title">Attachment:</string>
+    <string name="content_description_add">Add attachment</string>
+    <string name="content_description_remove">Remove attachment</string>
+    <string name="btn_send">Send</string>
+    <string name="contact_not_allowed">You can not contact your service</string>
 
 </resources>
