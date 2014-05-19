@@ -124,6 +124,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if(id == R.id.action_logout){
             getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE).edit().clear().commit();
             finish();
+            Singleton.getSingletonInstance().userID = 0;
             startActivity(new Intent(MainActivity.this, Login.class));
             return true;
         }

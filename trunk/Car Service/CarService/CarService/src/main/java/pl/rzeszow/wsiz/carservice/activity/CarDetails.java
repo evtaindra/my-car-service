@@ -8,7 +8,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -30,7 +29,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
  */
 public class CarDetails extends ActionBarActivity implements ClientListener {
 
-    Car ccar;
+    Car mCar;
 
     private ProgressDialog pDialog;
 
@@ -150,7 +149,7 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         Car car = JSONInterpreter.parseCar(resualt, true);
 
         if(car != null){
-            ccar = car;
+            mCar = car;
 
             setCarInfo();
         }else{
@@ -180,14 +179,14 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
     }
 
     private void setCarInfo(){
-        make.setText(ccar.getMarka());
-        model.setText(ccar.getModel());
-        regNumb.setText(ccar.getNr_rej());
-        engine.setText(Double.toString(ccar.getSilnik()));
-        mileage.setText(Integer.toString(ccar.getPrzebieg()));
-        fuel.setText(ccar.getPaliwo());
-        color.setText(ccar.getKolor());
-        year.setText(Integer.toString(ccar.getRok()));
+        make.setText(mCar.getMarka());
+        model.setText(mCar.getModel());
+        regNumb.setText(mCar.getNr_rej());
+        engine.setText(Double.toString(mCar.getSilnik()));
+        mileage.setText(Integer.toString(mCar.getPrzebieg()));
+        fuel.setText(mCar.getPaliwo());
+        color.setText(mCar.getKolor());
+        year.setText(Integer.toString(mCar.getRok()));
     }
 
 }
