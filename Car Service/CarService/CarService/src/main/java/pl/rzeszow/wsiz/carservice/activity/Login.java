@@ -28,6 +28,11 @@ import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
+
+//!  A Login class.
+/*!
+  Klasa do obsługi logowanie do aplikacji
+*/
 public class Login extends ActionBarActivity implements OnClickListener, ClientListener {
 
     private EditText username, password;
