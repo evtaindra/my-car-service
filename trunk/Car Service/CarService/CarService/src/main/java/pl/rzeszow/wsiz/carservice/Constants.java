@@ -25,6 +25,9 @@ public class Constants {
     public final static String ADD_NEW_CAR_URL = PAGE_URL +"car_register.php";
     public final static String SELECT_CAR_URL = PAGE_URL +"select_car.php";
     public final static String UPDATE_CAR_URL = PAGE_URL +"car_update.php";
+    public final static String DELETE_CAR_URL = PAGE_URL +"delete_car.php";
+
+    public final static String SELECT_USER_SERVICE_URL = PAGE_URL +"select_servicesuser.php";
 
     public final static String SELECT_SERVICE = PAGE_URL+"select_service.php";
     public final static String RATE_SERVICE = PAGE_URL+"rate_service.php";

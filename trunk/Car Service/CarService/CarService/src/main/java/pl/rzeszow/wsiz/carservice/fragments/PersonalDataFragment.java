@@ -35,6 +35,7 @@ import java.util.Locale;
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.activity.CarsList;
+import pl.rzeszow.wsiz.carservice.activity.ServiceList;
 import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
@@ -51,7 +52,7 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private EditText username, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
     private RadioButton rbMan, rbWomen;
-    private Button btnCars;
+    private Button btnCars, btnServices;
 
     private boolean isEditMode;
     private boolean isDataLoaded = false;
@@ -117,6 +118,16 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         rbWomen = (RadioButton) rootView.findViewById(R.id.rb_women);
 
         btnCars = (Button)rootView.findViewById(R.id.ownCars);
+        btnServices = (Button) rootView.findViewById(R.id.ownServices);
+
+        btnServices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ServiceList.class);
+                i.putExtra(Constants.USER_ID, Singleton.getSingletonInstance().userID);
+                getActivity().startActivity(i);
+            }
+        });
 
         btnCars.setOnClickListener(new View.OnClickListener() {
             @Override

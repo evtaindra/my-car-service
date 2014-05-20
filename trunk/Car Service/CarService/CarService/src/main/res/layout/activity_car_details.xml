@@ -144,5 +144,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/btn_save" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_delete" />
     </LinearLayout>
 </ScrollView>
