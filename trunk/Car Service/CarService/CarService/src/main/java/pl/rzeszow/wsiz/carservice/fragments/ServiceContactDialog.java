@@ -85,7 +85,7 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
                     attachmentName.setText("");
                 break;
             case R.id.btn_send_message:
-                     Toast.makeText(mContext,"Not implementd",Toast.LENGTH_SHORT).show();
+                     Toast.makeText(mContext,"Not implemented",Toast.LENGTH_SHORT).show();
                     //Todo perform send task
                 break;
         }
