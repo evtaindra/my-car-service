@@ -36,7 +36,7 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
     private String TAG = "EditCar";
 
     EditText make, model, regNumb, engine, mileage, fuel, color, year;
-    Button save;
+    Button save, delete;
 
     private long carID;
 
@@ -72,6 +72,22 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         }
 
         save = (Button)findViewById(R.id.save_edit);
+        delete = (Button)findViewById(R.id.delete);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MESSAGE = getString(R.string.deleting_car);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("nr_id", Long.toString(carID)));
+                if (Singleton.isOnline(CarDetails.this)) {
+                    Singleton.getSingletonInstance().setClientListener(CarDetails.this);
+                    Singleton.getSingletonInstance().deleteCar(params);
+                } else {
+                    Toast.makeText(CarDetails.this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
