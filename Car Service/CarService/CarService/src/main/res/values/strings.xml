@@ -90,5 +90,10 @@
     <string name="content_description_remove">Remove attachment</string>
     <string name="btn_send">Send</string>
     <string name="contact_not_allowed">You can not contact your service</string>
+    <string name="btn_delete">Delete car</string>
+    <string name="update_car_info">Updating car info...</string>
+    <string name="update_car_info">Updating car info…</string>
+    <string name="loading_car_info">Loading car info…</string>
+    <string name="deleting_car">Deleting car...</string>
 
 </resources>
