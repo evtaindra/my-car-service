@@ -13,17 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONObject;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.R;
-import pl.rzeszow.wsiz.carservice.utils.ClientListener;
+import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
  * Created by rsavk_000 on 5/19/2014.
  */
-public class ServiceContactDialog extends DialogFragment implements View.OnClickListener,ClientListener{
+public class ServiceContactDialog extends DialogFragment implements View.OnClickListener{
 
     private ImageButton btnAddAttachment, btnRemoveAttachment;
     private Button btnSend;
@@ -35,6 +38,7 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
 
     private int senderID;
     private int recipientID;
+    private int sender;
     private DialogCallBack dialogCallBack;
 
     @Override
@@ -48,8 +52,9 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
         super.onCreate(savedInstanceState);
         Bundle dialogArg = getArguments();
         if(dialogArg!=null) {
-            senderID = dialogArg.getInt("sender");
-            recipientID = dialogArg.getInt("recipient");
+            senderID = dialogArg.getInt("senderID");
+            recipientID = dialogArg.getInt("recipientID");
+            sender = dialogArg.getInt("sender");
         }
         mContext = getActivity();
     }
@@ -78,15 +83,31 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
         int id = v.getId();
         switch (id){
             case R.id.btn_add_attachment:
-                dialogCallBack.pickAttachment();
+                    dialogCallBack.pickAttachment();
                 break;
             case R.id.btn_remove_attachment:
                     attachment = null;
                     attachmentName.setText("");
                 break;
             case R.id.btn_send_message:
-                     Toast.makeText(mContext,"Not implemented",Toast.LENGTH_SHORT).show();
-                    //Todo perform send task
+                    String message = String.valueOf(messageContent.getText());
+                    
+                    if (message.equalsIgnoreCase("")) {
+                        messageContent.setError(getResources().getString(R.string.error)
+                                + mContext.getString(R.string.message));
+                        messageContent.requestFocus();                    
+                    } else {
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("us_id", String.valueOf(senderID)));
+                        params.add(new BasicNameValuePair("sr_id", String.valueOf(recipientID)));
+                        params.add(new BasicNameValuePair("sender", String.valueOf(sender)));
+                        params.add(new BasicNameValuePair("message", message));
+                        params.add(new BasicNameValuePair("attach", attachment == null ? null :
+                                BitmapEnDecode.BitmapToString(attachment.first)));
+
+                        dialogCallBack.sendMessage(params);
+                    }
+                dismiss();
                 break;
         }
     }
@@ -96,22 +117,9 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
         attachmentName.setText(attachment.second);
     }
 
-    @Override
-    public void onRequestSent() {
-
-    }
-
-    @Override
-    public void onDataReady(JSONObject resualt) {
-
-    }
-
-    @Override
-    public void onRequestCancelled() {
-
-    }
-
     public interface DialogCallBack{
         public void pickAttachment();
+
+        public void sendMessage(List<NameValuePair> params);
     }
 }

@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
@@ -36,7 +36,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 /**
  * Created by rsavk_000 on 5/2/2014.
  */
-public class ServiceDetail extends FragmentActivity implements
+public class ServiceDetail extends ActionBarActivity implements
         ClientListener,
         RatingBar.OnRatingBarChangeListener,
         ServiceContactDialog.DialogCallBack {
@@ -57,6 +57,7 @@ public class ServiceDetail extends FragmentActivity implements
 
     private AlertDialog pickDialog;
     private PictureSelector pictureSelector;
+    private String MESSAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class ServiceDetail extends FragmentActivity implements
 
         Singleton.getSingletonInstance().setClientListener(this);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
+        MESSAGE = getString(R.string.loading_service_details);
         params.add(new BasicNameValuePair("sr_id", Long.toString(serviceID)));
         Singleton.getSingletonInstance().getServiceDetails(params);
 
@@ -95,6 +97,7 @@ public class ServiceDetail extends FragmentActivity implements
             params.add(new BasicNameValuePair("sr_id", Integer.toString(mService.getId())));
             params.add(new BasicNameValuePair("mark", Float.toString(rating)));
 
+            MESSAGE = getString(R.string.rating_service);
             Singleton.getSingletonInstance().setClientListener(this);
             Singleton.getSingletonInstance().rateService(params);
             isRatingLoaded = false;
@@ -119,8 +122,9 @@ public class ServiceDetail extends FragmentActivity implements
                 return false;
             } else {
                 Bundle arg = new Bundle();
-                arg.putInt("sender", Singleton.getSingletonInstance().userID);
-                arg.putInt("recipient", mService.getId());
+                arg.putInt("senderID", Singleton.getSingletonInstance().userID);
+                arg.putInt("recipientID", mService.getId());
+                arg.putInt("sender",1);
                 contactDialog = new ServiceContactDialog();
                 contactDialog.setArguments(arg);
                 //TODO test on 2.3
@@ -134,7 +138,7 @@ public class ServiceDetail extends FragmentActivity implements
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage(getString(R.string.loading_service_details));
+        pDialog.setMessage(MESSAGE);
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
         pDialog.show();
@@ -155,8 +159,11 @@ public class ServiceDetail extends FragmentActivity implements
                 serviceRating.setRating(Float.parseFloat(ires.second));
                 ServiceListFragment.updateServiceRating(mService.getId(), Double.parseDouble(ires.second));
                 Toast.makeText(this, getString(R.string.rate_success), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.failed_to_rate_service), Toast.LENGTH_LONG).show();
+            } else if(ires.first == 2){
+                Log.d(TAG,"Send Successful");
+                Toast.makeText(this, ires.second, Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_LONG).show();
             }
             isRatingLoaded = true;
         }
@@ -196,5 +203,12 @@ public class ServiceDetail extends FragmentActivity implements
     @Override
     public void pickAttachment() {
         pickDialog.show();
+    }
+
+    @Override
+    public void sendMessage(List<NameValuePair> params) {
+        MESSAGE = getString(R.string.sending_message);
+        Singleton.getSingletonInstance().setClientListener(this);
+        Singleton.getSingletonInstance().sendMessage(params);
     }
 }
