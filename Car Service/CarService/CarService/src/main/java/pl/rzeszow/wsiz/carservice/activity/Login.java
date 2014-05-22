@@ -44,8 +44,6 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
     private SharedPreferences mLogin;
     private ProgressDialog pDialog;
 
-    //! An enum.
-    /*! More detailed enum description. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
