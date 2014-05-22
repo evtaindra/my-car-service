@@ -2,10 +2,12 @@ package pl.rzeszow.wsiz.carservice.model;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+
 /**
  * Created by rsavk_000 on 5/2/2014.
  */
-public class Service {
+public class Service extends BaseListItem {
     private int id;
     private String name;
     private String city;
@@ -16,6 +18,7 @@ public class Service {
     private int us_id;
     private String phone;
     private String email;
+    private ArrayList<User> contactedUsers;
 
     public Service(int id, String name, String city, String address, double rating, Bitmap image, int us_id) {
         this.id = id;
@@ -38,10 +41,17 @@ public class Service {
     public Service() {
     }
 
+    public Service(int id, String name){
+        this.id = id;
+        this.name = name;
+        contactedUsers = new ArrayList<User>();
+    }
+
     public void setRating(double rating){
         this.rating = rating;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -81,4 +91,19 @@ public class Service {
     public String getEmail() {
         return email;
     }
+
+    public void addContacedUser(User u){
+        contactedUsers.add(u);
+    }
+
+    @Override
+    public int getContactCount() {
+        return contactedUsers.size();
+    }
+
+    @Override
+    public BaseListItem getContact(int position) {
+        return contactedUsers.get(position);
+    }
+
 }

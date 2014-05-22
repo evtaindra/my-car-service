@@ -65,7 +65,6 @@
     <string name="phone">Phone:</string>
     <string name="email">E-mail:</string>
     <string name="loading_service_details">Loading service details…</string>
-    <string name="failed_to_rate_service">Failed to rate!</string>
     <string name="rate_not_allowed">You can not rate your service</string>
     <string name="rate_success">Service was successfully rated!</string>
     <string name="loading_cars">Loading list of cars…</string>
@@ -81,8 +80,13 @@
     <string name="year">Year</string>
     <string name="btn_add_car">Add car</string>
     <string name="btn_save">Save</string>
+
+    <string name="btn_delete">Delete car</string>
     <string name="update_car_info">Updating car info…</string>
     <string name="loading_car_info">Loading car info…</string>
+    <string name="deleting_car">Deleting car…</string>
+
+    <!--Contact to service-->
     <string name="contact_to_service_title">Contact to this service</string>
     <string name="your_message_title">Your message:</string>
     <string name="attachment_title">Attachment:</string>
@@ -90,10 +94,11 @@
     <string name="content_description_remove">Remove attachment</string>
     <string name="btn_send">Send</string>
     <string name="contact_not_allowed">You can not contact your service</string>
-    <string name="btn_delete">Delete car</string>
-    <string name="update_car_info">Updating car info...</string>
-    <string name="update_car_info">Updating car info…</string>
-    <string name="loading_car_info">Loading car info…</string>
-    <string name="deleting_car">Deleting car...</string>
+    <string name="message">a message</string>
+    <string name="op_failed">Operation failed</string>
+    <string name="sending_message">Sending…</string>
+    <string name="rating_service">Rating…</string>
+    <string name="loading_conversation_list">Loading conversation list…</string>
+    <string name="alert_no_convrsations">No conversations started!</string>
 
 </resources>

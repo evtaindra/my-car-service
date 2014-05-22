@@ -9,9 +9,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pl.rzeszow.wsiz.carservice.model.BaseListItem;
 import pl.rzeszow.wsiz.carservice.model.Car;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.model.User;
+import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
@@ -34,7 +36,7 @@ public class JSONInterpreter {
         return res;
     }
 
-    public static ArrayList<Car> parseCarList(JSONObject json){
+    public static ArrayList<Car> parseCarList(JSONObject json) {
         ArrayList<Car> cars = null;
         try {
             int success = json.getInt(TAG_SUCCESS);
@@ -49,12 +51,11 @@ public class JSONInterpreter {
                     cars.add(c);
                 }
             }
+        } catch (JSONException ex) {
+            ex.printStackTrace();
         }
-            catch(JSONException ex){
-                ex.printStackTrace();
-            }
         return cars;
-        }
+    }
 
 
     public static ArrayList<Service> parseServiceList(JSONObject json) {
@@ -78,15 +79,15 @@ public class JSONInterpreter {
         return services;
     }
 
-    public static Car parseCar(JSONObject json, boolean isDetailed){
+    public static Car parseCar(JSONObject json, boolean isDetailed) {
         Car car = null;
-        try{
+        try {
             int id = json.getInt("nr_id");
-            String marka= json.getString("marka");
+            String marka = json.getString("marka");
             String model = json.getString("model");
             String rej = json.getString("nr_rej");
             int rok = json.getInt("rok");
-            if(isDetailed){
+            if (isDetailed) {
                 double silnik = json.getDouble("silnik");
                 int przebieg = json.getInt("przebieg");
                 String kolor = json.getString("kolor");
@@ -94,10 +95,10 @@ public class JSONInterpreter {
                 int uid = json.getInt("us_id");
 
                 car = new Car(id, uid, marka, model, rej, silnik, przebieg, kolor, paliwo, rok);
-            } else{
+            } else {
                 car = new Car(id, marka, model, rej, rok);
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return car;
@@ -148,6 +149,45 @@ public class JSONInterpreter {
             e.printStackTrace();
         }
         return service;
+    }
+
+    public static ArrayList<BaseListItem> parseConversationList(JSONObject json) {
+        ArrayList<BaseListItem> conversation = null;
+        try {
+            int success = json.getInt(TAG_SUCCESS);
+            if (success == 1) {
+                conversation = new ArrayList<BaseListItem>();
+
+                JSONArray jAYourConversations = json.getJSONArray("user_conversations");
+                if (jAYourConversations.length() != 0) {
+                    conversation.add(new User(Singleton.getSingletonInstance().userID, "Conversation that you started",""));
+                    for (int i = 0; i < jAYourConversations.length(); i++) {
+                        JSONObject obj = jAYourConversations.getJSONObject(i);
+                        ((User) conversation.get(0)).addContactedService(
+                                new Service(obj.getInt("sr_id"), obj.getString("sr_name"))
+                        );
+                    }
+                }
+                JSONArray jAServicesConversations = json.getJSONArray("user_services_conversations");
+                for(int i=0;i<jAServicesConversations.length(); i++){
+                    JSONObject obj = jAServicesConversations.getJSONObject(i);
+                    JSONArray jAServicesConversation = obj.getJSONArray("service_conversation");
+                    if (jAServicesConversation.length() != 0) {
+                        conversation.add(new Service(obj.getInt("sr_id"),obj.getString("sr_name")));
+                        for (int j = 0; j < jAServicesConversation.length(); j++) {
+                            JSONObject obj2 = jAServicesConversation.getJSONObject(j);
+                            ((Service) conversation.get(i+1)).addContacedUser(
+                                    new User(obj2.getInt("us_id"), obj2.getString("fname"),obj2.getString("lname"))
+                            );
+                        }
+                    }
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return conversation;
     }
 
 }

@@ -5,7 +5,7 @@ $query = "Select * FROM services";
 
 try {
     $stmt   = $db->prepare($query);
-    $result = $stmt->execute($query_params);
+    $result = $stmt->execute();
 }
 catch (PDOException $ex) {
     $response["success"] = 0;

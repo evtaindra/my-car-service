@@ -37,7 +37,7 @@ if (!empty($_POST)) {
         die(json_encode($response));
     }
 
-    $response["success"] = 1;
+    $response["success"] = 2;
     $response["message"] = "Message Successfully Sent!";
 
     echo json_encode($response);  

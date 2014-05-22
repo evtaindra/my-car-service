@@ -64,7 +64,7 @@ public class Singleton implements TaskCallback {
     }
 
     public void getUserCars(List<NameValuePair> params){
-        mTask = new AsyncPerformer(this, Constants.SELECT_USERS_CAR_URL, RequestMethod.POST);
+        mTask = new AsyncPerformer(this, Constants.SELECT_USER_CAR_URL, RequestMethod.POST);
 
         if(!mTask.isRunning())
             mTask.execute(params);
@@ -145,6 +145,20 @@ public class Singleton implements TaskCallback {
         mTask = new AsyncPerformer(this, Constants.RATE_SERVICE, RequestMethod.POST);
 
         if (!mTask.isRunning())
+            mTask.execute(params);
+    }
+
+    public void sendMessage(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SEND_MESSAGE, RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }
+
+    public void getUserConversations(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.SELECT_USER_CONVERSATIONS, RequestMethod.POST);
+
+        if(!mTask.isRunning())
             mTask.execute(params);
     }
 
