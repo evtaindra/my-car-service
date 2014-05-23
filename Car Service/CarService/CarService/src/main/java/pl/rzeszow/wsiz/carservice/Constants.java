@@ -33,6 +33,8 @@ public class Constants {
     public final static String SELECT_SERVICE = PAGE_URL+"select_service.php";
     public final static String RATE_SERVICE = PAGE_URL+"rate_service.php";
 
+    public final static String UPDATE_SERVICE_URL = PAGE_URL+"service_update.php";
+
     public final static String SEND_MESSAGE = PAGE_URL+"send_message.php";
     public final static String SELECT_USER_CONVERSATIONS = PAGE_URL+"select_user_conversations.php";
 }

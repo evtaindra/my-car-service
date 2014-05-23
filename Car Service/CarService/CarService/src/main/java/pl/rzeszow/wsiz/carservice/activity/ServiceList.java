@@ -57,14 +57,6 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         if (getIntent() != null)
             userID = getIntent().getExtras().getInt(Constants.USER_ID);
 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
-
-        if (Singleton.isOnline(this)) {
-            Singleton.getSingletonInstance().setClientListener(this);
-            Singleton.getSingletonInstance().getUserServices(params);
-        } else
-            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
 
         servicesListView = (ListView) findViewById(R.id.servicesList);
         servicesListView.setAdapter(serviceListAdapter);
@@ -92,6 +84,24 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getUserServices();
+    }
+
+    private void getUserServices(){
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
+
+        if (Singleton.isOnline(this)) {
+            Singleton.getSingletonInstance().setClientListener(this);
+            Singleton.getSingletonInstance().getUserServices(params);
+        } else
+            Toast.makeText(this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
     public void onRefresh() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
@@ -106,9 +116,9 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*Intent i = new Intent(this, CarDetails.class);
-        i.putExtra(Constants.CAR_ID, id);
-        this.startActivity(i);*/
+        Intent i = new Intent(this, ServiceEdit.class);
+        i.putExtra(Constants.SERVICE_ID, id);
+        this.startActivity(i);
     }
 
     @Override
