@@ -109,7 +109,7 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
                     params.add(new BasicNameValuePair("sr_id", String.valueOf(serviceID)));
                     params.add(new BasicNameValuePair("sender", String.valueOf(sender)));
                     params.add(new BasicNameValuePair("message", message));
-                    params.add(new BasicNameValuePair("attach", attachment == null ? null :
+                    params.add(new BasicNameValuePair("attachment", attachment == null ? null :
                             BitmapEnDecode.BitmapToString(attachment.first)));
 
                     fragmentCallBack.sendMessage(params);
