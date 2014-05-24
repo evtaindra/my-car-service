@@ -101,6 +101,7 @@
     <string name="sending_message">Sending…</string>
     <string name="rating_service">Rating…</string>
     <string name="loading_conversation_list">Loading conversation list…</string>
-    <string name="alert_no_convrsations">No conversations started!</string>
+    <string name="alert_no_conversations">No conversations started!</string>
+    <string name="loading_conversation">Loading conversation…</string>
 
 </resources>

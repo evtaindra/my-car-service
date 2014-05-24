@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pl.rzeszow.wsiz.carservice.model.BaseListItem;
 import pl.rzeszow.wsiz.carservice.model.Car;
+import pl.rzeszow.wsiz.carservice.model.Message;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
@@ -160,7 +161,7 @@ public class JSONInterpreter {
 
                 JSONArray jAYourConversations = json.getJSONArray("user_conversations");
                 if (jAYourConversations.length() != 0) {
-                    conversation.add(new User(Singleton.getSingletonInstance().userID, "Conversation that you started",""));
+                    conversation.add(new User(Singleton.getSingletonInstance().userID, "Conversation that you started", ""));
                     for (int i = 0; i < jAYourConversations.length(); i++) {
                         JSONObject obj = jAYourConversations.getJSONObject(i);
                         ((User) conversation.get(0)).addContactedService(
@@ -169,25 +170,55 @@ public class JSONInterpreter {
                     }
                 }
                 JSONArray jAServicesConversations = json.getJSONArray("user_services_conversations");
-                for(int i=0;i<jAServicesConversations.length(); i++){
+                for (int i = 0; i < jAServicesConversations.length(); i++) {
                     JSONObject obj = jAServicesConversations.getJSONObject(i);
                     JSONArray jAServicesConversation = obj.getJSONArray("service_conversation");
                     if (jAServicesConversation.length() != 0) {
-                        conversation.add(new Service(obj.getInt("sr_id"),obj.getString("sr_name")));
+                        conversation.add(new Service(obj.getInt("sr_id"), obj.getString("sr_name")));
                         for (int j = 0; j < jAServicesConversation.length(); j++) {
                             JSONObject obj2 = jAServicesConversation.getJSONObject(j);
-                            ((Service) conversation.get(i+1)).addContacedUser(
-                                    new User(obj2.getInt("us_id"), obj2.getString("fname"),obj2.getString("lname"))
+                            ((Service) conversation.get(i + 1)).addContacedUser(
+                                    new User(obj2.getInt("us_id"), obj2.getString("fname"), obj2.getString("lname"))
                             );
                         }
                     }
                 }
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return conversation;
+    }
+
+    public static ArrayList<Message> parseConversation(JSONObject json) {
+        ArrayList<Message> messages = null;
+        try {
+            int success = json.getInt(TAG_SUCCESS);
+            if (success == 1) {
+                messages = new ArrayList<Message>();
+                JSONArray jsonArray = json.getJSONArray("messages");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    obj.getInt("sender");
+                    obj.getString("date");
+                    obj.getString("content");
+                    BitmapEnDecode.StringToBitmap(obj.getString("attach"));
+                    obj.getBoolean("isread");
+
+                    Message m = new Message(
+                            obj.getInt("sender"),
+                            obj.getString("date"),
+                            obj.getString("content"),
+                            BitmapEnDecode.StringToBitmap(obj.getString("attach")),
+                            obj.getBoolean("isread")
+                    );
+                    messages.add(m);
+                }
+            }
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return messages;
     }
 
 }
