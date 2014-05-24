@@ -53,7 +53,7 @@ public class ServiceDetail extends ActionBarActivity implements
 
     private ProgressDialog pDialog;
 
-    SendMessageFragment contactDialog;
+    private SendMessageFragment contactDialog;
 
     private AlertDialog pickDialog;
     private PictureSelector pictureSelector;
@@ -122,8 +122,8 @@ public class ServiceDetail extends ActionBarActivity implements
                 return false;
             } else {
                 Bundle arg = new Bundle();
-                arg.putInt("senderID", Singleton.getSingletonInstance().userID);
-                arg.putInt("recipientID", mService.getId());
+                arg.putInt("userID", Singleton.getSingletonInstance().userID);
+                arg.putInt("serviceID", mService.getId());
                 arg.putInt("sender", 1);
                 arg.putBoolean("isDialog",true);
                 contactDialog = new SendMessageFragment();

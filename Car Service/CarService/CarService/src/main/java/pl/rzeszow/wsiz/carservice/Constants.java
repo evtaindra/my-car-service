@@ -37,4 +37,5 @@ public class Constants {
 
     public final static String SEND_MESSAGE = PAGE_URL+"send_message.php";
     public final static String SELECT_USER_CONVERSATIONS = PAGE_URL+"select_user_conversations.php";
+    public final static String SELECT_CONVERSATION = PAGE_URL+"select_conversation.php";
 }

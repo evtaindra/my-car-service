@@ -3,57 +3,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <!--Dummy layout to hide keyboard on startup-->
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <TextView
-        android:text="@string/your_message_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/your_message_title" />
 
     <EditText
         android:id="@+id/message_content"
         android:layout_width="match_parent"
-        android:inputType="textMultiLine"
+        android:layout_height="wrap_content"
         android:background="@drawable/edit_text_shape"
-        android:minHeight="150dp"
-        android:layout_height="wrap_content" />
+        android:inputType="textMultiLine"
+        android:minHeight="150dp" />
 
     <TextView
-        android:text="@string/attachment_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/attachment_title" />
 
     <LinearLayout
-        android:weightSum="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
 
         <ImageButton
             android:id="@+id/btn_add_attachment"
-            android:contentDescription="@string/content_description_add"
-            android:src="@drawable/ic_attach"
-            android:background="@android:color/transparent"
-            android:layout_weight="0.1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_add"
+            android:src="@drawable/ic_attach" />
+
 
         <TextView
             android:id="@+id/attachment_name"
-            android:layout_gravity="center"
-            android:layout_weight="0.8"
-            android:focusable="false"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.8" />
 
         <ImageButton
             android:id="@+id/btn_remove_attachment"
-            android:contentDescription="@string/content_description_remove"
-            android:src="@drawable/cross"
-            android:background="@android:color/transparent"
-            android:layout_weight="0.1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_remove"
+            android:src="@drawable/cross" />
 
     </LinearLayout>
 
@@ -62,6 +69,6 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/btn_send"/>
+        android:text="@string/btn_send" />
 
 </LinearLayout>

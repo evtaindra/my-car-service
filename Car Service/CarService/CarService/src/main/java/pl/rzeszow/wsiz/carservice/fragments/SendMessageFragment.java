@@ -36,8 +36,8 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
     private Context mContext;
     private Pair<Bitmap, String> attachment;
 
-    private int senderID;
-    private int recipientID;
+    private int userID;
+    private int serviceID;
     private int sender;
     private boolean isDialog;
     private FragmentCallBack fragmentCallBack;
@@ -53,8 +53,8 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
         super.onCreate(savedInstanceState);
         Bundle dialogArg = getArguments();
         if (dialogArg != null) {
-            senderID = dialogArg.getInt("senderID");
-            recipientID = dialogArg.getInt("recipientID");
+            userID = dialogArg.getInt("userID");
+            serviceID = dialogArg.getInt("serviceID");
             sender = dialogArg.getInt("sender");
             isDialog = dialogArg.getBoolean("isDialog");
         }
@@ -105,8 +105,8 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
                     messageContent.requestFocus();
                 } else {
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("us_id", String.valueOf(senderID)));
-                    params.add(new BasicNameValuePair("sr_id", String.valueOf(recipientID)));
+                    params.add(new BasicNameValuePair("us_id", String.valueOf(userID)));
+                    params.add(new BasicNameValuePair("sr_id", String.valueOf(serviceID)));
                     params.add(new BasicNameValuePair("sender", String.valueOf(sender)));
                     params.add(new BasicNameValuePair("message", message));
                     params.add(new BasicNameValuePair("attach", attachment == null ? null :

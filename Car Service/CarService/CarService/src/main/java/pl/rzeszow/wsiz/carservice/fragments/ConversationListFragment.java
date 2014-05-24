@@ -158,7 +158,7 @@ public class ConversationListFragment extends Fragment implements
         if (conversations == null) {
             Toast.makeText(mContext, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
         } else if (conversations.isEmpty()) {
-            Toast.makeText(mContext, mContext.getString(R.string.alert_no_convrsations), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, mContext.getString(R.string.alert_no_conversations), Toast.LENGTH_LONG).show();
         } else {
             conversationsListAdapter.clearData();
             conversationsListAdapter.addConversations(conversations);
