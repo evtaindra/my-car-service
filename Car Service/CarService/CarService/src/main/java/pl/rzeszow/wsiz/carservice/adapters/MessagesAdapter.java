@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,14 +60,27 @@ public class MessagesAdapter extends BaseAdapter {
             date.setText(item.getDate());
             content.setText(item.getContent());
             attachment.setImageBitmap(item.getAttachment());
+
+            LinearLayout message = (LinearLayout) view.findViewById(R.id.message);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            if (item.getSender() == sender)
+                layoutParams.setMargins(0, 0, 10, 0);
+            else
+                layoutParams.setMargins(10, 0, 0, 0);
+
+            message.setLayoutParams(layoutParams);
         }
         return view;
     }
-    public void addServices(ArrayList<Message> messages){
+
+    public void addServices(ArrayList<Message> messages) {
         this.messageList.addAll(messages);
         notifyDataSetChanged();
     }
-    public void clearData(){
+
+    public void clearData() {
         this.messageList.clear();
         notifyDataSetChanged();
     }

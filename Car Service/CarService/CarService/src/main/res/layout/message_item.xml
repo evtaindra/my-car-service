@@ -7,20 +7,34 @@
 
     <TextView
         android:id="@+id/date"
-        android:layout_gravity="center"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/content"
+    <LinearLayout
+        android:id="@+id/message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/attachment"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:contentDescription="Attachment"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/content"
+            android:textColor="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/attachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="Attachment" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
