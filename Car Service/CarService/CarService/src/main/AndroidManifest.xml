@@ -54,6 +54,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ServiceEdit"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Conversation"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

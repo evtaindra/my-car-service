@@ -25,7 +25,7 @@ import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
-import pl.rzeszow.wsiz.carservice.fragments.ServiceContactDialog;
+import pl.rzeszow.wsiz.carservice.fragments.SendMessageFragment;
 import pl.rzeszow.wsiz.carservice.fragments.ServiceListFragment;
 import pl.rzeszow.wsiz.carservice.model.Service;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
@@ -39,7 +39,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 public class ServiceDetail extends ActionBarActivity implements
         ClientListener,
         RatingBar.OnRatingBarChangeListener,
-        ServiceContactDialog.DialogCallBack {
+        SendMessageFragment.FragmentCallBack {
 
     private final String TAG = "ServiceDetail";
 
@@ -53,7 +53,7 @@ public class ServiceDetail extends ActionBarActivity implements
 
     private ProgressDialog pDialog;
 
-    ServiceContactDialog contactDialog;
+    SendMessageFragment contactDialog;
 
     private AlertDialog pickDialog;
     private PictureSelector pictureSelector;
@@ -118,17 +118,17 @@ public class ServiceDetail extends ActionBarActivity implements
         int id = item.getItemId();
         if (id == R.id.action_contact) {
             if (Singleton.getSingletonInstance().userID == mService.getUs_id()) {
-                Toast.makeText(this,getString(R.string.contact_not_allowed),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.contact_not_allowed), Toast.LENGTH_SHORT).show();
                 return false;
             } else {
                 Bundle arg = new Bundle();
                 arg.putInt("senderID", Singleton.getSingletonInstance().userID);
                 arg.putInt("recipientID", mService.getId());
-                arg.putInt("sender",1);
-                contactDialog = new ServiceContactDialog();
+                arg.putInt("sender", 1);
+                arg.putBoolean("isDialog",true);
+                contactDialog = new SendMessageFragment();
                 contactDialog.setArguments(arg);
-                //TODO test on 2.3
-                contactDialog.show(getFragmentManager(), null);
+                contactDialog.show(getSupportFragmentManager(), null);
                 return true;
             }
         }
@@ -147,25 +147,29 @@ public class ServiceDetail extends ActionBarActivity implements
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
-        Service tmp = JSONInterpreter.parseService(resualt, true);
-        if (tmp != null) {
-            mService = tmp;
-            setServiceData();
+        if (resualt == null) {
+            Toast.makeText(this, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
         } else {
-            Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
-            if (ires.first == 1) {
-                Log.d(TAG, "Rate Successful!");
-                mService.setRating(Float.parseFloat(ires.second));
-                serviceRating.setRating(Float.parseFloat(ires.second));
-                ServiceListFragment.updateServiceRating(mService.getId(), Double.parseDouble(ires.second));
-                Toast.makeText(this, getString(R.string.rate_success), Toast.LENGTH_SHORT).show();
-            } else if(ires.first == 2){
-                Log.d(TAG,"Send Successful");
-                Toast.makeText(this, ires.second, Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_LONG).show();
+            Service tmp = JSONInterpreter.parseService(resualt, true);
+            if (tmp != null) {
+                mService = tmp;
+                setServiceData();
+            } else {
+                Pair<Integer, String> ires = JSONInterpreter.parseMessage(resualt);
+                if (ires.first == 1) {
+                    Log.d(TAG, "Rate Successful!");
+                    mService.setRating(Float.parseFloat(ires.second));
+                    serviceRating.setRating(Float.parseFloat(ires.second));
+                    ServiceListFragment.updateServiceRating(mService.getId(), Double.parseDouble(ires.second));
+                    Toast.makeText(this, getString(R.string.rate_success), Toast.LENGTH_SHORT).show();
+                } else if (ires.first == 2) {
+                    Log.d(TAG, "Send Successful");
+                    Toast.makeText(this, ires.second, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_LONG).show();
+                }
+                isRatingLoaded = true;
             }
-            isRatingLoaded = true;
         }
     }
 
@@ -194,7 +198,7 @@ public class ServiceDetail extends ActionBarActivity implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Pair<Bitmap,String > res = pictureSelector.onActivityResult(requestCode, resultCode, data);
+        Pair<Bitmap, String> res = pictureSelector.onActivityResult(requestCode, resultCode, data);
         if (res != null) {
             contactDialog.attachmentSelected(res);
         }

@@ -163,6 +163,7 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
     @Override
     public void onDataReady(JSONObject resualt) {
+        pDialog.dismiss();
         Service tmp = JSONInterpreter.parseService(resualt, true);
         if (tmp != null) {
             sService = tmp;
