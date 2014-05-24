@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -23,8 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.R;
+import pl.rzeszow.wsiz.carservice.activity.Conversation;
 import pl.rzeszow.wsiz.carservice.adapters.ConversationListAdapter;
 import pl.rzeszow.wsiz.carservice.model.BaseListItem;
+import pl.rzeszow.wsiz.carservice.model.Service;
+import pl.rzeszow.wsiz.carservice.model.User;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
@@ -34,8 +37,8 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
  */
 public class ConversationListFragment extends Fragment implements
         ClientListener,
-        AdapterView.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener{
+        ExpandableListView.OnChildClickListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private String TAG = "ConversationListFragment";
 
@@ -68,7 +71,7 @@ public class ConversationListFragment extends Fragment implements
 
         conversationsListView = (ExpandableListView) rootView.findViewById(R.id.conversationList);
         conversationsListView.setAdapter(conversationsListAdapter);
-        conversationsListView.setOnItemClickListener(this);
+        conversationsListView.setOnChildClickListener(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -99,6 +102,32 @@ public class ConversationListFragment extends Fragment implements
     }
 
     @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        BaseListItem item = conversationsListAdapter.getChild(groupPosition, childPosition);
+        int userID = 0, serviceID = 0, sender = 0;
+        if (item instanceof User) {
+            sender = 2;
+            userID = (int) id;
+            serviceID = (int) conversationsListAdapter.getGroupId(groupPosition);
+
+        } else if (item instanceof Service) {
+            sender = 1;
+            userID = (int) conversationsListAdapter.getGroupId(groupPosition);
+            serviceID = (int) id;
+        }
+//        Log.d(TAG, "Sender id:" + sender);
+//        Log.d(TAG, "User id:" + userID);
+//        Log.d(TAG, "Service id:" + serviceID);
+        Intent i = new Intent(mContext , Conversation.class);
+        i.putExtra("userID", userID);
+        i.putExtra("serviceID", serviceID);
+        i.putExtra("sender", sender);
+        startActivity(i);
+
+        return false;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
@@ -123,7 +152,8 @@ public class ConversationListFragment extends Fragment implements
         pDialog.dismiss();
         swipeRefreshLayout.setRefreshing(false);
 
-        conversations = JSONInterpreter.parseConversationList(resualt);;
+        conversations = JSONInterpreter.parseConversationList(resualt);
+        ;
 
         if (conversations == null) {
             Toast.makeText(mContext, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
@@ -132,7 +162,7 @@ public class ConversationListFragment extends Fragment implements
         } else {
             conversationsListAdapter.clearData();
             conversationsListAdapter.addConversations(conversations);
-            isListLoaded=true;
+            isListLoaded = true;
         }
     }
 
@@ -143,10 +173,6 @@ public class ConversationListFragment extends Fragment implements
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 
     @Override
     public void onRefresh() {

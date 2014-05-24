@@ -151,15 +151,16 @@ public class ServiceListFragment extends Fragment implements ClientListener,
         pDialog.dismiss();
         swipeRefreshLayout.setRefreshing(false);
 
-        services = JSONInterpreter.parseServiceList(resualt);
-
-        if (services == null) {
+        if (resualt == null)
             Toast.makeText(mContext, getString(R.string.alert_connection_problem), Toast.LENGTH_LONG).show();
-        } else if (services.isEmpty()) {
-            Toast.makeText(mContext, getString(R.string.alert_no_services), Toast.LENGTH_LONG).show();
-        } else {
-            serviceListAdapter.clearData();
-            serviceListAdapter.addServices(services);
+        else {
+            services = JSONInterpreter.parseServiceList(resualt);
+            if (services.isEmpty()) {
+                Toast.makeText(mContext, getString(R.string.alert_no_services), Toast.LENGTH_LONG).show();
+            } else {
+                serviceListAdapter.clearData();
+                serviceListAdapter.addServices(services);
+            }
         }
     }
 
@@ -170,7 +171,7 @@ public class ServiceListFragment extends Fragment implements ClientListener,
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public static void updateServiceRating(int id, double rating){
-        serviceListAdapter.updateItemRating(id,rating);
+    public static void updateServiceRating(int id, double rating) {
+        serviceListAdapter.updateItemRating(id, rating);
     }
 }

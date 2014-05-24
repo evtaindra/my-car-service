@@ -1,10 +1,10 @@
 package pl.rzeszow.wsiz.carservice.fragments;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +26,7 @@ import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 /**
  * Created by rsavk_000 on 5/19/2014.
  */
-public class ServiceContactDialog extends DialogFragment implements View.OnClickListener{
+public class SendMessageFragment extends DialogFragment implements View.OnClickListener {
 
     private ImageButton btnAddAttachment, btnRemoveAttachment;
     private Button btnSend;
@@ -34,36 +34,43 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
     private EditText messageContent;
 
     private Context mContext;
-    private Pair<Bitmap,String> attachment;
+    private Pair<Bitmap, String> attachment;
 
     private int senderID;
     private int recipientID;
     private int sender;
-    private DialogCallBack dialogCallBack;
+    private boolean isDialog;
+    private FragmentCallBack fragmentCallBack;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        dialogCallBack = (DialogCallBack) activity;
+        fragmentCallBack = (FragmentCallBack) activity;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle dialogArg = getArguments();
-        if(dialogArg!=null) {
+        if (dialogArg != null) {
             senderID = dialogArg.getInt("senderID");
             recipientID = dialogArg.getInt("recipientID");
             sender = dialogArg.getInt("sender");
+            isDialog = dialogArg.getBoolean("isDialog");
         }
         mContext = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_service_contact, null);
 
-        getDialog().setTitle(R.string.contact_to_service_title);
+        View rootView = null;
+        if (isDialog) {
+            getDialog().setTitle(R.string.contact_to_service_title);
+            rootView = inflater.inflate(R.layout.fragment_send_message, container);
+        }else{
+            rootView = inflater.inflate(R.layout.fragment_send_message, container,false);
+        }
 
         btnAddAttachment = (ImageButton) rootView.findViewById(R.id.btn_add_attachment);
         btnAddAttachment.setOnClickListener(this);
@@ -81,43 +88,46 @@ public class ServiceContactDialog extends DialogFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.btn_add_attachment:
-                    dialogCallBack.pickAttachment();
+                fragmentCallBack.pickAttachment();
                 break;
             case R.id.btn_remove_attachment:
-                    attachment = null;
-                    attachmentName.setText("");
+                attachment = null;
+                attachmentName.setText("");
                 break;
             case R.id.btn_send_message:
-                    String message = String.valueOf(messageContent.getText());
-                    
-                    if (message.equalsIgnoreCase("")) {
-                        messageContent.setError(getResources().getString(R.string.error)
-                                + mContext.getString(R.string.message));
-                        messageContent.requestFocus();                    
-                    } else {
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("us_id", String.valueOf(senderID)));
-                        params.add(new BasicNameValuePair("sr_id", String.valueOf(recipientID)));
-                        params.add(new BasicNameValuePair("sender", String.valueOf(sender)));
-                        params.add(new BasicNameValuePair("message", message));
-                        params.add(new BasicNameValuePair("attach", attachment == null ? null :
-                                BitmapEnDecode.BitmapToString(attachment.first)));
+                String message = String.valueOf(messageContent.getText());
 
-                        dialogCallBack.sendMessage(params);
+                if (message.equalsIgnoreCase("")) {
+                    messageContent.setError(getResources().getString(R.string.error)
+                            + mContext.getString(R.string.message));
+                    messageContent.requestFocus();
+                } else {
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("us_id", String.valueOf(senderID)));
+                    params.add(new BasicNameValuePair("sr_id", String.valueOf(recipientID)));
+                    params.add(new BasicNameValuePair("sender", String.valueOf(sender)));
+                    params.add(new BasicNameValuePair("message", message));
+                    params.add(new BasicNameValuePair("attach", attachment == null ? null :
+                            BitmapEnDecode.BitmapToString(attachment.first)));
+
+                    fragmentCallBack.sendMessage(params);
+
+                    if (isDialog) {
+                        dismiss();
                     }
-                dismiss();
+                }
                 break;
         }
     }
 
-    public void attachmentSelected(Pair<Bitmap,String> attachment ){
+    public void attachmentSelected(Pair<Bitmap, String> attachment) {
         this.attachment = attachment;
         attachmentName.setText(attachment.second);
     }
 
-    public interface DialogCallBack{
+    public interface FragmentCallBack {
         public void pickAttachment();
 
         public void sendMessage(List<NameValuePair> params);

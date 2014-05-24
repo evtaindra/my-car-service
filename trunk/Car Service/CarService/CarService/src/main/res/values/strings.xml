@@ -96,7 +96,7 @@
     <string name="content_description_remove">Remove attachment</string>
     <string name="btn_send">Send</string>
     <string name="contact_not_allowed">You can not contact your service</string>
-    <string name="message">a message</string>
+    <string name="message"> a message</string>
     <string name="op_failed">Operation failed</string>
     <string name="sending_message">Sending…</string>
     <string name="rating_service">Rating…</string>
