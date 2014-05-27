@@ -81,10 +81,10 @@
     <string name="btn_add_car">Add car</string>
     <string name="btn_save">Save</string>
 
-    <string name="btn_delete">Delete car</string>
+    <string name="btn_delete">Delete</string>
     <string name="update_car_info">Updating car info…</string>
     <string name="loading_car_info">Loading car info…</string>
-    <string name="deleting_car">Deleting car…</string>
+    <string name="deleting_car">Deleting…</string>
     <string name="loading_service_info">Loading service info…</string>
     <string name="deleting_service">Deleting service…</string>
 
