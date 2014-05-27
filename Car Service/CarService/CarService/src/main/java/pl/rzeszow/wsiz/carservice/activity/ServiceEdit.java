@@ -126,7 +126,15 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         sDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MESSAGE = getString(R.string.deleting_car);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("sr_id", Long.toString(serviceID)));
+                if (Singleton.isOnline(ServiceEdit.this)) {
+                    Singleton.getSingletonInstance().setClientListener(ServiceEdit.this);
+                    Singleton.getSingletonInstance().deleteCar(params);
+                } else {
+                    Toast.makeText(ServiceEdit.this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -192,6 +200,8 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         sCity.setText(sService.getCity());
         sAddress.setText(sService.getAddress());
         sDescription.setText(sService.getDescription());
-        imageView.setImageBitmap(sService.getImage());
+
+        if(sService.getImage() != null)
+            imageView.setImageBitmap(sService.getImage());
     }
 }

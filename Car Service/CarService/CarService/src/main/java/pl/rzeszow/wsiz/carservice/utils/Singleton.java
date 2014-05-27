@@ -113,6 +113,13 @@ public class Singleton implements TaskCallback {
             mTask.execute(params);
     }
 
+    public void deleteService(List<NameValuePair> params){
+        mTask = new AsyncPerformer(this, Constants.DELETE_SERVICE_URL, RequestMethod.POST);
+
+        if (!mTask.isRunning())
+            mTask.execute(params);
+    }
+
     public void getAllServices(List<NameValuePair> params){
         mTask = new AsyncPerformer(this, Constants.SERVICES_URL , RequestMethod.GET_FROM_URL);
 
