@@ -131,7 +131,7 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
                 params.add(new BasicNameValuePair("sr_id", Long.toString(serviceID)));
                 if (Singleton.isOnline(ServiceEdit.this)) {
                     Singleton.getSingletonInstance().setClientListener(ServiceEdit.this);
-                    Singleton.getSingletonInstance().deleteCar(params);
+                    Singleton.getSingletonInstance().deleteService(params);
                 } else {
                     Toast.makeText(ServiceEdit.this, R.string.alert_check_connection, Toast.LENGTH_LONG).show();
                 }
