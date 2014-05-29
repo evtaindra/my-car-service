@@ -9,7 +9,7 @@ public abstract class BaseListItem {
     public abstract int getContactCount();
     //! Inicjalizacja abstraktnej metody, będzie implementowana w innej klasie.
     /*!
-    \param position integer pozycja.
+    \param position pozycja.
     */
     public abstract BaseListItem getContact(int position);
     //! Inicjalizacja abstraktnej metody, będzie implementowana w innej klasie.

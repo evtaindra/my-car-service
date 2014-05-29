@@ -177,7 +177,7 @@ public class JSONInterpreter {
                         conversation.add(new Service(obj.getInt("sr_id"), obj.getString("sr_name")));
                         for (int j = 0; j < jAServicesConversation.length(); j++) {
                             JSONObject obj2 = jAServicesConversation.getJSONObject(j);
-                            ((Service) conversation.get(i + 1)).addContacedUser(
+                            ((Service) conversation.get(i + 1)).addContactedUser(
                                     new User(obj2.getInt("us_id"), obj2.getString("fname"), obj2.getString("lname"))
                             );
                         }
