@@ -2,7 +2,7 @@ package pl.rzeszow.wsiz.carservice.model;
 
 import java.util.ArrayList;
 
-    //! Klasa reprezentująca Użytkownika.
+//! Klasa reprezentująca Użytkownika.
     /*!
       Przechowywuje wszystkie informacje o użytkowniku.
     */
@@ -35,8 +35,7 @@ public class User extends BaseListItem {
     \param city Miasto.
     \param adress Adres.
     */
-        public User(String username, String password, String name, String surname, int sex, String birth, String nr_tel, String email, String city, String adress)
-    {
+    public User(String username, String password, String name, String surname, int sex, String birth, String nr_tel, String email, String city, String adress) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -48,7 +47,7 @@ public class User extends BaseListItem {
         this.city = city;
         this.adress = adress;
     }
-    
+
     //!  User konstruktor.
     /*!
     Inicjalizuje prywatne zmienne oraz tworzy nową pustą listę serwisów z którymi użytkownik się kontaktował.
@@ -56,7 +55,7 @@ public class User extends BaseListItem {
     \param fname Imie.
     \param lname Nazwisko.
     */
-    public User(int id,String fname,String lname){
+    public User(int id, String fname, String lname) {
         this.id = id;
         this.name = fname;
         this.surname = lname;
@@ -67,7 +66,8 @@ public class User extends BaseListItem {
     /*!
     Konstruktor domyślny czyli bez parametrów.
     */
-    public User(){}
+    public User() {
+    }
 
     @Override
     //! Metoda, króra nadaje dostęp do zmiennej id.
@@ -85,6 +85,7 @@ public class User extends BaseListItem {
     public String getUsername() {
         return username;
     }
+
     //! Metoda, króra nadaje dostęp do zmiennej hasło.
     /*!
     \return Hasło użytkownika.
@@ -161,7 +162,7 @@ public class User extends BaseListItem {
     /*!
     \param s Service Serwis.
     */
-    public void addContactedService(Service s){
+    public void addContactedService(Service s) {
         contactedServices.add(s);
     }
 
