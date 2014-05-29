@@ -1,4 +1,19 @@
 var searchData=
 [
-  ['delete_5fcar_5furl',['DELETE_CAR_URL',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1_constants.html#a2f9f9565775e12533f17e3bb9dc39574',1,'pl::rzeszow::wsiz::carservice::Constants']]]
+  ['car_5fid',['CAR_ID',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1_constants.html#a69efda9e544578dadc4f87e28f140000',1,'pl::rzeszow::wsiz::carservice::Constants']]],
+  ['carid',['carID',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_car_details.html#a8c8b4e65740e7e2e674bb4fc8d9405ef',1,'pl::rzeszow::wsiz::carservice::activity::CarDetails']]],
+  ['carlist',['carList',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1adapters_1_1_car_list_adapter.html#ae8c42555bce407713dea9c16d095b708',1,'pl::rzeszow::wsiz::carservice::adapters::CarListAdapter']]],
+  ['carlistadapter',['carListAdapter',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_cars_list.html#a9b8dde9c74da15efe6ef5baec54b748a',1,'pl::rzeszow::wsiz::carservice::activity::CarsList']]],
+  ['carlistview',['carListView',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_cars_list.html#ab8d9ca6274e054d96b24efa52b51a12b',1,'pl::rzeszow::wsiz::carservice::activity::CarsList']]],
+  ['cars',['cars',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_cars_list.html#a0dff829cade5f31941eda89eabfbf177',1,'pl::rzeszow::wsiz::carservice::activity::CarsList']]],
+  ['city',['city',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a7e028a2f247cd64b32edaa5a1a5e5a5d',1,'pl.rzeszow.wsiz.carservice.model.Service.city()'],['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_user.html#a8e2c02e3fc47e68a6b8300924987fb01',1,'pl.rzeszow.wsiz.carservice.model.User.city()']]],
+  ['clientlistener',['clientListener',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1utils_1_1_singleton.html#a3510aa38b3a22aec182e6a39095e9825',1,'pl::rzeszow::wsiz::carservice::utils::Singleton']]],
+  ['contactdialog',['contactDialog',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_service_detail.html#a5eefb64740f64fa5afe6778f2baf06ed',1,'pl::rzeszow::wsiz::carservice::activity::ServiceDetail']]],
+  ['contactedservices',['contactedServices',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_user.html#ab5d09e18835e08803cfd61043304a404',1,'pl::rzeszow::wsiz::carservice::model::User']]],
+  ['contactedusers',['contactedUsers',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a6dc3c69063eb3929f1c27824af99e335',1,'pl::rzeszow::wsiz::carservice::model::Service']]],
+  ['contactfragment',['contactFragment',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_conversation.html#a78128a237a856ed85dc62e4d110c0e16',1,'pl::rzeszow::wsiz::carservice::activity::Conversation']]],
+  ['content',['content',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_message.html#a2108bf5c76dc8aa5c6bb81fca74f8097',1,'pl::rzeszow::wsiz::carservice::model::Message']]],
+  ['conversations',['conversations',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1fragments_1_1_conversation_list_fragment.html#aed007c020a43c871cfb40d1988b11fef',1,'pl::rzeszow::wsiz::carservice::fragments::ConversationListFragment']]],
+  ['conversationslistadapter',['conversationsListAdapter',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1fragments_1_1_conversation_list_fragment.html#a7553e0b386c9181e4f49d69b780dd4f6',1,'pl::rzeszow::wsiz::carservice::fragments::ConversationListFragment']]],
+  ['conversationslistview',['conversationsListView',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1fragments_1_1_conversation_list_fragment.html#ab782fc8d1159f2a9029d1c4dded26b8c',1,'pl::rzeszow::wsiz::carservice::fragments::ConversationListFragment']]]
 ];

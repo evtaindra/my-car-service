@@ -1,10 +1,4 @@
 var searchData=
 [
-  ['sectionspageradapter',['SectionsPagerAdapter',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_main_activity_1_1_sections_pager_adapter.html#adf28e6086ed4a8fc4556a7bbaca9052d',1,'pl::rzeszow::wsiz::carservice::activity::MainActivity::SectionsPagerAdapter']]],
-  ['service',['Service',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a67d1e3cdb22b47ac4b7e9024bafc2b14',1,'pl.rzeszow.wsiz.carservice.model.Service.Service(int id, String name, String city, String address, double rating, Bitmap image, int us_id)'],['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a154e0534267063cd4c9cf1cc1d62d77e',1,'pl.rzeszow.wsiz.carservice.model.Service.Service(int id, String name, String city, String address, double rating, Bitmap image, int us_id, String description, String phone, String email)'],['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a820cb6aae9f1bac80d3cd58224f7acc8',1,'pl.rzeszow.wsiz.carservice.model.Service.Service()']]],
-  ['servicelistadapter',['ServiceListAdapter',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1adapters_1_1_service_list_adapter.html#a5b27cc56268e1037a696d03e8dc916bd',1,'pl::rzeszow::wsiz::carservice::adapters::ServiceListAdapter']]],
-  ['setclientlistener',['setClientListener',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1utils_1_1_singleton.html#a00d8a0f84c16d50f5b63e51615e27108',1,'pl::rzeszow::wsiz::carservice::utils::Singleton']]],
-  ['setrating',['setRating',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1model_1_1_service.html#a81cc65423a14d855aba7410cd85594f5',1,'pl::rzeszow::wsiz::carservice::model::Service']]],
-  ['setuservisiblehint',['setUserVisibleHint',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1fragments_1_1_personal_data_fragment.html#aeb2adafd85bee0d79f8efebc6b642b95',1,'pl::rzeszow::wsiz::carservice::fragments::PersonalDataFragment']]],
-  ['stringtobitmap',['StringToBitmap',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1utils_1_1image_1_1_bitmap_en_decode.html#a363bdadf5c40fd2c299664242d70b697',1,'pl::rzeszow::wsiz::carservice::utils::image::BitmapEnDecode']]]
+  ['rateservice',['rateService',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1utils_1_1_singleton.html#a82747ca3c1420abf1d2e2b3605542808',1,'pl::rzeszow::wsiz::carservice::utils::Singleton']]]
 ];
