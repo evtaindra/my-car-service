@@ -178,6 +178,7 @@ public class User extends BaseListItem {
     //! Metoda, która zwraca serwis z którym kontaktował się użytkownik.
     /*!
       \param position pozycja serwisu w liście kontaktów.
+      \return BaseListItem jako serwis
     */
     public BaseListItem getContact(int position) {
         return contactedServices.get(position);
