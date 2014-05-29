@@ -6,5 +6,7 @@ var searchData=
   ['carslist_2ejava',['CarsList.java',['../_cars_list_8java.html',1,'']]],
   ['clientlistener_2ejava',['ClientListener.java',['../_client_listener_8java.html',1,'']]],
   ['constants_2ejava',['Constants.java',['../_constants_8java.html',1,'']]],
+  ['conversation_2ejava',['Conversation.java',['../_conversation_8java.html',1,'']]],
+  ['conversationlistadapter_2ejava',['ConversationListAdapter.java',['../_conversation_list_adapter_8java.html',1,'']]],
   ['conversationlistfragment_2ejava',['ConversationListFragment.java',['../_conversation_list_fragment_8java.html',1,'']]]
 ];

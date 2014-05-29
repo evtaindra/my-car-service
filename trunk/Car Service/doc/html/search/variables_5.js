@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['post',['POST',['../enumpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1utils_1_1async_1_1_request_method.html#a52ef5be80863d7590b134353b770cb20',1,'pl::rzeszow::wsiz::carservice::utils::async::RequestMethod']]],
-  ['progress',['progress',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_splash.html#a80352752c40069187b5c866ed4979e49',1,'pl::rzeszow::wsiz::carservice::activity::Splash']]]
+  ['fragmentcallback',['fragmentCallBack',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1fragments_1_1_send_message_fragment.html#a415397ef6cb1d579598da68a78381a04',1,'pl::rzeszow::wsiz::carservice::fragments::SendMessageFragment']]],
+  ['fragmentswapper',['fragmentSwapper',['../classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_main_activity_1_1_sections_pager_adapter.html#a14a96d27ac835e54bcd8487cf5122f72',1,'pl::rzeszow::wsiz::carservice::activity::MainActivity::SectionsPagerAdapter']]]
 ];
