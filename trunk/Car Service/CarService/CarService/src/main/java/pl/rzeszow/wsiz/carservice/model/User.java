@@ -2,7 +2,7 @@ package pl.rzeszow.wsiz.carservice.model;
 
 import java.util.ArrayList;
 
-//! Klasa reprezentująca Użytkownika.
+    //! Klasa reprezentująca Użytkownika.
     /*!
       Przechowywuje wszystkie informacje o użytkowniku.
     */
@@ -167,7 +167,7 @@ public class User extends BaseListItem {
     }
 
     @Override
-    //! Metoda, króra zwraca ilość nawiązanych kontactów.
+    //! Metoda, króra zwraca ilość nawiązanych kontaktów.
     /*!
     \return Ilość nawiązanych kontaktów.
     */
