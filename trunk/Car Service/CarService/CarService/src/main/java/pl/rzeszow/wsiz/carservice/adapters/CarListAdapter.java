@@ -13,7 +13,7 @@ import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.model.Car;
 
 /**
- * Klasa reprezentująca listę samochodów
+ * Klasa obslugująca listę samochodów
  * <p>
  *    Służy do wyświetlania danych o samochodzie na liście
  * </p>
@@ -21,12 +21,12 @@ import pl.rzeszow.wsiz.carservice.model.Car;
 public class CarListAdapter extends BaseAdapter {
 
     private ArrayList<Car> carList; //!< lista zawierająca samochody.
-    private Context mContext;       //!< służy do przytrzymania activity, który jest związany z aktualnym fragmentem
+    private Context mContext;       //!< służy do przytrzymania activity, z którym współpracuje adapter
 
     /**
-     * Tworzenie nowej listy samochodów
+     * Tworzenie nowego Adaptera
      *
-     * @param context przytrzymuje activity, który jest związany z aktualnym fragmentem
+     * @param context przytrzymuje activity, z którym współpracuje adapter
      */
     public CarListAdapter(Context context){
         this.carList = new ArrayList<Car>();
@@ -34,7 +34,7 @@ public class CarListAdapter extends BaseAdapter {
     }
 
     /**
-     * Dodanie do listy samochodów i odswieżanie zestawu danych
+     * Dodanie samochodów do listy i odswieżanie zestawu danych
      *
      * @param cars lista zawierająca samochody
      */
@@ -44,7 +44,7 @@ public class CarListAdapter extends BaseAdapter {
     }
 
     /**
-     *Usuwanie wszystkich elementów z tej listy i odswieżanie zestawu danych
+     *Usuwanie wszystkich elementów z listy i odswieżanie zestawu danych
      */
     public void clearData(){
         this.carList.clear();
@@ -52,7 +52,7 @@ public class CarListAdapter extends BaseAdapter {
     }
 
     /**
-     * Wyświetla ile pozycji są w zbiorze danych
+     * Wyświetla ile samochodów jest w zbiorze danych
      *
      * @return liczbę, ile obiektów ta lista zawiera
      */
