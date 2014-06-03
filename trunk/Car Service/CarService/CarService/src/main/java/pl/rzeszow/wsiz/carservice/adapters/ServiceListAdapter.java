@@ -14,41 +14,79 @@ import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.model.Service;
 
 /**
- * Created by rsavk_000 on 5/2/2014.
+ * Klasa obslugująca listę serwisow
+ * <p>
+ *    Służy do wyświetlania danych o serwisie na liście
+ * </p>
  */
 public class ServiceListAdapter extends BaseAdapter {
 
-    private ArrayList<Service> serviceList;
-    private Context mContext;
+    private ArrayList<Service> serviceList;//!< lista zawierająca serwisy.
+    private Context mContext;          //!< służy do przytrzymania activity, z którym współpracuje adapter
 
+    /**
+     * Tworzenie nowego Adaptera
+     *
+     * @param context przytrzymuje activity, z którym współpracuje adapter
+     */
     public ServiceListAdapter(Context context) {
         this.serviceList = new ArrayList<Service>();
         mContext = context;
     }
+
+    /**
+     * Dodanie serwisów do listy i odswieżanie zestawu danych
+     *
+     * @param services lista zawierająca serwisy
+     */
     public void addServices(ArrayList<Service> services){
         this.serviceList.addAll(services);
         notifyDataSetChanged();
     }
+    /**
+     * Usuwanie wszystkich elementów z listy i odswieżanie zestawu danych
+     */
     public void clearData(){
         this.serviceList.clear();
         notifyDataSetChanged();
     }
-
+    /**
+     * Wyświetla ile serwisów jest w zbiorze danych
+     *
+     * @return liczbę, ile obiektów ta lista zawiera
+     */
     @Override
     public int getCount() {
         return serviceList.size();
     }
-
+    /**
+     * Zwraca serwis na danej pozycji
+     * @param position pozycja elementa w zbiorze danych
+     * @return element danych, jaki jest powiązany z określoną pozycją w zbiorze danych
+     */
     @Override
     public Service getItem(int position) {
         return this.serviceList.get(position);
     }
-
+    /**
+     * Zwraca id serwisu na danej pozycji
+     * @param position pozycja elementa w zbiorze danych
+     * @return id elementa związany z określoną pozycję na liście.
+     */
     @Override
     public long getItemId(int position) {
         return getItem(position).getId();
     }
 
+    /**
+     * Pobieranie serwisu po jego id
+     * <p>
+     *  Jeżeli takie id serwisu istneje pośród wszystkich serwisów
+     *  to pobieramy ten serwis
+     * </p>
+     * @param id id serwisu
+     * @return serwis z szukanym id
+     */
     public Service getItemById(long id){
         for (int i = 0; i < serviceList.size(); i++) {
             if( id == serviceList.get(i).getId()) {
@@ -58,11 +96,28 @@ public class ServiceListAdapter extends BaseAdapter {
         return null;
     }
 
+    /**
+     * Aktualizacja rankingu po id serwisu i odswieżanie zestawu danych
+     * @param id id serwisu, ranking którego aktualizujemy
+     * @param rating ocena serwisu
+     */
     public void updateItemRating(long id, double rating){
         getItemById(id).setRating(rating);
         notifyDataSetChanged();
     }
 
+    /**
+     * Pobieranie widoku, który wyświetla dane w określonej pozycji w zbiorze danych.
+     * <p>
+     * Gdy widok nic nie zawiera inicjalizujemy XML plik.
+     * Przypisujemy dane o serwisie do odpowiednich pół.
+     * </p>
+     *
+     * @param position pozycja elementa w zbiorze danych
+     * @param convertView nowy widok
+     * @param parent widok, który zawiera inny widok
+     * @return widok  wyświetlający dane w określonej pozycji.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
