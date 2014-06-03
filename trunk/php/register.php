@@ -1,82 +1,65 @@
 <?php
 
-/*
-Our "config.inc.php" file connects to database every time we include or require
-it within a php script.  Since we want this script to add a new user to our db,
-we will be talking with our database, and therefore,
-let's require the connection to happen:
-*/
+	/*
+	"config.inc.php" plik łączy się z bazą danych za każdym razem,
+	kiedy wywołany jest w skrypcie php.  
+	*/
 require("config.inc.php");
 
-//if posted data is not empty
+	//jeśli wysłane dane nie są puste
 if (!empty($_POST)) {
-    //If the username or password is empty when the user submits
-    //the form, the page will die.
-    //Using die isn't a very good practice, you may want to look into
-    //displaying an error message within the form instead.  
-    //We could also do front-end form validation from within our Android App,
-    //but it is good to have a have the back-end code do a double check.
+    //Jeśli nazwa użytkownika lub hasło jest puste, gdy użytkownik prześle 
+    // formularz, strona przestanie działać.
     if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['name']) || empty($_POST['surname']) ||
 	empty($_POST['sex']) || empty($_POST['birth']) || empty($_POST['phone']) || empty($_POST['email']) || empty($_POST['city']) || empty($_POST['adress'])  ) {
         
         
-        // Create some data that will be the JSON response 
+        // Tworzenie pewnych danych, które będą odpowiedzią JSON
         $response["success"] = 0;
         $response["message"] = "Please enter all required fields.";
         
-        //die will kill the page and not execute any code below, it will also
-        //display the parameter... in this case the JSON data our Android
-        //app will parse
+        //zabijanie strony i nie wykonywanie kodu poniżej.
+		//będzie to również wyświetlenie parametru.
         die(json_encode($response));
     }
     
-    //if the page hasn't died, we will check with our database to see if there is
-    //already a user with the username specificed in the form.  ":user" is just
-    //a blank variable that we will change before we execute the query.  We
-    //do it this way to increase security, and defend against sql injections
+    //jeżeli strona nie umarła, sprawdzimy w naszej bazy danych czy jest 
+	//	użytkownika z imieniem użytkownika wskazanym w formularzu. 
     $query        = " SELECT 1 FROM users WHERE username = :user";
-    //now lets update what :user should be
+    //aktualizacja :user 
     $query_params = array(
         ':user' => $_POST['username']
     );
     
-    //Now let's make run the query:
+    //Uruchomienie query
     try {
-        // These two statements run the query against your database table. 
+        // Te dwa stwierdzenia uruchomiają kwerendę 
         $stmt   = $db->prepare($query);
         $result = $stmt->execute($query_params);
     }
     catch (PDOException $ex) {
-        // For testing, you could use a die and message. 
-        //die("Failed to run query: " . $ex->getMessage());
         
-        //or just use this use this one to product JSON data:
+        //Wykorzystujemy to dla wytworzenia danych JSON
         $response["success"] = 0;
         $response["message"] = "Database Error1. Please Try Again!";
         die(json_encode($response));
     }
     
-    //fetch is an array of returned data.  If any data is returned,
-    //we know that the username is already in use, so we murder our
-    //page
+    //Pobieranie tablicy zwracanych danych. Jeśli jakiekolwiek dane są zwracane, 
+    // wiemy, że nazwa użytkownika jest już w użyciu, więc zabijamy stronę
     $row = $stmt->fetch();
     if ($row) {
-        // For testing, you could use a die and message. 
-        //die("This username is already in use");
-        
-        //You could comment out the above die and use this one:
+
         $response["success"] = 0;
         $response["message"] = "I'm sorry, this username is already in use";
         die(json_encode($response));
     }
     
-    //If we have made it here without dying, then we are in the clear to 
-    //create a new user.  Let's setup our new query to create a user.  
-    //Again, to protect against sql injects, user tokens such as :user and :pass
+    //Jeżeli wszystko się powiodlo to tworzymy nowego użytkownika
     $query = "INSERT INTO users ( username, password, name, surname, sex, birth, nr_tel, email, city, adress) 
 	VALUES ( :user, :pass, :name, :sur, :sex, :birth, :phone, :email, :city, :adress ) ";
     
-    //Again, we need to update our tokens with the actual data:
+    //Aktualizacja tablicy z rzeczywistymi danymi
     $query_params = array(
         ':user' => $_POST['username'],
         ':pass' => $_POST['password'],
@@ -90,35 +73,22 @@ if (!empty($_POST)) {
         ':adress' => $_POST['adress']
     );
     
-    //time to run our query, and create the user
+    //Uruchomienie zapytania i tworzenie użytkownika
     try {
         $stmt   = $db->prepare($query);
         $result = $stmt->execute($query_params);
     }
     catch (PDOException $ex) {
-        // For testing, you could use a die and message. 
-        //die("Failed to run query: " . $ex->getMessage());
-        
-        //or just use this use this one:
         $response["success"] = 0;
         $response["message"] = "Database Error2. Please Try Again!";
         die(json_encode($response));
     }
     
-    //If we have made it this far without dying, we have successfully added
-    //a new user to our database.  We could do a few things here, such as 
-    //redirect to the login page.  Instead we are going to echo out some
-    //json data that will be read by the Android application, which will login
-    //the user (or redirect to a different activity, I'm not sure yet..)
+    //Jeżeli wszystko się powiodlo to dodaliśmy nowego użytkownika do bazy danych
     $response["success"] = 1;
     $response["message"] = "Username Successfully Added!";
     echo json_encode($response);
-    
-    //for a php webservice you could do a simple redirect and die.
-    //header("Location: login.php"); 
-    //die("Redirecting to login.php");
-    
-    
+
 } else {
 ?>
 	<h1>Register</h1> 

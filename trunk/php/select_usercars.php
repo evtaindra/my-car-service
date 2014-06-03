@@ -17,7 +17,6 @@ catch (PDOException $ex) {
     die(json_encode($response));
 }
 
-// Finally, we can retrieve all of the found rows into an array using fetchAll 
 $rows = $stmt->fetchAll();
 
 

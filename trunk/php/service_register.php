@@ -5,7 +5,6 @@ require("config.inc.php");
 if (!empty($_POST)) {
 
     if (empty($_POST['sname']) || empty($_POST['scity']) || empty($_POST['saddress']) || empty($_POST['sdescription']) || empty($_POST['suserid']) ) {
-        // Create some data that will be the JSON response 
         $response["success"] = 0;
         $response["message"] = "Please enter all required fields.";
 
