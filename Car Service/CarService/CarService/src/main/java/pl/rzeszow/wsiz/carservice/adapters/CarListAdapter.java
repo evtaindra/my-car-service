@@ -63,9 +63,9 @@ public class CarListAdapter extends BaseAdapter {
 
     /**
      * Zwraca samochód na danej pozycji
-     * @param position pozycja elementa w zbiorze danych
-     * @return element danych, jaki jest powiązany z określoną pozycję w zbiorze danych
-     */
+    * @param position pozycja elementa w zbiorze danych
+    * @return element danych, jaki jest powiązany z określoną pozycją w zbiorze danych
+    */
     @Override
     public Car getItem(int position) {
         return this.carList.get(position);
