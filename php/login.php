@@ -2,7 +2,7 @@
 
 
 
-//load and connect to MySQL database stuff
+//załadowanie i podłączenie sie do bazy danych MySQL
 
 require("config.inc.php");
 
@@ -10,7 +10,7 @@ require("config.inc.php");
 
 if (!empty($_POST)) {
 
-    //gets user's info based off of a username.
+    // pobieranie informacje użytkownika opierajac o nazwę użytkownika.
 
     $query = " 
 
@@ -50,43 +50,27 @@ if (!empty($_POST)) {
 
     catch (PDOException $ex) {
 
-        // For testing, you could use a die and message. 
-
-        //die("Failed to run query: " . $ex->getMessage());
-
-        
-
-        //or just use this use this one to product JSON data:
-
         $response["success"] = 0;
 
         $response["message"] = "Database Error1. Please Try Again!";
 
         die(json_encode($response));
 
-        
-
     }
 
     
 
-    //This will be the variable to determine whether or not the user's information is correct.
-
-    //we initialize it as false.
+    //Zmienna w celu ustalenia, czy informacje użytkownika jest prawidłowe.
 
     $validated_info = false;
 
     
 
-    //fetching all the rows from the query
+    //ściąganie wszystkich wierszy 
 
     $row = $stmt->fetch();
 
     if ($row) {
-
-        //if we encrypted the password, we would unencrypt it here, but in our case we just
-
-        //compare the two passwords
 
         if ($_POST['password'] === $row['password']) {
 
@@ -96,11 +80,9 @@ if (!empty($_POST)) {
 
     }
 
-    
-
-    // If the user logged in successfully, then we send them to the private members-only page 
-
-    // Otherwise, we display a login failed message and show the login form again 
+    // Jeśli logowanie sie powiodlo, to wyślijmy użytkownika do prywatnych członków
+    // W przeciwnym razie wyświetlamy komunikat że logowanie nie powiodło się
+	//	i pokazujemy ponownie formularz logowania
 
     if ($login_ok) {
 

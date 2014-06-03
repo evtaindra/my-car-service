@@ -13,7 +13,6 @@ catch (PDOException $ex) {
     die(json_encode($response));
 }
 
-// Finally, we can retrieve all of the found rows into an array using fetchAll 
 $rows = $stmt->fetchAll();
 
 
@@ -32,11 +31,9 @@ if ($rows) {
         $post["simage"]  = $row["image"];
         $post["sus_id"]  = $row["us_id"];
         
-        //update our repsonse JSON data
         array_push($response["services"], $post);
     }
     
-    // echoing JSON response
     echo json_encode($response);
     
     

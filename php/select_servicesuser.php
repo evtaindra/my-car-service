@@ -33,12 +33,10 @@ if (!empty($_POST)) {
         $post["srating"]  = $row["mark"];
         $post["simage"]  = $row["image"];
         $post["sus_id"]  = $row["us_id"];
-        
-        //update our repsonse JSON data
+
         array_push($response["services"], $post);
     }
     
-    // echoing JSON response
     echo json_encode($response);
     
     
