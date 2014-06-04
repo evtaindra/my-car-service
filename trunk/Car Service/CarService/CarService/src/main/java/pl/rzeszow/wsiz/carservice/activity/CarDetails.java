@@ -23,25 +23,40 @@ import pl.rzeszow.wsiz.carservice.model.Car;
 import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
-
 /**
- * Created by opryima on 2014-05-19.
+ * Klasa CarDetails
+ * <p>
+ *   Służy wyświetlenia i modyfikacji szczególnej informacji o aucie
+ * </p>
  */
+
 public class CarDetails extends ActionBarActivity implements ClientListener {
 
-    Car mCar;
+    Car mCar; //!< obiekt samochodu.
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog; //!< Dialog z wskaźnikiem postępu edytowania auta
 
-    private String TAG = "EditCar";
+    private String TAG = "EditCar"; //!< zmienna przyjmująca wartość string
 
-    EditText make, model, regNumb, engine, mileage, fuel, color, year;
-    Button save, delete;
+    EditText make, model, regNumb, engine, mileage, fuel, color, year; //!< pola, w których tekst może być edytowany
+    Button save, delete; //!< przyciski edytowania i usuwania auta
 
-    private long carID;
+    private long carID; //!< id auta
 
-    private String MESSAGE;
+    private String MESSAGE; //!< zmienna przyjmująca wartość string ("Loading car info")
 
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *  Ustawienie treści do widoku. Jeżeli intencję, która rozpoczęła tę działalność
+     *  nie jest pusta pobieramy id auta. Ustawiamy  tekstedytory do widoku i akcji która będzie
+     *  wykonywana przy nacisku na przycisk. Potem tworzy się lista z kluczem i wartością i jest
+     *  dodawany do niej parametr id auta. Jeżeli Singletone jest online wykonijemy akcję, w
+     *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
+     * </p>
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +90,15 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         delete = (Button)findViewById(R.id.delete);
 
         delete.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Usuwanie auta
+             * <p>
+             *  Tworzy się nowa lista z kluczem i wartością i jest dodawany do niej parametr
+             *  id auta. Jeżeli Singletone jest online wykonijemy akcję, w
+             *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 MESSAGE = getString(R.string.deleting_car);
@@ -90,6 +114,18 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         });
 
         save.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Aktualizacja auta
+             * <p>
+             * Konwertuje w string to co zostało wpisane w polach,
+             * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
+             * jakie jest puste. W przeciwnym razie tworzy się lista z
+             * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+             *  Jeżeli Singletone jest online wykonijemy akcję, w
+             *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 MESSAGE = getString(R.string.update_car_info);
@@ -131,7 +167,6 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
                     params.add(new BasicNameValuePair("fuel", cfuel));
                     params.add(new BasicNameValuePair("year", cyear));
 
-                    //always don`t forget set client
                     if (Singleton.isOnline(CarDetails.this)) {
                     Singleton.getSingletonInstance().setClientListener(CarDetails.this);
                     Singleton.getSingletonInstance().updateCar(params);
@@ -143,12 +178,23 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         });
     }
 
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
         editText.requestFocus();
     }
-
+    /**
+     * Pokazywanie okna z dialogiem i wskaźnikiem postępu łądowania info o aucie
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(CarDetails.this);
@@ -158,6 +204,16 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
         pDialog.show();
     }
 
+    /**
+     * Kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
+     *  Jeżeli w rezult integer == 1 to znaczy że auto zostało aktualizowane,
+     *  W przeciwnym wypadku auto nie zostało aktualizowane. I pokazujemy o tym wiadomość
+     * </p>
+     *
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -189,11 +245,17 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
 
     }
 
+    /**
+     * Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
 
+    /**
+     * Ustawienie w odpowiednie pola informacji o wybranym aucie
+     */
     private void setCarInfo(){
         make.setText(mCar.getMarka());
         model.setText(mCar.getModel());
