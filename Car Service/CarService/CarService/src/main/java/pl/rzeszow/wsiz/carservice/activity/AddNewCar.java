@@ -24,17 +24,32 @@ import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
- * Created by opryima on 2014-05-19.
+ * Klasa AddNewCar
+ * <p>
+ *   Służy do dodania nowego auta
+ * </p>
  */
+
 public class AddNewCar extends Activity implements ClientListener {
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog;  //!< Dialog z wskaźnikiem postępu dodawania nowego auta
 
-    private String TAG = "AddNewCar";
+    private String TAG = "AddNewCar"; //!< zmienna przyjmująca wartość string
 
-    EditText make, model, regNumb, engine, mileage, fuel, color, year;
-    Button addCar;
+    EditText make, model, regNumb, engine, mileage, fuel, color, year; //!< pola, w których tekst może być edytowany
+    Button addCar; //!< przycisk dodania nowego auta
 
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *  Ustawienie treści do widoku  i tekstedytorów  do interakcji
+     *  z widgetami w interfejsie użytkownika. Ustawienie akcji która będzie
+     *  wykonywana przy nacisku na przycisk.
+     * </p>
+     *
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +68,17 @@ public class AddNewCar extends Activity implements ClientListener {
         addCar = (Button)findViewById(R.id.addCar);
 
         addCar.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Wywoływane, gdy widok został kliknięty.
+             * <p>
+             * Konwertuje w string to co zostało wpisane w polach,
+             * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
+             * jakie jest puste. W przeciwnym razie tworzy się lista z
+             * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+             * Za pomocą Singletona wykonijemy akcję.
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 String cmake = String.valueOf(make.getText());
@@ -93,7 +119,6 @@ public class AddNewCar extends Activity implements ClientListener {
                     params.add(new BasicNameValuePair("fuel", cfuel));
                     params.add(new BasicNameValuePair("year", cyear));
 
-                    //always don`t forget set client
                     Singleton.getSingletonInstance().setClientListener(AddNewCar.this);
                     Singleton.getSingletonInstance().addNewCar(params);
                 }
@@ -102,12 +127,24 @@ public class AddNewCar extends Activity implements ClientListener {
         });
     }
 
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
         editText.requestFocus();
     }
 
+    /**
+     * Pokazywanie okna z dialogiem i wskaźnikiem postępu dodawania nowego auta
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(AddNewCar.this);
@@ -116,6 +153,17 @@ public class AddNewCar extends Activity implements ClientListener {
         pDialog.setCancelable(true);
         pDialog.show();
     }
+
+    /**
+     * Kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
+     *  Jeżeli w rezult integer==1 to znaczy że auto zostało dodane,
+     *  W przeciwnym wypadku auto nie zostało dodane. I pokazujemy o tym wiadomość
+     * </p>
+     *
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
 
     @Override
     public void onDataReady(JSONObject resualt) {
@@ -138,6 +186,9 @@ public class AddNewCar extends Activity implements ClientListener {
         }
     }
 
+    /**
+     * Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
