@@ -31,27 +31,42 @@ import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
- * Created by prima_000 on 2014-05-23.
+ * Klasa ServiceEdit
+ * <p>
+ *   Służy modyfikacji szczególnej informacji o serwisie
+ * </p>
  */
 public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
-    Service sService;
+    Service sService; //!< obiekt samochodu.
 
-    private AlertDialog imageDialog;
-    private ProgressDialog pDialog;
+    private AlertDialog imageDialog;  //!< Dialog dla dodania obrazek serwisu
+    private ProgressDialog pDialog; //!< Dialog z wskaźnikiem postępu rejestracji serwisu
 
-    private ImageView imageView;
-    private Bitmap image;
+    private ImageView imageView; //!< służy do wyświetlania obrazku
+    private Bitmap image; //!< służy do wyświetlania obrazku
 
-    private EditText sName, sCity, sAddress, sDescription;
-    private Button sSave, sDelete;
-    private PictureSelector pictureSelector;
-    private String TAG = "ServiceEdit";
+    private EditText sName, sCity, sAddress, sDescription; //!< pola, w których tekst może być edytowany
+    private Button sSave, sDelete; //!< przyciski aktualizacji i usuwania serwisu
+    private PictureSelector pictureSelector; //!< służy do wybrania obrazku
+    private String TAG = "ServiceEdit"; //!< zmienna przyjmująca wartość string
 
-    private long serviceID;
+    private long serviceID;  //!< id serwisu
 
-    private String MESSAGE;
+    private String MESSAGE; //!< zmienna przyjmująca wartość string ("Loading service info")
 
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *      Ustawienie treści do widoku. Jeżeli intencję, która rozpoczęła tę działalność
+     *  nie jest pusta pobieramy id serwisu. Tworzy się lista z kluczem i wartością i jest
+     *  dodawany do niej parametr id serwisu. Jeżeli Singletone jest online wykonijemy akcję, w
+     *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem. Potem dodajemy listener na
+     *  obrazek.
+     * </p>
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +89,15 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
         imageView = (ImageView) findViewById(R.id.simage);
         imageView.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Wybranie obrazku
+             * <p>
+             *     Pokazywanie dialogu dla wybrania obrazku,
+             *     Ustawiamy  tekstedytory do widoku i akcji która będzie
+             *  wykonywana przy nacisku na przycisk.
+             * </p>
+             * @param v widok, który został kliknięty
+             */
             @Override
             public void onClick(View v) {
                 imageDialog.show();
@@ -90,6 +114,18 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
         sSave = (Button) findViewById(R.id.ssave);
         sSave.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Modyfikacja serwisu
+             * <p>
+             *     Konwertuje w string to co zostało wpisane w polach,
+             * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
+             * jakie jest puste. W przeciwnym razie tworzy się lista z
+             * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+             *  Jeżeli Singleton jest online wykonijemy akcję, w
+             *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
+             * </p>
+             * @param v  widok, który został kliknięty
+             */
             @Override
             public void onClick(View v) {
                 String name = String.valueOf(sName.getText());
@@ -124,6 +160,15 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
         sDelete = (Button)findViewById(R.id.sdelete);
         sDelete.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Usunięcie serwisu
+             * <p>
+             *     Tworzy się nowa lista z kluczem i wartością i jest dodawany do niej parametr
+             *  id serwisu. Jeżeli Singleton jest online wykonijemy akcję, w
+             *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
+             * </p>
+             * @param v widok, który został kliknięty
+             */
             @Override
             public void onClick(View v) {
                 MESSAGE = getString(R.string.deleting_car);
@@ -139,6 +184,15 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         });
     }
 
+    /**
+     * Wywoływane, gdy aktywnośc kończy swoją działalność
+     * <p>
+     *     Przypisuje ten obrazek, który wybraliśmy do bitmapy
+     * </p>
+     * @param requestCode pozwala określić, skąd wynik pochodzi.
+     * @param resultCode kod wyniku zwracany przez aktywność dziecka
+     * @param data intent, który może zwrócić dane wynikowe
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -149,12 +203,24 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         }
     }
 
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
         editText.requestFocus();
     }
 
+    /**
+     * Pokazywanie okna z dialogiem i wskaźnikiem postępu łądowania info o serwisie
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(this);
@@ -164,11 +230,24 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         pDialog.show();
     }
 
+    /**
+     *  Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno dialogu z ekranu. Jeżeli result nie jest null ładujemy
+     *  informacje o serwisie, w innym przypadku parsujemy ten rezult za pomocą JSONInterpretera
+     *  Jeżeli w rezult integer == 1 to znaczy że serwis został aktualizowany,
+     *  W przeciwnym wypadku serwis nie został aktualizowany. I pokazujemy o tym wiadomość
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -195,6 +274,9 @@ public class ServiceEdit extends ActionBarActivity implements ClientListener {
         }
     }
 
+    /**
+     * Ustawienie w odpowiednie pola informacji o wybranym serwisie
+     */
     private void setServiceInfo(){
         sName.setText(sService.getName());
         sCity.setText(sService.getCity());
