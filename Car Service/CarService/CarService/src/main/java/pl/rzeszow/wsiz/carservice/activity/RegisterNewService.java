@@ -29,21 +29,34 @@ import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
- * Created by rsavk_000 on 5/1/2014.
+ * Klasa RegisterNewServise
+ * <p>
+ *   Służy do rejestracji serwisu
+ * </p>
  */
+
 public class RegisterNewService extends Activity implements View.OnClickListener, ClientListener {
 
-    private AlertDialog imageDialog;
-    private ProgressDialog pDialog;
+    private AlertDialog imageDialog; //!< Dialog dla dodania obrazek serwisu
+    private ProgressDialog pDialog; //!< Dialog z wskaźnikiem postępu rejestracji serwisu
 
-    private ImageView imageView;
-    private Bitmap image;
+    private ImageView imageView; //!< służy do wyświetlania obrazku
+    private Bitmap image; //!< służy do wyświetlania obrazku
 
-    private EditText sName, sCity, sAddress, sDescription;
-    private Button mRegister;
-    private PictureSelector pictureSelector;
-    private String TAG = "RegisterNewService";
+    private EditText sName, sCity, sAddress, sDescription; //!< pola, w których tekst może być edytowany
+    private Button mRegister; //!< przycisk rejestracji serwisu
+    private PictureSelector pictureSelector; //!< służy do wybrania obrazku
+    private String TAG = "RegisterNewService"; //!< zmienna przyjmująca wartość string
 
+    /**
+     *  Wywoływane, gdy aktywność zaczyna.
+     *  <p>
+     *       Ustawienie treści do widoku, tekstedytorów, dialogu do wybrania obrazku.
+     *       Ustawienie akcji która będzie wykonywana przy nacisku na przycisk.
+     *  </p>
+     * @param savedInstanceState  Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +76,18 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         mRegister.setOnClickListener(this);
     }
 
+    /**
+     * Wywoływane, gdy widok został kliknięty.
+     * <p>
+     *     Jeżeli został kliknięty na bitmap to pokazuje się dialog z wybraniem obrazku.
+     *     Jeżeli na rejestrację serwisu to będzie konwertowane w string to co zostało wpisane w polach,
+     *     gdy pola są puste, będzie pokazywany błąd na tym polu,
+     *     jakie jest puste. W przeciwnym razie tworzy się lista z
+     *     kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+     *     Za pomocą Singletona wykonijemy akcję.
+     * </p>
+     * @param v widok, który został kliknięty.
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -99,6 +124,15 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         }
     }
 
+    /**
+     * Wywoływane, gdy aktywnośc kończy swoją działalność
+     * <p>
+     *     Przypisuje ten obrazek, który wybraliśmy do bitmapy
+     * </p>
+     * @param requestCode  pozwala określić, skąd wynik pochodzi.
+     * @param resultCode kod wyniku zwracany przez aktywność dziecka
+     * @param data intent, który może zwrócić dane wynikowe
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,12 +143,23 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         }
     }
 
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
         editText.requestFocus();
     }
 
+    /**
+     *   Pokazywanie okna z dialogiem i wskaźnikiem postępu tworzenia serwisu
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(RegisterNewService.this);
@@ -124,6 +169,15 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         pDialog.show();
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
+     *  Jeżeli w rezult integer==1 to znaczy że serwis został dodany,
+     *  W przeciwnym wypadku serwis nie został dodany. I pokazujemy o tym wiadomość
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -145,6 +199,9 @@ public class RegisterNewService extends Activity implements View.OnClickListener
         }
     }
 
+    /**
+     *  Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();

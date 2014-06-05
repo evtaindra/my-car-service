@@ -33,9 +33,7 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
-/**
- * Created by rsavk_000 on 5/2/2014.
- */
+
 public class ServiceDetail extends ActionBarActivity implements
         ClientListener,
         RatingBar.OnRatingBarChangeListener,
