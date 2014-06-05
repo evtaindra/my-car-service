@@ -31,30 +31,45 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
- * Created by opryima on 2014-05-20.
+ * Klasa ServiceList
+ * <p>
+ *   Służy do wyświetlenia serwisów na liście
+ * </p>
  */
 public class ServiceList extends ActionBarActivity implements ClientListener,
         SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
-    private String TAG = "ServiceListF";
+    private String TAG = "ServiceListF"; //!< zmienna przyjmująca wartość string
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog; //!< dialog z wskaźnikiem postępu wyświetlenia serwisu
 
-    private ArrayList<Service> services;
-    private ListView servicesListView;
-    public static ServiceListAdapter serviceListAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private ArrayList<Service> services; //!< lista zawierająca serwisy.
+    private ListView servicesListView; //!< widok, który pokazuje serwisy na liście
 
-    private int userID;
+    public static ServiceListAdapter serviceListAdapter; //!< obiekt klasy ServiceListAdapter do wyświetlania danych o serwisie na liście
+    private SwipeRefreshLayout swipeRefreshLayout; //!< służy do odświeżania zawartości widoku poprzez pionowe machnięcie
 
+    private int userID;//!< id użytkownika
+
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *    Wysyłanie wiadomości o debugowaniu, ustawienie treści do widoku,
+     *    tworzenie adaptera.  Jeżeli intencję, która rozpoczęła tę działalność
+     *  nie jest pusta pobieramy id uzytkownika. Ustawiamy  widok, który pokazuje serwisy na liście,
+     *  adapter, kliknięcie na serwis, i odświeżanie zawartości widoku i listener do niego
+     * </p>
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-        setContentView(R.layout.fragment_servicelist);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Log.d(TAG, "onCreate");
+            setContentView(R.layout.fragment_servicelist);
 
-        serviceListAdapter = new ServiceListAdapter(this);
+            serviceListAdapter = new ServiceListAdapter(this);
 
-        if (getIntent() != null)
+            if (getIntent() != null)
             userID = getIntent().getExtras().getInt(Constants.USER_ID);
 
 
@@ -67,6 +82,15 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         swipeRefreshLayout.setColorScheme(R.color.color1, R.color.color2, R.color.color1, R.color.color2);
     }
 
+    /**
+     * Inicjalizacja zawartości menu.
+     * <p>
+     * Tworzymy wystąpienia XML plików w menu objektach i
+     * i tworzymy hierarchię menu z określonego XML zasobu.
+     * </p>
+     * @param menu menu, w którym można umieścić Opcje.
+     * @return true dla wyświetlenia menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -74,6 +98,16 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         return true;
     }
 
+    /**
+     * Jest wywoływana, kiedy został wybrany element z menu
+     * <p>
+     *     Pobieramy id tego elementa, jeżeli to jest dodanie nowego serwisu
+     *     zaczynamy nowe activity dla dodania serwisu
+     * </p>
+     * @param item element menu, który został wybrany.
+     * @return false aby umożliwić normalne menu dla kontynuacji przetwarzania,
+     * true aby je konsumować.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -83,12 +117,26 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Wywoływane dla rozpoczęcia interakcji z użytkownikiem.
+     * <p>
+     *     pobieramy serwisy użytkownika
+     * </p>
+     */
     @Override
     protected void onResume() {
         super.onResume();
         getUserServices();
     }
 
+    /**
+     * Pobieranie serwisów użytkownika
+     * <p>
+     *     Tworzymy nową listę z kluczem i wartością i dodajemy  do niej patametr id użytkownika.
+     *     Jeżeli Singleton jest online, wykonujemy pobiranie serwisów użytkownika,
+     *     w przeciwnym razie pokazujemy wiadomość sprawdź połączenie z internetem.
+     * </p>
+     */
     private void getUserServices(){
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("us_id", Integer.toString(userID)));
@@ -101,6 +149,15 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
 
     }
 
+    /**
+     * Odswieżanie zawartości widoku
+     * <p>
+     *     Tworzy się lista z kluczem i wartością i jest
+     *  dodawany do niej parametr id serwisu. Jeżeli Singletone jest online wykonijemy akcję, w
+     *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem i
+     *  anulujemy wszelkie wizualne wskazania odświeżenia.
+     * </p>
+     */
     @Override
     public void onRefresh() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -114,6 +171,19 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         }
     }
 
+    /**
+     *
+     *  Kliknięcie na element widoku
+     * <p>
+     * tworzenie intentu dla komunikowania sie z obsługą w tle
+     * i dodanie rozszerzonych danych czyli id serwisu do intencji
+     * i rozpoczęcie nowego activity
+     * </p>
+     * @param parent adapter gdzie było kliknięcie
+     * @param view widok adaptera, który został kliknięty
+     * @param position pozycja widoku
+     * @param id Id elementu, który został kliknięty.
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(this, ServiceEdit.class);
@@ -121,6 +191,14 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         this.startActivity(i);
     }
 
+    /**
+     *  Wywoływane gdy żądanie zostało wyslane
+     * <p>
+     *     Jezeli w zbiorze danych nie ma serwisów,tworzymy i pokazujemy dialog z wskaźnikiem postępu
+     *     łądowania serwisów, Wyłączamy tryb nieokreślony dla tego okna i możliwośc
+     *     anulowania okna klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
 //      swipeRefreshLayout.setRefreshing(true);
@@ -130,6 +208,13 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                /**
+                 * Metoda onCancel
+                 * <p>
+                 *    Anulowanie wykonania żądania
+                 * </p>
+                 * @param dialog interfejs dialogu
+                 */
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     Singleton.getSingletonInstance().cancelCurrentTask();
@@ -139,6 +224,17 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         }
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu i anulujemy wszelkie wizualne wskazanie odświeżenia.
+     *  Parsujemy ten rezult za pomocą JSONInterpretera.
+     *  Jeżeli rezult == null to znaczy że są problemy z połaczeniem do internetu,
+     *  Jeżeli rezult jest pusty to znaczy że nie ma u danego użytkownika serwisów.
+     *  W przeciwnym wypadku usuwamy serwisy i dodajemy nasz result do tego obiektu
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -156,6 +252,10 @@ public class ServiceList extends ActionBarActivity implements ClientListener,
         }
     }
 
+    /**
+     * Usunięcie okna z ekranu i
+     *     anulowanie wszelkich wizualnych wskazań odświeżenia.
+     */
     @Override
     public void onRequestCancelled() {
         if (pDialog != null)

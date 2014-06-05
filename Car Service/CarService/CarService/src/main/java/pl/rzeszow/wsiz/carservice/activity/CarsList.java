@@ -89,7 +89,7 @@ public class CarsList extends ActionBarActivity implements ClientListener,
      * Pobieranie samochodów użytkownika
      * <p>
      *     Tworzymy nową listę z kluczem i wartością i dodajemy  do niej patametr id użytkownika.
-     *     Jeżeli Singleton jest online, wykonujemy pobiranie samochodów u zytkownika,
+     *     Jeżeli Singleton jest online, wykonujemy pobiranie samochodów użytkownika,
      *     w przeciwnym razie pokazujemy wiadomość sprawdź połączenie z internetem.
      * </p>
      */
@@ -246,7 +246,7 @@ public class CarsList extends ActionBarActivity implements ClientListener,
     }
 
     /**
-     * Usunięcie okna z ekranu i i
+     * Usunięcie okna z ekranu i
      *     anulowanie wszelkich wizualnych wskazań odświeżenia.
      */
     @Override
