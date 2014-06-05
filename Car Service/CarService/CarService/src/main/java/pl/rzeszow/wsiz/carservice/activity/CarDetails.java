@@ -94,7 +94,7 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
              * Usuwanie auta
              * <p>
              *  Tworzy się nowa lista z kluczem i wartością i jest dodawany do niej parametr
-             *  id auta. Jeżeli Singletone jest online wykonijemy akcję, w
+             *  id auta. Jeżeli Singleton jest online wykonijemy akcję, w
              *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
              * </p>
              * @param v widok, który został kliknięty.
@@ -121,7 +121,7 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
              * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
              * jakie jest puste. W przeciwnym razie tworzy się lista z
              * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
-             *  Jeżeli Singletone jest online wykonijemy akcję, w
+             *  Jeżeli Singleton jest online wykonijemy akcję, w
              *  przeciwnym wypadku pokazujemy wiadomość sprawdź połączenie z internetem.
              * </p>
              * @param v widok, który został kliknięty.
@@ -205,7 +205,7 @@ public class CarDetails extends ActionBarActivity implements ClientListener {
     }
 
     /**
-     * Kiedy dane są przeanalizowane
+     * Wywołane kiedy dane są przeanalizowane
      * <p>
      *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
      *  Jeżeli w rezult integer == 1 to znaczy że auto zostało aktualizowane,
