@@ -155,7 +155,7 @@ public class AddNewCar extends Activity implements ClientListener {
     }
 
     /**
-     * Kiedy dane są przeanalizowane
+     * Wywołane kiedy dane są przeanalizowane
      * <p>
      *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
      *  Jeżeli w rezult integer==1 to znaczy że auto zostało dodane,
