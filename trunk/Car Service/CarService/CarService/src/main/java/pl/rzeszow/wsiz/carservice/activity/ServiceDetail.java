@@ -56,7 +56,7 @@ public class ServiceDetail extends ActionBarActivity implements
 
     private ProgressDialog pDialog;  //!< dialog z wskaźnikiem postępu wyświetlenia szczeglnej informacji o serwisie
 
-    private SendMessageFragment contactDialog;//fragment dialogu pomiędzy użytkownikiem a serwisem
+    private SendMessageFragment contactDialog;//<!fragment dialogu pomiędzy użytkownikiem a serwisem
 
     private AlertDialog pickDialog; //!< Dialog dla dodania obrazku serwisu
     private PictureSelector pictureSelector; //!< służy do wybrania obrazku
@@ -150,7 +150,7 @@ public class ServiceDetail extends ActionBarActivity implements
      * <p>
      *     Pobieramy id tego elementa, jeżeli to jest napisania wiadomości i
      *     użytkownik próbuje komunikować z własnym serwisem wystąpi błąd.
-     *     W innym przypadku mapujemy z wartości string do int i bool parametry,
+     *     W innym przypadku mapujemy parametry z wartości string do int i bool,
      *     otwieramy kontaktny dialog
      * </p>
      * @param item element menu, który został wybrany.
