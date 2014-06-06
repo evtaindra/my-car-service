@@ -63,11 +63,14 @@ public class ServiceDetail extends ActionBarActivity implements
     private String MESSAGE;  //!< zmienna przyjmująca wartość string ("Loading service details")
 
     /**
-     *  Ustawienie treści do widoku. Jeżeli intencję, która rozpoczęła tę działalność
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *     Ustawienie treści do widoku. Jeżeli intencję, która rozpoczęła tę działalność
      *  nie jest pusta pobieramy id serwisu. Ustawiamy  tekstedytory do widoku i listener dla oceny serwisu.
      *  Tworzy się lista z kluczem i wartością i jest
      *  dodawany do niej parametr id serwisu. Wykonijemy akcję za pomocą Singleton. Potem dodajemy listener na
      *  wybieranie obrazku.
+     * </p>
      * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
      *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
      */
