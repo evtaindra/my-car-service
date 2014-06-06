@@ -36,7 +36,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 /**
  * Klasa ServiceDetail
  * <p>
- *   Służy wyświetlenia i modyfikacji szczególnej informacji o serwisie
+ *   Służy wyświetlenia szczególnej informacji o serwisie
  * </p>
  */
 public class ServiceDetail extends ActionBarActivity implements
