@@ -28,22 +28,31 @@ import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
-
-//!  A Login class.
-/*!
-  Klasa do obsługi logowanie do aplikacji
-*/
+/**
+ * Klasa Login
+ * <p>
+ * Klasa do obsługi logowania do aplikacji
+ * </p>
+ */
 public class Login extends ActionBarActivity implements OnClickListener, ClientListener {
 
-    private EditText username, password;
-    private Button mSubmit, mRegister, mGuest;
-    private CheckBox lRemember;
+    private EditText username, password; //!< pola, w których tekst może być edytowany
+    private Button mSubmit, mRegister, mGuest; //!< przyciski logowania, rejestracji i wejść jako gość
+    private CheckBox lRemember; //!<zapamiętania imięni i hasła
 
-    private String TAG = "Login";
+    private String TAG = "Login";  //!< zmienna przyjmująca wartość string
 
-    private SharedPreferences mLogin;
-    private ProgressDialog pDialog;
-
+    private SharedPreferences mLogin;//!< służy do dostępu i modyfikowania danych
+    private ProgressDialog pDialog;//!< dialog z wskaźnikiem postępu logowania
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *      Ustawienie treści do widoku,tekstedytorów i checkboxa do widoku i listenerów
+     *      dla przycisków. Pobieranie i przytrzymanie zawartości loginu.
+     * </p>
+     * @param savedInstanceState  Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +75,18 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
         mLogin = getSharedPreferences(Constants.LOGIN, Context.MODE_PRIVATE);
     }
 
+    /**
+     * Logowanie lub rejestracja do systemu
+     * <p>
+     *     W przypadku naciśnięcia przycisku Login, jeśli Singleton jest online
+     *     pobieramy znaczenia które zostały napisane w polach i tworzymy z tymi parametrami listę i  za pomocą Singletona
+     *     wykonujemy akcję, w innym razie wystąpi bład połączenia z internetem.
+     *     W przypadku rejestracji i wejścia jako gość tworzymy intencję i przechodzimy do nowego activity.
+     *
+     *
+     * </p>
+     * @param v  widok, który został kliknięty
+     */
     @Override
     public void onClick(View v) {
         Intent i;
@@ -98,6 +119,12 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
         }
     }
 
+    /**
+     *  Pokazywanie okna z dialogiem i wskaźnikiem postępu logowania
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(Login.this);
@@ -107,6 +134,16 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
         pDialog.show();
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu i parsujemy rezult za pomocą JSONInterpretera.
+     *  W przypadku wystąpienia 1 logowanie sie powiodlo i jeżeli checkbox został kliknięty
+     *  tworzymy interfejs do modyfikowania wartości i ustawiamy wartości logina i hasła
+     *  w tym edytorze. Tworzymy nową intencję, dodajemy id użytkownika i rozpoczynamy nowe activity.
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
 
@@ -131,6 +168,9 @@ public class Login extends ActionBarActivity implements OnClickListener, ClientL
         }
     }
 
+    /**
+     * Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
