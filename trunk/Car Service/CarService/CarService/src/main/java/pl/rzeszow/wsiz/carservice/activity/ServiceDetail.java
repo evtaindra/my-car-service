@@ -33,30 +33,44 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.PictureSelector;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
-
+/**
+ * Klasa ServiceDetail
+ * <p>
+ *   Służy wyświetlenia i modyfikacji szczególnej informacji o serwisie
+ * </p>
+ */
 public class ServiceDetail extends ActionBarActivity implements
         ClientListener,
         RatingBar.OnRatingBarChangeListener,
         SendMessageFragment.FragmentCallBack {
 
-    private final String TAG = "ServiceDetail";
+    private final String TAG = "ServiceDetail"; //!< zmienna przyjmująca wartość string
 
-    private long serviceID;
+    private long serviceID; //!< id serwisu
 
-    private ImageView serviceImage;
-    private TextView serviceName, serviceDescription, serviceCity, serviceAddress, servicePhone, serviceEmail;
-    private RatingBar serviceRating;
-    private Service mService;
-    private boolean isRatingLoaded;
+    private ImageView serviceImage;//!< służy do wyświetlania obrazku
+    private TextView serviceName, serviceDescription, serviceCity, serviceAddress, servicePhone, serviceEmail; //!< pola, w których tekst może być edytowany
+    private RatingBar serviceRating; //!< pokazuje oceny serwisu w gwiazdach
+    private Service mService; //!< obiekt serwisu.
+    private boolean isRatingLoaded;//!< czy ocena jest załadowana
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog;  //!< dialog z wskaźnikiem postępu wyświetlenia szczeglnej informacji o serwisie
 
-    private SendMessageFragment contactDialog;
+    private SendMessageFragment contactDialog;//fragment dialogu pomiędzy użytkownikiem a serwisem
 
-    private AlertDialog pickDialog;
-    private PictureSelector pictureSelector;
-    private String MESSAGE;
+    private AlertDialog pickDialog; //!< Dialog dla dodania obrazku serwisu
+    private PictureSelector pictureSelector; //!< służy do wybrania obrazku
+    private String MESSAGE;  //!< zmienna przyjmująca wartość string ("Loading service details")
 
+    /**
+     *  Ustawienie treści do widoku. Jeżeli intencję, która rozpoczęła tę działalność
+     *  nie jest pusta pobieramy id serwisu. Ustawiamy  tekstedytory do widoku i listener dla oceny serwisu.
+     *  Tworzy się lista z kluczem i wartością i jest
+     *  dodawany do niej parametr id serwisu. Wykonijemy akcję za pomocą Singleton. Potem dodajemy listener na
+     *  wybieranie obrazku.
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +101,17 @@ public class ServiceDetail extends ActionBarActivity implements
         pickDialog = pictureSelector.buildImageDialog();
     }
 
+    /**
+     * Powiadomienie, że ocena została zmieniona.
+     * <p>
+     *     Jeżeli ocena została zmieniona, tworzy się lista z kluczem i wartością i jest
+     *  dodawany do niej parametry id serwisu, którego oceniamy, ocenę i id użytkownika, który
+     *  wystawił tą ocenę.  Wykonijemy akcję za pomocą Singleton.Ustawiamy załadowanie oceny na false.
+     * </p>
+     * @param ratingBar ratingBar, gdzie ocena została zmieniona
+     * @param rating aktualna ocena
+     * @param fromUser true, jeśli ocena została zainicjowana przez dotykowy gest użytkownika lub klawisz
+     */
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         if (isRatingLoaded) {
@@ -102,6 +127,15 @@ public class ServiceDetail extends ActionBarActivity implements
         }
     }
 
+    /**
+     * Inicjalizacja zawartości menu.
+     * <p>
+     * Jeżeli id Użytkownika nie jest równe 0,tworzymy wystąpienia XML plików w menu objektach i
+     * i tworzymy hierarchię menu z określonego XML zasobu.
+     * </p>
+     * @param menu menu, w którym można umieścić Opcje.
+     * @return true dla wyświetlenia menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (Singleton.getSingletonInstance().userID != 0) {
@@ -111,6 +145,18 @@ public class ServiceDetail extends ActionBarActivity implements
         return true;
     }
 
+    /**
+     *  Jest wywoływana, kiedy został wybrany element z menu
+     * <p>
+     *     Pobieramy id tego elementa, jeżeli to jest napisania wiadomości i
+     *     użytkownik próbuje komunikować z własnym serwisem wystąpi błąd.
+     *     W innym przypadku mapujemy z wartości string do int i bool parametry,
+     *     otwieramy kontaktny dialog
+     * </p>
+     * @param item element menu, który został wybrany.
+     * @return false aby umożliwić normalne menu dla kontynuacji przetwarzania,
+     * true aby je konsumować.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -133,6 +179,14 @@ public class ServiceDetail extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Wywoływane gdy żądanie zostało wyslane
+     * <p>
+     *     Tworzymy i pokazujemy dialog z wskaźnikiem postępu
+     *     łądowania informacji o serwisie, Wyłączamy tryb nieokreślony dla tego okna i możliwośc
+     *     anulowania okna klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(this);
@@ -142,6 +196,19 @@ public class ServiceDetail extends ActionBarActivity implements
         pDialog.show();
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu. Jeżeli result jest pusty będzie błąd z
+     *  połączeniem do internetu. W innym przypadku
+     *  parsujemy ten rezult za pomocą JSONInterpretera.
+     *  Jeżeli rezult nie jest null ustawiamy dane o serwisie w odpowiedne pola,
+     *  W innym przypadku gdy użytkownik chciał aktualizować ocenę serwisu,
+     *  parsujemy tą ocenę i aktualizujemy danę. Gdy użytkownik chciał wysłac
+     *  wiadomość będzie wyswietlono że udało sie. Jeszcze innym wypadku wystąpi błąd.
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -171,11 +238,19 @@ public class ServiceDetail extends ActionBarActivity implements
         }
     }
 
+    /**
+     *  Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
 
+    /**
+     * Ustawienie w odpowiednie pola informacji o wybranym serwisie i
+     * gdy nie istneje użytkownika lub to jest jego własny serwis postawić ocenę, to nie będzie widoczny
+     * mu aktualizacja rankingu
+     */
     private void setServiceData() {
         serviceImage.setImageBitmap(mService.getImage());
         serviceName.setText(mService.getName());
@@ -193,6 +268,16 @@ public class ServiceDetail extends ActionBarActivity implements
         }
     }
 
+    /**
+     * Wywoływane, gdy aktywnośc kończy swoją działalność
+     * <p>
+     *     Tworzymy listę dla załączika w wiadomości,
+     *     jeżeli nie jest ona pusta dodajemy je do diaalogu z wiadomościami
+     * </p>
+     * @param requestCode pozwala określić, skąd wynik pochodzi
+     * @param  resultCode kod wyniku zwracany przez aktywność dziecka
+     * @param data intent, który może zwrócić dane wynikowe
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -202,11 +287,21 @@ public class ServiceDetail extends ActionBarActivity implements
         }
     }
 
+    /**
+     * Pokazuje dialog dla dodania obrazku serwisu
+     */
     @Override
     public void pickAttachment() {
         pickDialog.show();
     }
 
+    /**
+     * Wysyłanie wiadomości
+     * <p>
+     *   Za pomoća Singletona odpawiamy wiadomość
+     * </p>
+     * @param params lista z treścią wiadomości
+     */
     @Override
     public void sendMessage(List<NameValuePair> params) {
         MESSAGE = getString(R.string.sending_message);
