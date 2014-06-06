@@ -38,7 +38,7 @@ import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
  */
 public class ServiceEdit extends ActionBarActivity implements ClientListener {
 
-    Service sService; //!< obiekt samochodu.
+    Service sService; //!< obiekt serwisu.
 
     private AlertDialog imageDialog;  //!< Dialog dla dodania obrazek serwisu
     private ProgressDialog pDialog; //!< Dialog z wskaźnikiem postępu rejestracji serwisu
