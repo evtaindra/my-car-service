@@ -3,7 +3,10 @@ package pl.rzeszow.wsiz.carservice.utils;
 import org.json.JSONObject;
 
 /**
- * Created by rsavk_000 on 4/13/2014.
+ * Interface do wykonania callbackow
+ * <p>
+ *     Dostawa danych do widoku oraz reagowanie widok na rozpocięcie lub zakończenie żadania.
+ * </p>
  */
 public interface ClientListener {
     public void onRequestSent();
