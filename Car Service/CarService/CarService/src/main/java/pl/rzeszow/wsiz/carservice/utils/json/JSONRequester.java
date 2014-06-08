@@ -23,17 +23,28 @@ import java.util.List;
 
 import pl.rzeszow.wsiz.carservice.utils.async.RequestMethod;
 
+/**
+ * Klasa wykonania http żądań
+ * <p>
+ *     Wykonanie GET i POST żądań i odczytywanie odpowiedzi w postaci JSONObject
+ * </p>
+ */
 public class JSONRequester {
 
-    private static InputStream is = null;
-    private static JSONObject jObj = null;
-    private static String json = "";
+    private static InputStream is = null;       //!< Strumień do wczytywania danych
+    private static JSONObject jObj = null;      //!< Zmienna do przechowywania odpowiedzi w postaci JSONObject
+    private static String json = "";            //!< Zmienna do wczytawania odzpowiedzi w postaci wiersza symboli
     private static String TAG = "JSONRequester";
 
-    public JSONRequester() {
+    public JSONRequester() { }
 
-    }
-
+    /**
+     * Wykonanie żądania odpowiedniego do RequestMethod
+     * @param url link do wykonania żądania
+     * @param method metod wykonania żądania
+     * @param params parametry żądania
+     * @return odpowidź na żądanie
+     */
     public static JSONObject makeHttpRequest(String url, RequestMethod method,
                                       List<NameValuePair> params) {
         // Making HTTP request

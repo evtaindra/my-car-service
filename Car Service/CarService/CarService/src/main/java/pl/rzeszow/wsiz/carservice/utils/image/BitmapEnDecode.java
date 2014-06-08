@@ -7,9 +7,14 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by rsavk_000 on 5/2/2014.
+ * Klasa do kodowania dekodowania obrazka do postaci bajtow
  */
 public class BitmapEnDecode {
+    /**
+     * Kodowania obrazka do postacia bajtow
+     * @param bitmap obrazek do przekodowania
+     * @return ciąg bajtow obrazka
+     */
     public static String BitmapToString(Bitmap bitmap) {
         if (bitmap != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -21,6 +26,11 @@ public class BitmapEnDecode {
             return null;
     }
 
+    /**
+     * Dekodowanie obrazka z ciągu bajtow
+     * @param string ciąg bajtow obrazka
+     * @return dekodowany obrazek
+     */
     public static Bitmap StringToBitmap(String string) {
         if (string==null || string.equals("")){
             return  null;

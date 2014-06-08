@@ -18,7 +18,7 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
- * Created by rsavk_000 on 5/1/2014.
+ * Klasa slużąca do interpretowania JSON odpowiedziej
  */
 public class JSONInterpreter {
 
@@ -27,6 +27,11 @@ public class JSONInterpreter {
     private static final String TAG_SERVICE_ARRAY = "services";
     private static final String TAG_CAR_ARRAY = "cars";
 
+    /**
+     * Parsowanie krotkich odpowiedzi web serwisu
+     * @param json objekt do parsowania
+     * @return para Tag suksesu i Wiadowosc odzpowiedzi
+     */
     public static Pair<Integer, String> parseMessage(JSONObject json) {
         Pair<Integer, String> res = null;
         try {
@@ -37,6 +42,11 @@ public class JSONInterpreter {
         return res;
     }
 
+    /**
+     * Parsowanie listy samochodow
+     * @param json objekt do parsowania
+     * @return odparsowana lista samochdow
+     */
     public static ArrayList<Car> parseCarList(JSONObject json) {
         ArrayList<Car> cars = null;
         try {
@@ -58,7 +68,11 @@ public class JSONInterpreter {
         return cars;
     }
 
-
+    /**
+     * Parsowanie listy serwisow
+     * @param json objekt do parsowania
+     * @return odparsowana lista serwisow
+     */
     public static ArrayList<Service> parseServiceList(JSONObject json) {
         ArrayList<Service> services = null;
         try {
@@ -80,6 +94,12 @@ public class JSONInterpreter {
         return services;
     }
 
+    /**
+     * Parsowanie danych o samochodzie
+     * @param json objekt do parsowania
+     * @param isDetailed czy odczytywac rozszeżone informacje o samochodzie
+     * @return odparsowany objekt samochodu
+     */
     public static Car parseCar(JSONObject json, boolean isDetailed) {
         Car car = null;
         try {
@@ -105,6 +125,11 @@ public class JSONInterpreter {
         return car;
     }
 
+    /**
+     * Parsowanie danych o użytkowniku
+     * @param json objekt do parsowania
+     * @return odparsowany objekt użytkownik
+     */
     public static User parseUser(JSONObject json) {
         User user = null;
         try {
@@ -129,6 +154,12 @@ public class JSONInterpreter {
         return user;
     }
 
+    /**
+     * Parsowanie danych o serwisie
+     * @param json objekt do parsowania
+     * @param isDetailed czy odczytywac rozszeżone informacje o serwisie
+     * @return odparsowany objekt serwis
+     */
     public static Service parseService(JSONObject json, boolean isDetailed) {
         Service service = null;
         try {
@@ -152,6 +183,11 @@ public class JSONInterpreter {
         return service;
     }
 
+    /**
+     * Parsowanie listy rożmow użytkownika
+     * @param json objekt do parsowania
+     * @return odparsowana lista rozmow
+     */
     public static ArrayList<BaseListItem> parseConversationList(JSONObject json) {
         ArrayList<BaseListItem> conversation = null;
         try {
@@ -190,6 +226,11 @@ public class JSONInterpreter {
         return conversation;
     }
 
+    /**
+     * Parsowania listy wiadowosci
+     * @param json objekt do parsowania
+     * @return Odparsowana lista wiadomosci
+     */
     public static ArrayList<Message> parseConversation(JSONObject json) {
         ArrayList<Message> messages = null;
         try {
