@@ -30,26 +30,42 @@ import pl.rzeszow.wsiz.carservice.utils.ClientListener;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
+/**
+ * Klasa Register
+ * <p>
+ * Klasa do rejestracji użytkownika
+ * </p>
+ */
 public class Register extends Activity implements OnClickListener, ClientListener {
 
-    private EditText username, password, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
-    private RadioButton rbMan, rbWomen;
-    private Button btnRegister;
+    private EditText username, password, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress; //!< pola, w których tekst może być edytowany
+    private RadioButton rbMan, rbWomen; //! radiobuttony do wyboru płci
+    private Button btnRegister; //!< przycisk rejestracji
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog; //!< dialog z wskaźnikiem postępu rejestracji
     private String TAG = "Register";
 
-    private Calendar myCalendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener date;
+    private Calendar myCalendar = Calendar.getInstance();//!< kalendarz do wyboru daty
+    private DatePickerDialog.OnDateSetListener date;//!< callback do wskazania czy użytkownik wybrał datę
 
-
+    /**
+     * Ustawienie treści do widoku i listenera do wybranej daty.
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
         date = new DatePickerDialog.OnDateSetListener() {
-
+            /**
+             * Ustawienie wybranej daty
+             * @param view widok związany z listenerem
+             * @param year ustawoiny rok
+             * @param monthOfYear ustawiony miesiąc
+             * @param dayOfMonth ustawiony dzień
+             */
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
@@ -67,6 +83,13 @@ public class Register extends Activity implements OnClickListener, ClientListene
         birthDate = (EditText) findViewById(R.id.birthdate);
 
         birthDate.setOnClickListener( new OnClickListener() {
+            /**
+             * Kliknięcie na kalendarz
+             * <p>
+             *     pokazuje klikniętą datę
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(Register.this, date, myCalendar
@@ -88,6 +111,17 @@ public class Register extends Activity implements OnClickListener, ClientListene
         btnRegister.setOnClickListener(this);
     }
 
+    /**
+     * Rejestracja użytkownika
+     * <p>
+     * Konwertuje w string to co zostało wpisane w polach,
+     * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
+     * jakie jest puste. W przeciwnym razie tworzy się lista z
+     * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+     *  Za pomocą Singletona wykonijemy akcję
+     * </p>
+     * @param v widok, który został kliknięty.
+     */
     @Override
     public void onClick(View v) {
         String user = String.valueOf(username.getText());
@@ -140,6 +174,13 @@ public class Register extends Activity implements OnClickListener, ClientListene
         }
     }
 
+    /**
+     * Pokazywanie okna z dialogiem i wskaźnikiem postępu rejestacji
+     * <p>
+     *     Wyłączenie trybu nieokreślonego dla tego okna
+     *     Możliwośc okna anulować klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(Register.this);
@@ -149,6 +190,15 @@ public class Register extends Activity implements OnClickListener, ClientListene
         pDialog.show();
     }
 
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu. Parsujemy ten rezult za pomocą JSONInterpretera
+     *  Jeżeli w rezult integer == 1 to znaczy że użytkownik został zarejestrowany,
+     *  W przeciwnym wypadku użytkownik nie został zarejestrowany. I pokazujemy o tym wiadomość
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -170,11 +220,17 @@ public class Register extends Activity implements OnClickListener, ClientListene
         }
     }
 
+    /**
+     * Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
 
+    /**
+     * Ustawienie daty urodzenie z kalendarza
+     */
     private void updateEditText() {
 
         String myFormat = "yyyy-MM-dd";
@@ -182,10 +238,20 @@ public class Register extends Activity implements OnClickListener, ClientListene
         birthDate.setText(sdf.format(myCalendar.getTime()));
     }
 
+    /**
+     * Sprawdzanie ważności hasła
+     * @param target uporządkowany zbiór znaków
+     * @return czy hasło jest słuszne
+     */
     public boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
