@@ -52,7 +52,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Ustalenie widoku do ktorego będą zwracane dane
+     * Ustalenie widoku do którego będą zwracane dane
      * @param l widok implementujacy ClientListener
      */
     public void setClientListener(ClientListener l) {
@@ -63,7 +63,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do stworzenia nowego użytkownika
+     * Wyslanie żadania do stworzenia nowego użytkownika
      * @param params lista parametrow żądania
      */
     public void createNewUser(List<NameValuePair> params) {
@@ -74,7 +74,7 @@ public class Singleton implements TaskCallback {
 
     }
     /**
-     * Wyslanie żadanie do aktualizacji danych użytkownika
+     * Wyslanie żadania do aktualizacji danych użytkownika
      * @param params lista parametrow żądania
      */
     public void updatePersonalData(List<NameValuePair> params) {
@@ -86,8 +86,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobierania listy samochodow użytkownika
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobierania listy samochodow użytkownika
+     * @param params lista parametrów żądania
      */
     public void getUserCars(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_USER_CAR_URL, RequestMethod.POST);
@@ -97,8 +97,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do logowania użytkownika
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do logowania użytkownika
+     * @param params lista parametrów żądania
      */
     public void attemptLogin(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.LOGIN_URL, RequestMethod.POST);
@@ -109,8 +109,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do stworzenia nowego serwisu
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do stworzenia nowego serwisu
+     * @param params lista parametrów żądania
      */
     public void createNewService(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SERVICE_REGISTER_URL, RequestMethod.POST);
@@ -120,8 +120,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do aktualizacji danych o serwisie
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do aktualizacji danych o serwisie
+     * @param params lista parametrów żądania
      */
     public void updateServiceInfo(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.UPDATE_SERVICE_URL, RequestMethod.POST);
@@ -131,8 +131,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do stworzenia nowego samochodu
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do stworzenia nowego samochodu
+     * @param params lista parametrów żądania
      */
     public void addNewCar(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.ADD_NEW_CAR_URL, RequestMethod.POST);
@@ -142,8 +142,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do aktualizacji danych o samochodzie
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do aktualizacji danych o samochodzie
+     * @param params lista parametrów żądania
      */
     public void updateCar(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.UPDATE_CAR_URL, RequestMethod.POST);
@@ -153,8 +153,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do usunięcia samochodu
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do usunięcia samochodu
+     * @param params lista parametrów żądania
      */
     public void deleteCar(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.DELETE_CAR_URL, RequestMethod.POST);
@@ -164,8 +164,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do usunięcia serwisu
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do usunięcia serwisu
+     * @param params lista parametrów żądania
      */
     public void deleteService(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.DELETE_SERVICE_URL, RequestMethod.POST);
@@ -175,7 +175,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania wszystkich serwisow zarejestrownych w systemie
+     * Wyslanie żadania do pobrania wszystkich serwisów zarejestrownych w systemie
      * @param params lista parametrow żądania
      */
     public void getAllServices(List<NameValuePair> params) {
@@ -186,8 +186,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania danych użytkownika
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania danych użytkownika
+     * @param params lista parametrów żądania
      */
     public void getPersonalData(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_PERSONAL_DATA_URL, RequestMethod.POST);
@@ -197,8 +197,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania listy serwisow uzytkownika
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania listy serwisów uzytkownika
+     * @param params lista parametrów żądania
      */
     public void getUserServices(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_USER_SERVICE_URL, RequestMethod.POST);
@@ -208,8 +208,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania szczegolowych informacji o samochodzie
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania szczególowych informacji o samochodzie
+     * @param params lista parametrów żądania
      */
     public void getCarInfo(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_CAR_URL, RequestMethod.POST);
@@ -219,8 +219,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania szczegolowych informacji o serwisie
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania szczególowych informacji o serwisie
+     * @param params lista parametrów żądania
      */
     public void getServiceDetails(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_SERVICE, RequestMethod.POST);
@@ -230,7 +230,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do wystawienia oceny serwisu
+     * Wyslanie żadania do wystawienia oceny serwisu
      * @param params lista parametrow żądania
      */
     public void rateService(List<NameValuePair> params) {
@@ -241,7 +241,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do wyslania wiadomosci
+     * Wyslanie żadania do wyslania wiadomosci
      * @param params lista parametrow żądania
      */
     public void sendMessage(List<NameValuePair> params) {
@@ -252,8 +252,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania listy rozmow użytkownika
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania listy rozmow użytkownika
+     * @param params lista parametrów żądania
      */
     public void getUserConversations(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_USER_CONVERSATIONS, RequestMethod.POST);
@@ -263,8 +263,8 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Wyslanie żadanie do pobrania listy wiadomosci rozmowy
-     * @param params lista parametrow żądania
+     * Wyslanie żadania do pobrania listy wiadomosci rozmowy
+     * @param params lista parametrów żądania
      */
     public void getConversation(List<NameValuePair> params) {
         mTask = new AsyncPerformer(this, Constants.SELECT_CONVERSATION, RequestMethod.POST);
@@ -285,7 +285,7 @@ public class Singleton implements TaskCallback {
     }
 
     /**
-     * Przerwanie wykonania bierzącego żądania
+     * Przerwanie wykonania bieżącego żądania
      */
     public void cancelCurrentTask() {
         mTask.cancel(true);

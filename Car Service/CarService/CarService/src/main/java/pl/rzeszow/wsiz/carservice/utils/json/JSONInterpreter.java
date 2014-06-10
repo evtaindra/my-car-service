@@ -18,7 +18,7 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
- * Klasa slużąca do interpretowania JSON odpowiedziej
+ * Klasa slużąca do interpretowania JSON odpowiedzi
  */
 public class JSONInterpreter {
 
@@ -28,7 +28,7 @@ public class JSONInterpreter {
     private static final String TAG_CAR_ARRAY = "cars";
 
     /**
-     * Parsowanie krotkich odpowiedzi web serwisu
+     * Parsowanie krótkich odpowiedzi web serwisu
      * @param json objekt do parsowania
      * @return para Tag suksesu i Wiadowosc odzpowiedzi
      */
@@ -43,9 +43,9 @@ public class JSONInterpreter {
     }
 
     /**
-     * Parsowanie listy samochodow
+     * Parsowanie listy samochodów
      * @param json objekt do parsowania
-     * @return odparsowana lista samochdow
+     * @return odparsowana lista samochodów
      */
     public static ArrayList<Car> parseCarList(JSONObject json) {
         ArrayList<Car> cars = null;
@@ -69,9 +69,9 @@ public class JSONInterpreter {
     }
 
     /**
-     * Parsowanie listy serwisow
+     * Parsowanie listy serwisów
      * @param json objekt do parsowania
-     * @return odparsowana lista serwisow
+     * @return odparsowana lista serwisów
      */
     public static ArrayList<Service> parseServiceList(JSONObject json) {
         ArrayList<Service> services = null;
@@ -184,9 +184,9 @@ public class JSONInterpreter {
     }
 
     /**
-     * Parsowanie listy rożmow użytkownika
+     * Parsowanie listy rozmów użytkownika
      * @param json objekt do parsowania
-     * @return odparsowana lista rozmow
+     * @return odparsowana lista rozmów
      */
     public static ArrayList<BaseListItem> parseConversationList(JSONObject json) {
         ArrayList<BaseListItem> conversation = null;

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 /**
  * Interface do wykonania callbackow
  * <p>
- *     Dostawa danych do widoku oraz reagowanie widok na rozpocięcie lub zakończenie żadania.
+ *     Dostawa danych do widoku oraz reagowanie widoku na rozpocięcie lub zakończenie żadania.
  * </p>
  */
 public interface ClientListener {

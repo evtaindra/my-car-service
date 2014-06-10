@@ -27,7 +27,7 @@ public class AsyncPerformer extends AsyncTask<List<NameValuePair>, Void,JSONObje
 
     /**
      * Konstruktor wykonawcy żądań
-     * @param s Punkt zwracania wynukow
+     * @param s Punkt zwracania wyników
      * @param url Link żądania
      * @param method Metoda żądania
      */
@@ -51,7 +51,7 @@ public class AsyncPerformer extends AsyncTask<List<NameValuePair>, Void,JSONObje
 
     /**
      * Wykonanie żadania w tle
-     * @param params lista parametrow do żądania
+     * @param params lista parametrów do żądania
      * @return odpowiedź na żądania
      */
     @Override
@@ -83,8 +83,8 @@ public class AsyncPerformer extends AsyncTask<List<NameValuePair>, Void,JSONObje
     }
 
     /**
-     * Sprawdzenie czy żadanie w trakcie wykonania
-      * @return stan żądanie
+     * Sprawdzenie czy żadanie jest w trakcie wykonania
+      * @return stan żądania
      */
     public boolean isRunning(){
         return isRuning;
