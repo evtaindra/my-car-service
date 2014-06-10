@@ -1,7 +1,7 @@
 package pl.rzeszow.wsiz.carservice.utils.async;
 
 /**
- * Zbior możliwych method żadania
+ * Zbiór możliwych metod żądania
  * <p>
  *     GET i POST standardowe http żądania
  *     GET_FROM_URL odbieranie beżposrednio za linkiem

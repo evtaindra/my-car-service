@@ -22,14 +22,14 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 /**
  * Klasa do wyswietlenie dialogu dąlączenia zdjęc
  * <p>
- *     Dialog pozwala wybrac zdjęcie z karty pamieci lub zrobic jego
+ *     Dialog pozwala wybrac zdjęcie z karty pamieci lub zrobic go
  * </p>
  */
 public class PictureSelector {
 
     private Context mContext;       //!< służy do przytrzymania activity, na ktorym jest pokazywany dialog
     private int REQUEST_CAMERA = 0; //!< tag do rozpoznania czy zdjęcie uzyskano z kamery
-    private int SELECT_FILE = 1;    //!< tag do rozpoznania czy zdjęcie wybrani z karty pamięci
+    private int SELECT_FILE = 1;    //!< tag do rozpoznania czy zdjęcie wybrano z karty pamięci
 
     /**
      * Konstruktor dialogu
@@ -78,10 +78,10 @@ public class PictureSelector {
     }
 
     /**
-     * Obsluga wynikow pracy z dialogem
+     * Obsluga wyników pracy z dialogem
      * @param requestCode tag do rozpoznania jak uzyskano zdjęcie
-     * @param resultCode tag czy praca z dialogem przeszla pomyslnie
-     * @param data zwrocone dane w wyniku pracy z dialogem
+     * @param resultCode tag czy praca z dialogem przeszla pomyślnie
+     * @param data zwrócone dane w wyniku pracy z dialogem
      * @return para Obrazku i jego nazwy
      */
     public Pair<Bitmap,String> onActivityResult(int requestCode, int resultCode, Intent data){

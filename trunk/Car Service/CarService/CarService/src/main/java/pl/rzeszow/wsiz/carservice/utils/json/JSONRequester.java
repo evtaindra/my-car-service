@@ -43,7 +43,7 @@ public class JSONRequester {
      * @param url link do wykonania żądania
      * @param method metod wykonania żądania
      * @param params parametry żądania
-     * @return odpowidź na żądanie
+     * @return odpowiedź na żądanie
      */
     public static JSONObject makeHttpRequest(String url, RequestMethod method,
                                       List<NameValuePair> params) {
