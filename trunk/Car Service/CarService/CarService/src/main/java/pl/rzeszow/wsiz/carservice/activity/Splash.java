@@ -11,12 +11,27 @@ import pl.rzeszow.wsiz.carservice.Constants;
 import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.utils.Singleton;
 
+/**
+ *Służy do pokazywania logo aplikacji przy starcie
+ */
 public class Splash extends Activity {
-     private ProgressBar bar;
+     private ProgressBar bar;//!< Wizualny wskaźnik postępu otwatcia aplikacji
     public int progress = 0;
 
-    private SharedPreferences mLogin;
+    private SharedPreferences mLogin; //!<dla dostępu i modyfikowania loginu
 
+    /**
+     * Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *     Ustawienie treści do widoku. Tworzenie nowej instancji Sigletone i
+     *     ustawienie progressbara. W nowym wątku tworzymy się regulator czasowy
+     *     i probujemy ustawić ten regulator na wskażniku postępu.
+     *     Keżeli ten login zawiera imię użytkownika i hasło tworzymy nową instancję
+     *     i przechodzimy na główną stronę aplikacji w innum przypadku pokazujemy pusty ekran.
+     * </p>
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
