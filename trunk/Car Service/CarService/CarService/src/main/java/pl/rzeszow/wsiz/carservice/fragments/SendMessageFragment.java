@@ -24,30 +24,42 @@ import pl.rzeszow.wsiz.carservice.R;
 import pl.rzeszow.wsiz.carservice.utils.image.BitmapEnDecode;
 
 /**
- * Created by rsavk_000 on 5/19/2014.
+ *  Służy do zarządzania wiadomościami
  */
 public class SendMessageFragment extends DialogFragment implements View.OnClickListener {
 
-    private ImageButton btnAddAttachment, btnRemoveAttachment;
-    private Button btnSend;
-    private TextView attachmentName;
-    private EditText messageContent;
+    private ImageButton btnAddAttachment, btnRemoveAttachment;//!<Wyświetla przycisk z obrazem
+    private Button btnSend;//!< przycisk wysyłania wiadomości
+    private TextView attachmentName;//!<Wyświetla tekst użytkownikowi i pozwala go edytować
+    private EditText messageContent; //!< pola, w których tekst może być edytowany
 
-    private Context mContext;
-    private Pair<Bitmap, String> attachment;
+    private Context mContext; //!< służy do przytrzymania activity
+    private Pair<Bitmap, String> attachment;//!< pojemnik dla przytrzymania załącznika
 
-    private int userID;
-    private int serviceID;
-    private int sender;
-    private boolean isDialog;
-    private FragmentCallBack fragmentCallBack;
+    private int userID;//!< id użytkownika
+    private int serviceID;//!< id serwisu
+    private int sender;//!< od kogo jest wysłana wiadomość
+    private boolean isDialog; //!< czy dialog jest widoczny
+    private FragmentCallBack fragmentCallBack;//!< dla komunikowania pomiędzy fragmentami
 
+    /**
+     * Wywoływane, gdy fragment po raz pierwszy jest dołączony do jego activity.
+     * @param activity activity fragmenta
+     */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         fragmentCallBack = (FragmentCallBack) activity;
     }
-
+    /**
+     *  Wywoływane, gdy aktywność zaczyna.
+     * <p>
+     *   Zapisujemy dane o id użytkownika, serwisu i o dialogu
+     * </p>
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     *
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +72,17 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
         }
         mContext = getActivity();
     }
-
+    /**
+     * Wywoływane żeby mieć instancję fragmentu w interfejsie użytkownika
+     * <p>
+     *     ustawienie treści do dialogu
+     * </p>
+     * @param inflater stosuje się do nadmuchania widoków w fragmencie
+     * @param container Jeśli niezerowy, to jest widok z rodziców, do którego fragment UI powinien
+     *                  być dołączony.
+     * @param savedInstanceState Jeśli niezerowy, fragment ten jest zbudowany z poprzedniego nowo zapisanego stanu.
+     * @return widok dla UI fragmentu albo null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -84,7 +106,18 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
 
         return rootView;
     }
-
+    /**
+     * Wywoływane, gdy widok został kliknięty.
+     * <p>
+     *  Sprawdzamy jaki przycisk został kliknięty. Jeżeli dodanie załącznika
+     *  to dodajemy załącznik, usuwanie załącznika usuwamy,
+     *  w przypadku wysyłania wiadomości, bierzemy to co jest zapisane w wiadomości,
+     *  jeżeli wiadomośc pusta pokazujemy error, w innym przypadku tworzymy listę z
+     *  kluczem i wartością i dodajemy do niej parametry z tekstedytorów i
+     *  wysyłamy wiadomość
+     * </p>
+     * @param v widok, który został kliknięty.
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -122,14 +155,28 @@ public class SendMessageFragment extends DialogFragment implements View.OnClickL
         }
     }
 
+    /**
+     * Ustawienie załącznika do wiadomości
+     * @param attachment  pojemnik dla przytrzymania załącznika
+     */
     public void attachmentSelected(Pair<Bitmap, String> attachment) {
         this.attachment = attachment;
         attachmentName.setText(attachment.second);
     }
 
+    /**
+     * Intefejs dla komunikowania pomiędzy fragmentami
+     */
     public interface FragmentCallBack {
+        /**
+         * wybór załącznika
+         */
         public void pickAttachment();
 
+        /**
+         * Wysyłanie wiadomości
+         * @param params lista z parametrami
+         */
         public void sendMessage(List<NameValuePair> params);
     }
 }
