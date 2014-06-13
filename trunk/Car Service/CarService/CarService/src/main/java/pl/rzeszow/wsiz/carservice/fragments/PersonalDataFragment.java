@@ -42,47 +42,71 @@ import pl.rzeszow.wsiz.carservice.utils.Singleton;
 import pl.rzeszow.wsiz.carservice.utils.json.JSONInterpreter;
 
 /**
- * Created by rsavk_000 on 5/1/2014.
+ * służy do wyświetlania danych osobowych
  */
 public class PersonalDataFragment extends Fragment implements ClientListener {
 
     private String TAG = "PersonalDataFragment";
 
-    private User us;
+    private User us;//!< użytkownik
 
-    private EditText username, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress;
-    private RadioButton rbMan, rbWomen;
-    private Button btnCars, btnServices;
+    private EditText username, firstName, lastName, birthDate, phoneNumber, eMail, mCity, mAddress; //!< pola, w których tekst może być edytowany
+    private RadioButton rbMan, rbWomen; //! radiobuttony do wyboru płci
+    private Button btnCars, btnServices; //!< przycisk auta i serwisu
 
-    private boolean isEditMode;
-    private boolean isDataLoaded = false;
+    private boolean isEditMode;//!<czy dane są w trakcie edytowania
+    private boolean isDataLoaded = false;//!<czy dane są załadowane
 
-    private MenuItem saveEdit;
-    private Context mContext;
+    private MenuItem saveEdit;//!< element menu
+    private Context mContext;//!< służy do przytrzymania activity
 
-    private ProgressDialog pDialog;
+    private ProgressDialog pDialog;//!< dialog z wskaźnikiem postępu wyświetlenia danych personalnych
 
-    private String MESSAGE;
-    private Calendar myCalendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener date;
-
+    private String MESSAGE;//!< string łądowania danych personalnych
+    private Calendar myCalendar = Calendar.getInstance();//!< kalendarz do wyboru daty
+    private DatePickerDialog.OnDateSetListener date;//!< callback do wskazania czy użytkownik wybrał datę
+    /**
+     * Wywoływane, gdy fragment po raz pierwszy jest dołączony do jego activity.
+     * @param activity activity fragmenta
+     */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = activity;
     }
-
+    /**
+     *  Wywoływane, gdy aktywność zaczyna.
+     * @param savedInstanceState Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle
+     *                           zawiera ostatnio dostarczone dane. W przeciwnym razie jest null
+     *
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    /**
+     * Wywoływane żeby mieć instancję fragmentu w interfejsie użytkownika
+     * <p>
+     *     Utworzenie callbacka do wskazania daty
+     * </p>
+     * @param inflater stosuje się do nadmuchania widoków w fragmencie
+     * @param container Jeśli niezerowy, to jest widok z rodziców, do którego fragment UI powinien
+     *                  być dołączony.
+     * @param savedInstanceState Jeśli niezerowy, fragment ten jest zbudowany z poprzedniego nowo zapisanego stanu.
+     * @return widok dla UI fragmentu albo null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_persondata, container, false);
 
         date = new DatePickerDialog.OnDateSetListener() {
-
+            /**
+             * Ustawienie wybranej daty
+             * @param view widok związany z listenerem
+             * @param year ustawoiny rok
+             * @param monthOfYear ustawiony miesiąc
+             * @param dayOfMonth ustawiony dzień
+             */
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
@@ -99,6 +123,13 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         birthDate = (EditText) rootView.findViewById(R.id.birthdate);
 
         birthDate.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Kliknięcie na kalendarz
+             * <p>
+             *     pokazuje klikniętą datę
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(mContext, date, myCalendar
@@ -121,6 +152,13 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         btnServices = (Button) rootView.findViewById(R.id.ownServices);
 
         btnServices.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Kliknięcie na listę serwisów
+             * <p>
+             *     Startuje nowe activity z listą serwisów
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ServiceList.class);
@@ -130,6 +168,13 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         });
 
         btnCars.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Kliknięcie na listę samochodów
+             * <p>
+             *     Startuje nowe activity z listą samochodów
+             * </p>
+             * @param v widok, który został kliknięty.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), CarsList.class);
@@ -143,23 +188,40 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         setHasOptionsMenu(true);
         return rootView;
     }
-
+    /**
+     * Ustawienie daty urodzenie z kalendarza
+     */
     private void updateEditText() {
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         birthDate.setText(sdf.format(myCalendar.getTime()));
     }
-
+    /**
+     * Pokazywanie błądu i ustawienie fokusu na puste pole
+     * @param editText pole, które jest puste
+     * @param id id pola
+     */
     private void showError(EditText editText, int id) {
         editText.setError(getResources().getString(R.string.error)
                 + getResources().getString(id).toLowerCase());
         editText.requestFocus();
     }
-
+    /**
+     * Sprawdzanie ważności hasła
+     * @param target uporządkowany zbiór znaków
+     * @return czy hasło jest słuszne
+     */
     public boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
-
+    /**
+     * Ustawienie wskazówki na temat tego, czy fragment UI jest obecnie widoczny dla użytkownika.
+     * <p>
+     *     Załadowanie danych użytkownika po raz pierwszy i jeżeli Singleton jest online pobieranie
+     *    dane osobiste po id w innym wypadku pokazujemy że trzeba się połączyć z internetem
+     * </p>
+     * @param isVisibleToUser true, jeśli fragment jest aktualnie widoczny dla użytkownika (domyślnie), false jeśli nie jest.
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -176,14 +238,22 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             }
         }
     }
-
+    /**
+     * Zainicjować zawartość menu activity
+     * @param menu menu, w którym można umieścić opcje.
+     * @param inflater tworzenie instancji plików XML do obiektów menu.
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_personal, menu);
         saveEdit = menu.findItem(R.id.action_save_edit);
         setState(isEditMode);
     }
-
+    /**
+     * Wywoływane, kiedy wybrany jest element w menu.
+     * @param item Element menu, który został wybrany
+     * @return false, aby umożliwić normalne przetwarzanie menu, true żeby go spożywać
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -198,12 +268,21 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    /**
+     * Wywoływane, gdy widok wcześniej stworzony przez onCreateView został odłączony od fragmentu.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
+    /**
+     *  Wywoływane gdy żądanie zostało wyslane
+     * <p>
+     *     Tworzymy i pokazujemy dialog z wskaźnikiem postępu
+     *     łądowania danych osobowych, Wyłączamy tryb nieokreślony dla tego okna i możliwośc
+     *     anulowania okna klawiszem BACK.
+     * </p>
+     */
     @Override
     public void onRequestSent() {
         pDialog = new ProgressDialog(mContext);
@@ -212,7 +291,16 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         pDialog.setCancelable(true);
         pDialog.show();
     }
-
+    /**
+     * Wywołane kiedy dane są przeanalizowane
+     * <p>
+     *  Usuwamy okno z ekranu i anulujemy wszelkie wizualne wskazanie odświeżenia.
+     *  Parsujemy ten rezult za pomocą JSONInterpretera.
+     *  Jeżeli rezult nie jest null to znaczy że dane są załądowane,w innym wypadku
+     *  aktualizujemy dane osobowe
+     * </p>
+     * @param resualt odpowiedż strony internetowej u postaci JSONobiektu
+     */
     @Override
     public void onDataReady(JSONObject resualt) {
         pDialog.dismiss();
@@ -248,12 +336,18 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             }
         }
     }
-
+    /**
+     * Usunięcie okna z ekranu.
+     */
     @Override
     public void onRequestCancelled() {
         pDialog.dismiss();
     }
 
+    /**
+     * Ustawienie czy ustawienie jest włączone dla każdego pola
+     * @param state stan textedytora
+     */
     private void setState(boolean state) {
         username.setEnabled(state);
         firstName.setEnabled(state);
@@ -274,6 +368,9 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
         }
     }
 
+    /**
+     * Ustawienie danych osobowych użytkownika do odpowiednich pół
+     */
     private void setUserData() {
         username.setText(us.getUsername());
         firstName.setText(us.getName());
@@ -290,6 +387,16 @@ public class PersonalDataFragment extends Fragment implements ClientListener {
             rbWomen.setChecked(true);
     }
 
+    /**
+     * Aktualizacja danych użytkownika
+     * <p>
+     *    Konwertuje w string to co zostało wpisane w polach,
+     * jeżeli pola są puste, będzie pokazywany błąd na tym polu,
+     * jakie jest puste. W przeciwnym razie tworzy się lista z
+     * kluczem i wartością i są dodawane do niej parametry z tekstedytorów.
+     *  Za pomocą Singletona wykonijemy akcję
+     * </p>
+     */
     private void updateUserData() {
         MESSAGE = getString(R.string.update_personal_data);
 
