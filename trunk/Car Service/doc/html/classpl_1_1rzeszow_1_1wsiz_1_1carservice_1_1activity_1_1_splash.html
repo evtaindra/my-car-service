@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">pl.rzeszow.wsiz.carservice.activity.Splash Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Służy do pokazywania logo aplikacji przy starcie.  
+ <a href="classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_splash.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for pl.rzeszow.wsiz.carservice.activity.Splash:</div>
 <div class="dyncontent">
@@ -114,18 +117,22 @@ Public Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ae655f0f4609cd533456f338af929bc0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_splash.html#ae655f0f4609cd533456f338af929bc0e">onCreate</a> (Bundle savedInstanceState)</td></tr>
+<tr class="memdesc:ae655f0f4609cd533456f338af929bc0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wywoływane, gdy aktywność zaczyna.  <a href="#ae655f0f4609cd533456f338af929bc0e">More...</a><br/></td></tr>
 <tr class="separator:ae655f0f4609cd533456f338af929bc0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a723f92d3865e44a4d7e83bbcaa7bfd8e"><td class="memItemLeft" align="right" valign="top">ProgressBar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_splash.html#a723f92d3865e44a4d7e83bbcaa7bfd8e">bar</a></td></tr>
+<tr class="memdesc:a723f92d3865e44a4d7e83bbcaa7bfd8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wizualny wskaźnik postępu otwatcia aplikacji.  <a href="#a723f92d3865e44a4d7e83bbcaa7bfd8e">More...</a><br/></td></tr>
 <tr class="separator:a723f92d3865e44a4d7e83bbcaa7bfd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa93787221deb273b0e55141d4f25fd5b"><td class="memItemLeft" align="right" valign="top">SharedPreferences&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpl_1_1rzeszow_1_1wsiz_1_1carservice_1_1activity_1_1_splash.html#aa93787221deb273b0e55141d4f25fd5b">mLogin</a></td></tr>
+<tr class="memdesc:aa93787221deb273b0e55141d4f25fd5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">dla dostępu i modyfikowania loginu  <a href="#aa93787221deb273b0e55141d4f25fd5b">More...</a><br/></td></tr>
 <tr class="separator:aa93787221deb273b0e55141d4f25fd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_splash_8java_source.html#l00014">14</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
+<div class="textblock"><p>Służy do pokazywania logo aplikacji przy starcie. </p>
+
+<p>Definition at line <a class="el" href="_splash_8java_source.html#l00017">17</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae655f0f4609cd533456f338af929bc0e"></a>
 <div class="memitem">
@@ -149,7 +156,16 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_splash_8java_source.html#l00021">21</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
+<p>Wywoływane, gdy aktywność zaczyna. </p>
+<p>Ustawienie treści do widoku. Tworzenie nowej instancji Sigletone i ustawienie progressbara. W nowym wątku tworzymy się regulator czasowy i probujemy ustawić ten regulator na wskażniku postępu. Keżeli ten login zawiera imię użytkownika i hasło tworzymy nową instancję i przechodzimy na główną stronę aplikacji w innum przypadku pokazujemy pusty ekran. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">savedInstanceState</td><td>Po zamknięciu jeśli działalność jest ponownie inicjowana, Bundle zawiera ostatnio dostarczone dane. W przeciwnym razie jest null </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_splash_8java_source.html#l00036">36</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
 
 </div>
 </div>
@@ -172,7 +188,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_splash_8java_source.html#l00015">15</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
+<p>Wizualny wskaźnik postępu otwatcia aplikacji. </p>
+
+<p>Definition at line <a class="el" href="_splash_8java_source.html#l00018">18</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
 
 </div>
 </div>
@@ -194,7 +212,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_splash_8java_source.html#l00018">18</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
+<p>dla dostępu i modyfikowania loginu </p>
+
+<p>Definition at line <a class="el" href="_splash_8java_source.html#l00021">21</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
 
 </div>
 </div>
@@ -208,7 +228,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_splash_8java_source.html#l00016">16</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
+<p>Definition at line <a class="el" href="_splash_8java_source.html#l00019">19</a> of file <a class="el" href="_splash_8java_source.html">Splash.java</a>.</p>
 
 </div>
 </div>
@@ -218,7 +238,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 29 2014 13:32:43 for Car_Services by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jun 14 2014 10:25:48 for Car_Services by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
