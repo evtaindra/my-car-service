@@ -1,0 +1,1 @@
+The aim of the program is to facilitate communication and cooperation between car owners and managers of service.
